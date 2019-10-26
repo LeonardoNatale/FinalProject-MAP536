@@ -31,8 +31,6 @@ class ExternalDataGenerator():
         # What about the writing to the disk
         # self._write_external_data(self._f_names['external_data'])
 
-    
-
     def _generate_external_data(self) :
         # Reading external sources of data.
         weather = self._read_file(self._f_names['weather'])

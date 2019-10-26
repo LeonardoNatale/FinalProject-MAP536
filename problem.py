@@ -52,31 +52,6 @@ def get_test_data(path='.'):
     return _read_data(path, f_name)
 
 
-# def is_holiday(day):
-#     """
-#     Returns True if the given day is a holiday in the US.
-#     """
-#     return day in holidays.US()
-
-
-# def is_beginning_holiday(day):
-#     """
-#     Returns True is the day is a holiday and if the day 
-#     before is not.
-#     """
-#     day = datetime.datetime.strptime(day, '%Y-%m-%d')
-#     return is_holiday(day) and not is_holiday(day - datetime.timedelta(days=1))
-
-
-# def is_end_holiday(day):
-#     """
-#     Returns True is the day is a holiday and if the day 
-#     after is not.
-#     """
-#     day = datetime.datetime.strptime(day, '%Y-%m-%d')
-#     return is_holiday(day) and not is_holiday(day + datetime.timedelta(days=1))
-
-
 def generate_external_data(path = '.'):
     """
     This function returns the external data that 
