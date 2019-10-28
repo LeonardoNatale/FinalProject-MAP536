@@ -29,17 +29,19 @@ print(x.get_optimal_parameters())
             "randomforestregressor__n_estimators" : { # For each estimator, add the law to generate the values.
                 "law" : "randint",
                 "kwargs" : {
-                    "low" : 10, 
+                    "low" : 10,
                     "high" :100
                 }
             },
             "randomforestregressor__max_depth" : {
                 "law" : "randint",
                 "kwargs" : {
-                    "low" : 10, 
+                    "low" : 10,
                     "high" :100
                 }
             }
         }
     }
 ```
+
+For examples, see `service/model_optimization_examples.py`

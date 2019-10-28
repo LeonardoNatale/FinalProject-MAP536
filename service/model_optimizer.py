@@ -34,7 +34,7 @@ class ModelOptimizer():
         for key in opt_param.keys():
             law = opt_param[key]['law']
             kwg = opt_param[key]['kwargs']
-            distributions[key] = getattr(scipy.stats, law)(**kwg)
+            distributions[self._model._model_name_lower + '__' + key] = getattr(scipy.stats, law)(**kwg)
         model_grid_search = RandomizedSearchCV(
             self._pipeline,
             param_distributions=distributions, 

@@ -1,10 +1,6 @@
 import os, json
 from sklearn.pipeline import Pipeline
 from model_optimizer import ModelOptimizer
-from sklearn.dummy import DummyRegressor
-
-# TODO remove, used for examples.
-from sklearn.ensemble import RandomForestRegressor
 
 class Model():
 
@@ -12,7 +8,7 @@ class Model():
     Optimizable_parameters_dir = 'data/json'
     Optimizable_parameters_f_name = 'optimizable_parameters.json'
     
-    def __init__(self, sk_model = DummyRegressor):
+    def __init__(self, sk_model):
         self._model = sk_model
         self._model_name = self._model.__name__
         self._model_name_lower = self._model_name.lower()
@@ -62,7 +58,3 @@ class Model():
             self._is_optimized = True
         else:
             raise ValueError('No pipeline is set up, nothing to optimize.')
-
-x = Model(RandomForestRegressor)
-x.optimize_model()
-print(x.get_optimal_parameters())

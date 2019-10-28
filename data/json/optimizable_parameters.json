@@ -5,18 +5,33 @@
             "max_features" : 10
         },
         "optimizable_parameters" : {
-            "randomforestregressor__n_estimators" : {
+            "n_estimators" : {
                 "law" : "randint",
                 "kwargs" : {
                     "low" : 10, 
                     "high" :100
                 }
             },
-            "randomforestregressor__max_depth" : {
+            "max_depth" : {
                 "law" : "randint",
                 "kwargs" : {
                     "low" : 10, 
                     "high" :100
+                }
+            }
+        }
+    },
+    "SVR" : {
+        "fixed_parameters" : {
+            "kernel" : "rbf",
+            "gamma" : "scale"
+        },
+        "optimizable_parameters" : {
+            "C" : {
+                "law" : "randint",
+                "kwargs" : {
+                    "low" : 2,
+                    "high" : 20
                 }
             }
         }
