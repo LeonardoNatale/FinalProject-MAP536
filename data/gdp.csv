@@ -1,590 +1,695 @@
 ,gdp,city,state
 0,6659.5,Abilene,TX
 1,30659.5,Akron,OH
-2,5187,Albany,GA
+2,5187.0,Albany,GA
 3,3544.5,Albany,OR
 4,46412.5,Albany,NY
 5,46412.5,Schenectady,NY
 6,46412.5,Troy,NY
-7,38426,Albuquerque,NM
+7,38426.0,Albuquerque,NM
 8,5460.5,Alexandria,LA
-9,34809.5,Allentown,PA-NJ
-10,34809.5,Bethlehem,PA-NJ
-11,34809.5,Easton,PA-NJ
-12,4853,Altoona,PA
-13,12233.5,Amarillo,TX
-14,4422.5,Ames,IA
-15,31254.5,Anchorage,AK
-16,20043,Ann Arbor,MI
-17,3756.5,Anniston,AL
-18,3756.5,Oxford,AL
-19,3756.5,Jacksonville,AL
-20,10779.5,Appleton,WI
-21,14995,Asheville,NC
-22,7299,Athens,GA
-23,7299,Clarke County,GA
-24,299615.5,Atlanta,GA
-25,299615.5,Sandy Springs,GA
-26,299615.5,Roswell,GA
-27,12711.5,Atlantic City,NJ
-28,12711.5,Hammonton,NJ
-29,4253,Auburn,AL
-30,4253,Opelika,AL
-31,21082.5,Augusta,GA-SC
-32,21082.5,Richmond County,GA-SC
-33,107616.5,Austin,TX
-34,107616.5,Round Rock,TX
-35,37448.5,Bakersfield,CA
-36,165023,Baltimore,MD
-37,165023,Columbia,MD
-38,165023,Towson,MD
-39,5438.5,Bangor,ME
-40,10078.5,Barnstable Town,MA
-41,50016,Baton Rouge,LA
-42,5469,Battle Creek,MI
-43,3136.5,Bay City,MI
-44,23533.5,Beaumont,TX
-45,23533.5,Port Arthur,TX
-46,4291,Beckley,WV
-47,9828.5,Bellingham,WA
-48,6651.5,Bend,OR
-49,6651.5,Redmond,OR
-50,8860.5,Billings,MT
-51,9075.5,Binghamton,NY
-52,57654,Birmingham,AL
-53,57654,Hoover,AL
-54,6663.5,Bismarck,ND
-55,6303,Blacksburg,VA
-56,6303,Christiansburg,VA
-57,6303,Radford,VA
-58,11001,Bloomington,IL
-59,6288,Bloomington,IN
-60,3517,Bloomsburg,PA
-61,3517,Berwick,PA
-62,26883.5,Boise City,ID
-63,360194.5,Boston,MA-NH
-64,360194.5,Cambridge,MA-NH
-65,360194.5,Newton,MA-NH
-66,20818.5,Boulder,CO
-67,6119.5,Bowling Green,KY
-68,9452,Bremerton,WA
-69,9452,Silverdale,WA
-70,91493,Bridgeport,CT
-71,91493,Stamford,CT
-72,91493,Norwalk,CT
-73,9257.5,Brownsville,TX
-74,9257.5,Harlingen,TX
-75,3469.5,Brunswick,GA
-76,52035,Buffalo,NY
-77,52035,Cheektowaga,NY
-78,52035,Niagara Falls,NY
-79,4902,Burlington,NC
-80,12270.5,Burlington,VT
-81,12270.5,South Burlington,VT
-82,5765,California,MD
-83,5765,Lexington Park,MD
-84,15350,Canton,OH
-85,15350,Massillon,OH
-86,21559.5,Cape Coral,FL
-87,21559.5,Fort Myers,FL
-88,3810.5,Cape Girardeau,MO-IL
-89,4868,Carbondale,IL
-90,4868,Marion,IL
-91,3316,Carson City,NV
-92,6696.5,Casper,WY
-93,16290,Cedar Rapids,IA
-94,4771,Chambersburg,PA
-95,4771,Waynesboro,PA
-96,11037.5,Champaign,IL
-97,11037.5,Urbana,IL
-98,13464.5,Charleston,WV
-99,32138,Charleston,SC
-100,32138,North Charleston,SC
-101,134166.5,Charlotte,NC-SC
-102,134166.5,Concord,NC-SC
-103,134166.5,Gastonia,NC-SC
-104,11037,Charlottesville,VA
-105,23013,Chattanooga,TN-GA
-106,5445.5,Cheyenne,WY
-107,581982,Chicago,IL-IN-WI
-108,581982,Naperville,IL-IN-WI
-109,581982,Elgin,IL-IN-WI
-110,6780.5,Chico,CA
-111,117916.5,Cincinnati,OH-KY-IN
-112,10482,Clarksville,TN-KY
-113,3875.5,Cleveland,TN
-114,116503,Cleveland,OH
-115,116503,Elyria,OH
-116,4750,Coeur d'Alene,ID
-117,8491.5,College Station,TX
-118,8491.5,Bryan,TX
-119,28594,Colorado Springs,CO
-120,7862,Columbia,MO
-121,34066,Columbia,SC
-122,13208,Columbus,GA-AL
-123,5062,Columbus,IN
-124,111252,Columbus,OH
-125,23226.5,Corpus Christi,TX
-126,4600,Corvallis,OR
-127,11639.5,Crestview,FL
-128,11639.5,Fort Walton Beach,FL
-129,11639.5,Destin,FL
-130,2995.5,Cumberland,MD-WV
-131,432621.5,Dallas,TX
-132,432621.5,Fort Worth,TX
-133,432621.5,Arlington,TX
-134,5385.5,Dalton,GA
-135,2846.5,Danville,IL
-136,6099,Daphne,AL
-137,6099,Fairhope,AL
-138,6099,Foley,AL
-139,19326,Davenport,IA-IL
-140,19326,Moline,IA-IL
-141,19326,Rock Island,IA-IL
-142,36558,Dayton,OH
-143,5318.5,Decatur,AL
-144,5827.5,Decatur,IL
-145,14677,Deltona,FL
-146,14677,Daytona Beach,FL
-147,14677,Ormond Beach,FL
-148,170253.5,Denver,CO
-149,170253.5,Aurora,CO
-150,170253.5,Lakewood,CO
-151,41907.5,Des Moines,IA
-152,41907.5,West Des Moines,IA
-153,217945.5,Detroit,MI
-154,217945.5,Warren,MI
-155,217945.5,Dearborn,MI
-156,4778.5,Dothan,AL
-157,6213,Dover,DE
-158,5105.5,Dubuque,IA
-159,12289.5,Duluth,MN-WI
-160,39839,Durham,NC
-161,39839,Chapel Hill,NC
-162,5522,East Stroudsburg,PA
-163,7170.5,Eau Claire,WI
-164,5690.5,El Centro,CA
-165,5977,Elizabethtown,KY
-166,5977,Fort Knox,KY
-167,11350,Elkhart,IN
-168,11350,Goshen,IN
-169,3354.5,Elmira,NY
-170,26530.5,El Paso,TX
-171,3131,Enid,OK
-172,10664.5,Erie,PA
-173,13104,Eugene,OR
-174,17150.5,Evansville,IN-KY
-175,5340,Fairbanks,AK
-176,13006.5,Fargo,ND-MN
-177,7162,Farmington,NM
-178,17181,Fayetteville,NC
-179,21563.5,Fayetteville,AR-MO
-180,21563.5,Springdale,AR-MO
-181,21563.5,Rogers,AR-MO
-182,5106.5,Flagstaff,AZ
-183,12234.5,Flint,MI
-184,7475,Florence,SC
-185,4511,Florence,AL
-186,4511,Muscle Shoals,AL
-187,4172.5,Fond du Lac,WI
-188,13559,Fort Collins,CO
-189,9984,Fort Smith,AR-OK
-190,18690.5,Fort Wayne,IN
-191,35042,Fresno,CA
-192,2675.5,Gadsden,AL
-193,11348,Gainesville,FL
-194,7152,Gainesville,GA
-195,2851,Gettysburg,PA
-196,4632,Glens Falls,NY
-197,4286.5,Goldsboro,NC
-198,4776,Grand Forks,ND-MN
-199,3996,Grand Island,NE
-200,5169,Grand Junction,CO
-201,47796.5,Grand Rapids,MI
-202,47796.5,Wyoming,MI
-203,1962,Grants Pass,OR
-204,3106,Great Falls,MT
-205,9027.5,Greeley,CO
-206,16489,Green Bay,WI
-207,35961.5,Greensboro,NC
-208,35961.5,High Point,NC
-209,7159,Greenville,NC
-210,34018,Greenville,SC
-211,34018,Anderson,SC
-212,34018,Mauldin,SC
-213,16809,Gulfport,MS
-214,16809,Biloxi,MS
-215,16809,Pascagoula,MS
-216,8689.5,Hagerstown,MD-WV
-217,8689.5,Martinsburg,MD-WV
-218,3723,Hammond,LA
-219,4850.5,Hanford,CA
-220,4850.5,Corcoran,CA
-221,32109.5,Harrisburg,PA
-222,32109.5,Carlisle,PA
-223,7279.5,Harrisonburg,VA
-224,82745,Hartford,CT
-225,82745,West Hartford,CT
-226,82745,East Hartford,CT
-227,5276.5,Hattiesburg,MS
-228,11762,Hickory,NC
-229,11762,Lenoir,NC
-230,11762,Morganton,NC
-231,7670,Hilton Head Island,SC
-232,7670,Bluffton,SC
-233,7670,Beaufort,SC
-234,3553.5,Hinesville,GA
-235,3142.5,Homosassa Springs,FL
-236,2956.5,Hot Springs,AR
-237,11512.5,Houma,LA
-238,11512.5,Thibodaux,LA
-239,475364.5,Houston,TX
-240,475364.5,The Woodlands,TX
-241,475364.5,Sugar Land,TX
-242,14422,Huntington,WV-KY-OH
-243,14422,Ashland,WV-KY-OH
-244,22431,Huntsville,AL
-245,5483,Idaho Falls,ID
-246,119911,Indianapolis,IN
-247,119911,Carmel,IN
-248,119911,Anderson,IN
-249,8827.5,Iowa City,IA
-250,4729.5,Ithaca,NY
-251,5564,Jackson,MI
-252,26953,Jackson,MS
-253,5833,Jackson,TN
-254,60342.5,Jacksonville,FL
-255,7864,Jacksonville,NC
-256,5624,Janesville,WI
-257,5624,Beloit,WI
-258,6508,Jefferson City,MO
-259,6285.5,Johnson City,TN
-260,4196.5,Johnstown,PA
-261,4694,Jonesboro,AR
-262,6638.5,Joplin,MO
-263,7541.5,Kahului,HI
-264,7541.5,Wailuku,HI
-265,7541.5,Lahaina,HI
-266,13745.5,Kalamazoo,MI
-267,13745.5,Portage,MI
-268,3726.5,Kankakee,IL
-269,113869.5,Kansas City,MO-KS
-270,11497.5,Kennewick,WA
-271,11497.5,Richland,WA
-272,16058,Killeen,TX
-273,16058,Temple,TX
-274,12136.5,Kingsport,TN-VA
-275,12136.5,Bristol,TN-VA
-276,12136.5,Bristol,TN-VA
-277,5536,Kingston,NY
-278,34681.5,Knoxville,TN
-279,3964.5,Kokomo,IN
-280,6424.5,La Crosse,WI-MN
-281,6424.5,Onalaska,WI-MN
-282,27368.5,Lafayette,LA
-283,9028,Lafayette,IN
-284,9028,West Lafayette,IN
-285,14195,Lake Charles,LA
-286,3861,Lake Havasu City,AZ
-287,3861,Kingman,AZ
-288,18056.5,Lakeland,FL
-289,18056.5,Winter Haven,FL
-290,23698.5,Lancaster,PA
-291,19144.5,Lansing,MI
-292,19144.5,East Lansing,MI
-293,7746.5,Laredo,TX
-294,6325,Las Cruces,NM
-295,88762,Las Vegas,NV
-296,88762,Henderson,NV
-297,88762,Paradise,NV
-298,3848.5,Lawrence,KS
-299,4713.5,Lawton,OK
-300,4518,Lebanon,PA
-301,2156,Lewiston,ID-WA
-302,3689.5,Lewiston,ME
-303,3689.5,Auburn,ME
-304,24888.5,Lexington,KY
-305,24888.5,Fayette,KY
-306,5570,Lima,OH
-307,16973.5,Lincoln,NE
-308,35226.5,Little Rock,AR
-309,35226.5,North Little Rock,AR
-310,35226.5,Conway,AR
-311,4206,Logan,UT-ID
-312,11191,Longview,TX
-313,3695,Longview,WA
-314,836448.5,Los Angeles,CA
-315,836448.5,Long Beach,CA
-316,836448.5,Anaheim,CA
-317,62361.5,Louisville/Jefferson County,KY-IN
-318,11793,Lubbock,TX
-319,8789.5,Lynchburg,VA
-320,8453,Macon,GA
-321,4749.5,Madera,CA
-322,39753.5,Madison,WI
-323,23091,Manchester,NH
-324,23091,Nashua,NH
-325,3213,Manhattan,KS
-326,4633,Mankato,MN
-327,4633,North Mankato,MN
-328,4058.5,Mansfield,OH
-329,17210.5,McAllen,TX
-330,17210.5,Edinburg,TX
-331,17210.5,Mission,TX
-332,6687,Medford,OR
-333,65530.5,Memphis,TN-MS-AR
-334,7331,Merced,CA
-335,267380.5,Miami,FL
-336,267380.5,Fort Lauderdale,FL
-337,267380.5,West Palm Beach,FL
-338,3880.5,Michigan City,IN
-339,3880.5,La Porte,IN
-340,4064,Midland,MI
-341,31709.5,Midland,TX
-342,95454.5,Milwaukee,WI
-343,95454.5,Waukesha,WI
-344,95454.5,West Allis,WI
-345,217396.5,Minneapolis,MN-WI
-346,217396.5,St. Paul,MN-WI
-347,217396.5,Bloomington,MN-WI
-348,4583.5,Missoula,MT
-349,17560.5,Mobile,AL
-350,16853.5,Modesto,CA
-351,6568.5,Monroe,LA
-352,4460.5,Monroe,MI
-353,15824,Montgomery,AL
-354,6592,Morgantown,WV
-355,3678.5,Morristown,TN
-356,5378,Mount Vernon,WA
-357,5378,Anacortes,WA
-358,3660.5,Muncie,IN
-359,5181.5,Muskegon,MI
-360,14337.5,Myrtle Beach,SC-NC
-361,14337.5,Conway,SC-NC
-362,14337.5,North Myrtle Beach,SC-NC
-363,8558,Napa,CA
-364,13794.5,Naples,FL
-365,13794.5,Immokalee,FL
-366,13794.5,Marco Island,FL
-367,98731,Nashville,TN
-368,98731,Davidson,TN
-369,98731,,TN
-370,98731,Murfreesboro,TN
-371,98731,,TN
-372,98731,Franklin,TN
-373,4695.5,New Bern,NC
-374,40566,New Haven,CT
-375,40566,Milford,CT
-376,75112,New Orleans,LA
-377,75112,Metairie,LA
-378,1458138,New York,NY-NJ-PA
-379,1458138,Newark,NY-NJ-PA
-380,1458138,Jersey City,NY-NJ-PA
-381,6017.5,Niles,MI
-382,6017.5,Benton Harbor,MI
-383,24082,North Port,FL
-384,24082,Sarasota,FL
-385,24082,Bradenton,FL
-386,14513,Norwich,CT
-387,14513,New London,CT
-388,7115.5,Ocala,FL
-389,4568.5,Ocean City,NJ
-390,10558,Odessa,TX
-391,21273.5,Ogden,UT
-392,21273.5,Clearfield,UT
-393,65524.5,Oklahoma City,OK
-394,9840,Olympia,WA
-395,9840,Tumwater,WA
-396,53048,Omaha,NE-IA
-397,53048,Council Bluffs,NE-IA
-398,109392,Orlando,FL
-399,109392,Kissimmee,FL
-400,109392,Sanford,FL
-401,8994,Oshkosh,WI
-402,8994,Neenah,WI
-403,5074,Owensboro,KY
-404,46643.5,Oxnard,CA
-405,46643.5,Thousand Oaks,CA
-406,46643.5,Ventura,CA
-407,17980.5,Palm Bay,FL
-408,17980.5,Melbourne,FL
-409,17980.5,Titusville,FL
-410,7286.5,Panama City,FL
-411,3850,Parkersburg,WV
-412,3850,Vienna,WV
-413,15500.5,Pensacola,FL
-414,15500.5,Ferry Pass,FL
-415,15500.5,Brent,FL
-416,21088,Peoria,IL
-417,379919.5,Philadelphia,PA-NJ-DE-MD
-418,379919.5,Camden,PA-NJ-DE-MD
-419,379919.5,Wilmington,PA-NJ-DE-MD
-420,197750.5,Phoenix,AZ
-421,197750.5,Mesa,AZ
-422,197750.5,Scottsdale,AZ
-423,3188.5,Pine Bluff,AR
-424,124631.5,Pittsburgh,PA
-425,6169.5,Pittsfield,MA
-426,2510,Pocatello,ID
-427,26891,Portland,ME
-428,26891,South Portland,ME
-429,143840.5,Portland,OR-WA
-430,143840.5,Vancouver,OR-WA
-431,143840.5,Hillsboro,OR-WA
-432,11564,Port St. Lucie,FL
-433,5028.5,Prescott,AZ
-434,71690,Providence,RI-MA
-435,71690,Warwick,RI-MA
-436,17413.5,Provo,UT
-437,17413.5,Orem,UT
-438,4435,Pueblo,CO
-439,3372,Punta Gorda,FL
-440,7587.5,Racine,WI
-441,63574.5,Raleigh,NC
-442,5885,Rapid City,SD
-443,16312.5,Reading,PA
-444,5171.5,Redding,CA
-445,20142.5,Reno,NV
-446,68701.5,Richmond,VA
-447,124120.5,Riverside,CA
-448,124120.5,San Bernardino,CA
-449,124120.5,Ontario,CA
-450,13958,Roanoke,VA
-451,10574.5,Rochester,MN
-452,52490,Rochester,NY
-453,13712,Rockford,IL
-454,5993,Rocky Mount,NC
-455,3438,Rome,GA
-456,102352.5,Sacramento,CA
-457,102352.5,,CA
-458,102352.5,Roseville,CA
-459,102352.5,,CA
-460,102352.5,Arden,CA
-461,102352.5,Arcade,CA
-462,7553,Saginaw,MI
-463,8399,St. Cloud,MN
-464,3833.5,St. George,UT
-465,5460.5,St. Joseph,MO-KS
-466,144260,St. Louis,MO-IL
-467,12922.5,Salem,OR
-468,19900.5,Salinas,CA
-469,14541,Salisbury,MD-DE
-470,70875,Salt Lake City,UT
-471,4659,San Angelo,TX
-472,97339,San Antonio,TX
-473,97339,New Braunfels,TX
-474,193693,San Diego,CA
-475,193693,Carlsbad,CA
-476,375801,San Francisco,CA
-477,375801,Oakland,CA
-478,375801,Hayward,CA
-479,187356,San Jose,CA
-480,187356,Sunnyvale,CA
-481,187356,Santa Clara,CA
-482,12574.5,San Luis Obispo,CA
-483,12574.5,Paso Robles,CA
-484,12574.5,Arroyo Grande,CA
-485,11280.5,Santa Cruz,CA
-486,11280.5,Watsonville,CA
-487,6800,Santa Fe,NM
-488,22404,Santa Maria,CA
-489,22404,Santa Barbara,CA
-490,22158.5,Santa Rosa,CA
-491,15066.5,Savannah,GA
-492,21199.5,Scranton,PA
-493,21199.5,,PA
-494,21199.5,Wilkes,PA
-495,21199.5,Barre,PA
-496,21199.5,,PA
-497,21199.5,Hazleton,PA
-498,273881.5,Seattle,WA
-499,273881.5,Tacoma,WA
-500,273881.5,Bellevue,WA
-501,4424.5,Sebastian,FL
-502,4424.5,Vero Beach,FL
-503,1982,Sebring,FL
-504,5462,Sheboygan,WI
-505,3845.5,Sherman,TX
-506,3845.5,Denison,TX
-507,21282,Shreveport,LA
-508,21282,Bossier City,LA
-509,4085,Sierra Vista,AZ
-510,4085,Douglas,AZ
-511,8416.5,Sioux City,IA-NE-SD
-512,15934,Sioux Falls,SD
-513,12446.5,South Bend,IN-MI
-514,12446.5,Mishawaka,IN-MI
-515,12320.5,Spartanburg,SC
-516,21393.5,Spokane,WA
-517,21393.5,Spokane Valley,WA
-518,9467,Springfield,IL
-519,24347,Springfield,MA
-520,16183.5,Springfield,MO
-521,4022.5,Springfield,OH
-522,7560,State College,PA
-523,4473.5,Staunton,VA
-524,4473.5,Waynesboro,VA
-525,22319.5,Stockton,CA
-526,22319.5,Lodi,CA
-527,3504,Sumter,SC
-528,30387,Syracuse,NY
-529,14043,Tallahassee,FL
-530,121708.5,Tampa,FL
-531,121708.5,St. Petersburg,FL
-532,121708.5,Clearwater,FL
-533,6337.5,Terre Haute,IN
-534,5004.5,Texarkana,TX-AR
-535,2113.5,The Villages,FL
-536,30095.5,Toledo,OH
-537,9827.5,Topeka,KS
-538,29374,Trenton,NJ
-539,36433.5,Tucson,AZ
-540,60214,Tulsa,OK
-541,11009,Tuscaloosa,AL
-542,3574,Twin Falls,ID
-543,14332.5,Tyler,TX
-544,56291,Urban Honolulu,HI
-545,10239,Utica,NY
-546,10239,Rome,NY
-547,4537.5,Valdosta,GA
-548,19073,Vallejo,CA
-549,19073,Fairfield,CA
-550,5174.5,Victoria,TX
-551,5293.5,Vineland,NJ
-552,5293.5,Bridgeton,NJ
-553,84949.5,Virginia Beach,VA-NC
-554,84949.5,Norfolk,VA-NC
-555,84949.5,Newport News,VA-NC
-556,13687,Visalia,CA
-557,13687,Porterville,CA
-558,10019.5,Waco,TX
-559,2669.5,Walla Walla,WA
-560,6535,Warner Robins,GA
-561,456746,Washington,DC-VA-MD-WV
-562,456746,Arlington,DC-VA-MD-WV
-563,456746,Alexandria,DC-VA-MD-WV
-564,8939,Waterloo,IA
-565,8939,Cedar Falls,IA
-566,6428,Watertown,NY
-567,6428,Fort Drum,NY
-568,6693.5,Wausau,WI
-569,3999.5,Weirton,WV-OH
-570,3999.5,Steubenville,WV-OH
-571,4156,Wenatchee,WA
-572,6884,Wheeling,WV-OH
-573,29357,Wichita,KS
-574,7412.5,Wichita Falls,TX
-575,4834.5,Williamsport,PA
-576,11368.5,Wilmington,NC
-577,5600.5,Winchester,VA-WV
-578,24742.5,Winston,NC
-579,24742.5,Salem,NC
-580,36964,Worcester,MA-CT
-581,8752,Yakima,WA
-582,16668.5,York,PA
-583,16668.5,Hanover,PA
-584,19041.5,Youngstown,OH-PA
-585,19041.5,Warren,OH-PA
-586,19041.5,Boardman,OH-PA
-381,5077.5,Yuba City,CA
-382,5837.5,Yuma,AZ
+9,34809.5,Allentown,PA
+10,34809.5,Allentown,NJ
+11,34809.5,Bethlehem,PA
+12,34809.5,Bethlehem,NJ
+13,34809.5,Easton,PA
+14,34809.5,Easton,NJ
+15,4853.0,Altoona,PA
+16,12233.5,Amarillo,TX
+17,4422.5,Ames,IA
+18,31254.5,Anchorage,AK
+19,20043.0,Ann Arbor,MI
+20,3756.5,Anniston,AL
+21,3756.5,Oxford,AL
+22,3756.5,Jacksonville,AL
+23,10779.5,Appleton,WI
+24,14995.0,Asheville,NC
+25,7299.0,Athens,GA
+26,7299.0,Clarke County,GA
+27,299615.5,Atlanta,GA
+28,299615.5,Sandy Springs,GA
+29,299615.5,Roswell,GA
+30,12711.5,Atlantic City,NJ
+31,12711.5,Hammonton,NJ
+32,4253.0,Auburn,AL
+33,4253.0,Opelika,AL
+34,21082.5,Augusta,GA
+35,21082.5,Augusta,SC
+36,21082.5,Richmond County,GA
+37,21082.5,Richmond County,SC
+38,107616.5,Austin,TX
+39,107616.5,Round Rock,TX
+40,37448.5,Bakersfield,CA
+41,165023.0,Baltimore,MD
+42,165023.0,Columbia,MD
+43,165023.0,Towson,MD
+44,5438.5,Bangor,ME
+45,10078.5,Barnstable Town,MA
+46,50016.0,Baton Rouge,LA
+47,5469.0,Battle Creek,MI
+48,3136.5,Bay City,MI
+49,23533.5,Beaumont,TX
+50,23533.5,Port Arthur,TX
+51,4291.0,Beckley,WV
+52,9828.5,Bellingham,WA
+53,6651.5,Bend,OR
+54,6651.5,Redmond,OR
+55,8860.5,Billings,MT
+56,9075.5,Binghamton,NY
+57,57654.0,Birmingham,AL
+58,57654.0,Hoover,AL
+59,6663.5,Bismarck,ND
+60,6303.0,Blacksburg,VA
+61,6303.0,Christiansburg,VA
+62,6303.0,Radford,VA
+63,11001.0,Bloomington,IL
+64,6288.0,Bloomington,IN
+65,3517.0,Bloomsburg,PA
+66,3517.0,Berwick,PA
+67,26883.5,Boise City,ID
+68,360194.5,Boston,MA
+69,360194.5,Boston,NH
+70,360194.5,Cambridge,MA
+71,360194.5,Cambridge,NH
+72,360194.5,Newton,MA
+73,360194.5,Newton,NH
+74,20818.5,Boulder,CO
+75,6119.5,Bowling Green,KY
+76,9452.0,Bremerton,WA
+77,9452.0,Silverdale,WA
+78,91493.0,Bridgeport,CT
+79,91493.0,Stamford,CT
+80,91493.0,Norwalk,CT
+81,9257.5,Brownsville,TX
+82,9257.5,Harlingen,TX
+83,3469.5,Brunswick,GA
+84,52035.0,Buffalo,NY
+85,52035.0,Cheektowaga,NY
+86,52035.0,Niagara Falls,NY
+87,4902.0,Burlington,NC
+88,12270.5,Burlington,VT
+89,12270.5,South Burlington,VT
+90,5765.0,California,MD
+91,5765.0,Lexington Park,MD
+92,15350.0,Canton,OH
+93,15350.0,Massillon,OH
+94,21559.5,Cape Coral,FL
+95,21559.5,Fort Myers,FL
+96,3810.5,Cape Girardeau,MO
+97,3810.5,Cape Girardeau,IL
+98,4868.0,Carbondale,IL
+99,4868.0,Marion,IL
+100,3316.0,Carson City,NV
+101,6696.5,Casper,WY
+102,16290.0,Cedar Rapids,IA
+103,4771.0,Chambersburg,PA
+104,4771.0,Waynesboro,PA
+105,11037.5,Champaign,IL
+106,11037.5,Urbana,IL
+107,13464.5,Charleston,WV
+108,32138.0,Charleston,SC
+109,32138.0,North Charleston,SC
+110,134166.5,Charlotte,NC
+111,134166.5,Charlotte,SC
+112,134166.5,Concord,NC
+113,134166.5,Concord,SC
+114,134166.5,Gastonia,NC
+115,134166.5,Gastonia,SC
+116,11037.0,Charlottesville,VA
+117,23013.0,Chattanooga,TN
+118,23013.0,Chattanooga,GA
+119,5445.5,Cheyenne,WY
+120,581982.0,Chicago,IL
+121,581982.0,Chicago,IN
+122,581982.0,Chicago,WI
+123,581982.0,Naperville,IL
+124,581982.0,Naperville,IN
+125,581982.0,Naperville,WI
+126,581982.0,Elgin,IL
+127,581982.0,Elgin,IN
+128,581982.0,Elgin,WI
+129,6780.5,Chico,CA
+130,117916.5,Cincinnati,OH
+131,117916.5,Cincinnati,KY
+132,117916.5,Cincinnati,IN
+133,10482.0,Clarksville,TN
+134,10482.0,Clarksville,KY
+135,3875.5,Cleveland,TN
+136,116503.0,Cleveland,OH
+137,116503.0,Elyria,OH
+138,4750.0,Coeur d'Alene,ID
+139,8491.5,College Station,TX
+140,8491.5,Bryan,TX
+141,28594.0,Colorado Springs,CO
+142,7862.0,Columbia,MO
+143,34066.0,Columbia,SC
+144,13208.0,Columbus,GA
+145,13208.0,Columbus,AL
+146,5062.0,Columbus,IN
+147,111252.0,Columbus,OH
+148,23226.5,Corpus Christi,TX
+149,4600.0,Corvallis,OR
+150,11639.5,Crestview,FL
+151,11639.5,Fort Walton Beach,FL
+152,11639.5,Destin,FL
+153,2995.5,Cumberland,MD
+154,2995.5,Cumberland,WV
+155,432621.5,Dallas,TX
+155,432621.5,Dallas-Fort Worth,TX
+156,432621.5,Fort Worth,TX
+157,432621.5,Arlington,TX
+158,5385.5,Dalton,GA
+159,2846.5,Danville,IL
+160,6099.0,Daphne,AL
+161,6099.0,Fairhope,AL
+162,6099.0,Foley,AL
+163,19326.0,Davenport,IA
+164,19326.0,Davenport,IL
+165,19326.0,Moline,IA
+166,19326.0,Moline,IL
+167,19326.0,Rock Island,IA
+168,19326.0,Rock Island,IL
+169,36558.0,Dayton,OH
+170,5318.5,Decatur,AL
+171,5827.5,Decatur,IL
+172,14677.0,Deltona,FL
+173,14677.0,Daytona Beach,FL
+174,14677.0,Ormond Beach,FL
+175,170253.5,Denver,CO
+176,170253.5,Aurora,CO
+177,170253.5,Lakewood,CO
+178,41907.5,Des Moines,IA
+179,41907.5,West Des Moines,IA
+180,217945.5,Detroit,MI
+181,217945.5,Warren,MI
+182,217945.5,Dearborn,MI
+183,4778.5,Dothan,AL
+184,6213.0,Dover,DE
+185,5105.5,Dubuque,IA
+186,12289.5,Duluth,MN
+187,12289.5,Duluth,WI
+188,39839.0,Durham,NC
+189,39839.0,Chapel Hill,NC
+190,5522.0,East Stroudsburg,PA
+191,7170.5,Eau Claire,WI
+192,5690.5,El Centro,CA
+193,5977.0,Elizabethtown,KY
+194,5977.0,Fort Knox,KY
+195,11350.0,Elkhart,IN
+196,11350.0,Goshen,IN
+197,3354.5,Elmira,NY
+198,26530.5,El Paso,TX
+199,3131.0,Enid,OK
+200,10664.5,Erie,PA
+201,13104.0,Eugene,OR
+202,17150.5,Evansville,IN
+203,17150.5,Evansville,KY
+204,5340.0,Fairbanks,AK
+205,13006.5,Fargo,ND
+206,13006.5,Fargo,MN
+207,7162.0,Farmington,NM
+208,17181.0,Fayetteville,NC
+209,21563.5,Fayetteville,AR
+210,21563.5,Fayetteville,MO
+211,21563.5,Springdale,AR
+212,21563.5,Springdale,MO
+213,21563.5,Rogers,AR
+214,21563.5,Rogers,MO
+215,5106.5,Flagstaff,AZ
+216,12234.5,Flint,MI
+217,7475.0,Florence,SC
+218,4511.0,Florence,AL
+219,4511.0,Muscle Shoals,AL
+220,4172.5,Fond du Lac,WI
+221,13559.0,Fort Collins,CO
+222,9984.0,Fort Smith,AR
+223,9984.0,Fort Smith,OK
+224,18690.5,Fort Wayne,IN
+225,35042.0,Fresno,CA
+226,2675.5,Gadsden,AL
+227,11348.0,Gainesville,FL
+228,7152.0,Gainesville,GA
+229,2851.0,Gettysburg,PA
+230,4632.0,Glens Falls,NY
+231,4286.5,Goldsboro,NC
+232,4776.0,Grand Forks,ND
+233,4776.0,Grand Forks,MN
+234,3996.0,Grand Island,NE
+235,5169.0,Grand Junction,CO
+236,47796.5,Grand Rapids,MI
+237,47796.5,Wyoming,MI
+238,1962.0,Grants Pass,OR
+239,3106.0,Great Falls,MT
+240,9027.5,Greeley,CO
+241,16489.0,Green Bay,WI
+242,35961.5,Greensboro,NC
+243,35961.5,High Point,NC
+244,7159.0,Greenville,NC
+245,34018.0,Greenville,SC
+246,34018.0,Anderson,SC
+247,34018.0,Mauldin,SC
+248,16809.0,Gulfport,MS
+249,16809.0,Biloxi,MS
+250,16809.0,Pascagoula,MS
+251,8689.5,Hagerstown,MD
+252,8689.5,Hagerstown,WV
+253,8689.5,Martinsburg,MD
+254,8689.5,Martinsburg,WV
+255,3723.0,Hammond,LA
+256,4850.5,Hanford,CA
+257,4850.5,Corcoran,CA
+258,32109.5,Harrisburg,PA
+259,32109.5,Carlisle,PA
+260,7279.5,Harrisonburg,VA
+261,82745.0,Hartford,CT
+262,82745.0,West Hartford,CT
+263,82745.0,East Hartford,CT
+264,5276.5,Hattiesburg,MS
+265,11762.0,Hickory,NC
+266,11762.0,Lenoir,NC
+267,11762.0,Morganton,NC
+268,7670.0,Hilton Head Island,SC
+269,7670.0,Bluffton,SC
+270,7670.0,Beaufort,SC
+271,3553.5,Hinesville,GA
+272,3142.5,Homosassa Springs,FL
+273,2956.5,Hot Springs,AR
+274,11512.5,Houma,LA
+275,11512.5,Thibodaux,LA
+276,475364.5,Houston,TX
+277,475364.5,The Woodlands,TX
+278,475364.5,Sugar Land,TX
+279,14422.0,Huntington,WV
+280,14422.0,Huntington,KY
+281,14422.0,Huntington,OH
+282,14422.0,Ashland,WV
+283,14422.0,Ashland,KY
+284,14422.0,Ashland,OH
+285,22431.0,Huntsville,AL
+286,5483.0,Idaho Falls,ID
+287,119911.0,Indianapolis,IN
+288,119911.0,Carmel,IN
+289,119911.0,Anderson,IN
+290,8827.5,Iowa City,IA
+291,4729.5,Ithaca,NY
+292,5564.0,Jackson,MI
+293,26953.0,Jackson,MS
+294,5833.0,Jackson,TN
+295,60342.5,Jacksonville,FL
+296,7864.0,Jacksonville,NC
+297,5624.0,Janesville,WI
+298,5624.0,Beloit,WI
+299,6508.0,Jefferson City,MO
+300,6285.5,Johnson City,TN
+301,4196.5,Johnstown,PA
+302,4694.0,Jonesboro,AR
+303,6638.5,Joplin,MO
+304,7541.5,Kahului,HI
+305,7541.5,Wailuku,HI
+306,7541.5,Lahaina,HI
+307,13745.5,Kalamazoo,MI
+308,13745.5,Portage,MI
+309,3726.5,Kankakee,IL
+310,113869.5,Kansas City,MO
+311,113869.5,Kansas City,KS
+312,11497.5,Kennewick,WA
+313,11497.5,Richland,WA
+314,16058.0,Killeen,TX
+315,16058.0,Temple,TX
+316,12136.5,Kingsport,TN
+317,12136.5,Kingsport,VA
+318,12136.5,Bristol,TN
+319,12136.5,Bristol,VA
+320,12136.5,Bristol,TN
+321,12136.5,Bristol,VA
+322,5536.0,Kingston,NY
+323,34681.5,Knoxville,TN
+324,3964.5,Kokomo,IN
+325,6424.5,La Crosse,WI
+326,6424.5,La Crosse,MN
+327,6424.5,Onalaska,WI
+328,6424.5,Onalaska,MN
+329,27368.5,Lafayette,LA
+330,9028.0,Lafayette,IN
+331,9028.0,West Lafayette,IN
+332,14195.0,Lake Charles,LA
+333,3861.0,Lake Havasu City,AZ
+334,3861.0,Kingman,AZ
+335,18056.5,Lakeland,FL
+336,18056.5,Winter Haven,FL
+337,23698.5,Lancaster,PA
+338,19144.5,Lansing,MI
+339,19144.5,East Lansing,MI
+340,7746.5,Laredo,TX
+341,6325.0,Las Cruces,NM
+342,88762.0,Las Vegas,NV
+343,88762.0,Henderson,NV
+344,88762.0,Paradise,NV
+345,3848.5,Lawrence,KS
+346,4713.5,Lawton,OK
+347,4518.0,Lebanon,PA
+348,2156.0,Lewiston,ID
+349,2156.0,Lewiston,WA
+350,3689.5,Lewiston,ME
+351,3689.5,Auburn,ME
+352,24888.5,Lexington,KY
+353,24888.5,Fayette,KY
+354,5570.0,Lima,OH
+355,16973.5,Lincoln,NE
+356,35226.5,Little Rock,AR
+357,35226.5,North Little Rock,AR
+358,35226.5,Conway,AR
+359,4206.0,Logan,UT
+360,4206.0,Logan,ID
+361,11191.0,Longview,TX
+362,3695.0,Longview,WA
+363,836448.5,Los Angeles,CA
+364,836448.5,Long Beach,CA
+365,836448.5,Anaheim,CA
+366,62361.5,Louisville/Jefferson County,KY
+367,62361.5,Louisville/Jefferson County,IN
+368,11793.0,Lubbock,TX
+369,8789.5,Lynchburg,VA
+370,8453.0,Macon,GA
+371,4749.5,Madera,CA
+372,39753.5,Madison,WI
+373,23091.0,Manchester,NH
+374,23091.0,Nashua,NH
+375,3213.0,Manhattan,KS
+376,4633.0,Mankato,MN
+377,4633.0,North Mankato,MN
+378,4058.5,Mansfield,OH
+379,17210.5,McAllen,TX
+380,17210.5,Edinburg,TX
+381,17210.5,Mission,TX
+382,6687.0,Medford,OR
+383,65530.5,Memphis,TN
+384,65530.5,Memphis,MS
+385,65530.5,Memphis,AR
+386,7331.0,Merced,CA
+387,267380.5,Miami,FL
+388,267380.5,Fort Lauderdale,FL
+389,267380.5,West Palm Beach,FL
+390,3880.5,Michigan City,IN
+391,3880.5,La Porte,IN
+392,4064.0,Midland,MI
+393,31709.5,Midland,TX
+394,95454.5,Milwaukee,WI
+395,95454.5,Waukesha,WI
+396,95454.5,West Allis,WI
+397,217396.5,Minneapolis,MN
+398,217396.5,Minneapolis,WI
+399,217396.5,St. Paul,MN
+400,217396.5,St. Paul,WI
+401,217396.5,Bloomington,MN
+402,217396.5,Bloomington,WI
+403,4583.5,Missoula,MT
+404,17560.5,Mobile,AL
+405,16853.5,Modesto,CA
+406,6568.5,Monroe,LA
+407,4460.5,Monroe,MI
+408,15824.0,Montgomery,AL
+409,6592.0,Morgantown,WV
+410,3678.5,Morristown,TN
+411,5378.0,Mount Vernon,WA
+412,5378.0,Anacortes,WA
+413,3660.5,Muncie,IN
+414,5181.5,Muskegon,MI
+415,14337.5,Myrtle Beach,SC
+416,14337.5,Myrtle Beach,NC
+417,14337.5,Conway,SC
+418,14337.5,Conway,NC
+419,14337.5,North Myrtle Beach,SC
+420,14337.5,North Myrtle Beach,NC
+421,8558.0,Napa,CA
+422,13794.5,Naples,FL
+423,13794.5,Immokalee,FL
+424,13794.5,Marco Island,FL
+425,98731.0,Nashville,TN
+426,98731.0,Davidson,TN
+427,98731.0,,TN
+428,98731.0,Murfreesboro,TN
+429,98731.0,,TN
+430,98731.0,Franklin,TN
+431,4695.5,New Bern,NC
+432,40566.0,New Haven,CT
+433,40566.0,Milford,CT
+434,75112.0,New Orleans,LA
+435,75112.0,Metairie,LA
+436,1458138.0,New York,NY
+437,1458138.0,New York,NJ
+438,1458138.0,New York,PA
+439,1458138.0,Newark,NY
+440,1458138.0,Newark,NJ
+441,1458138.0,Newark,PA
+442,1458138.0,Jersey City,NY
+443,1458138.0,Jersey City,NJ
+444,1458138.0,Jersey City,PA
+445,6017.5,Niles,MI
+446,6017.5,Benton Harbor,MI
+447,24082.0,North Port,FL
+448,24082.0,Sarasota,FL
+449,24082.0,Bradenton,FL
+450,14513.0,Norwich,CT
+451,14513.0,New London,CT
+452,7115.5,Ocala,FL
+453,4568.5,Ocean City,NJ
+454,10558.0,Odessa,TX
+455,21273.5,Ogden,UT
+456,21273.5,Clearfield,UT
+457,65524.5,Oklahoma City,OK
+458,9840.0,Olympia,WA
+459,9840.0,Tumwater,WA
+460,53048.0,Omaha,NE
+461,53048.0,Omaha,IA
+462,53048.0,Council Bluffs,NE
+463,53048.0,Council Bluffs,IA
+464,109392.0,Orlando,FL
+465,109392.0,Kissimmee,FL
+466,109392.0,Sanford,FL
+467,8994.0,Oshkosh,WI
+468,8994.0,Neenah,WI
+469,5074.0,Owensboro,KY
+470,46643.5,Oxnard,CA
+471,46643.5,Thousand Oaks,CA
+472,46643.5,Ventura,CA
+473,17980.5,Palm Bay,FL
+474,17980.5,Melbourne,FL
+475,17980.5,Titusville,FL
+476,7286.5,Panama City,FL
+477,3850.0,Parkersburg,WV
+478,3850.0,Vienna,WV
+479,15500.5,Pensacola,FL
+480,15500.5,Ferry Pass,FL
+481,15500.5,Brent,FL
+482,21088.0,Peoria,IL
+483,379919.5,Philadelphia,PA
+484,379919.5,Philadelphia,NJ
+485,379919.5,Philadelphia,DE
+486,379919.5,Philadelphia,MD
+487,379919.5,Camden,PA
+488,379919.5,Camden,NJ
+489,379919.5,Camden,DE
+490,379919.5,Camden,MD
+491,379919.5,Wilmington,PA
+492,379919.5,Wilmington,NJ
+493,379919.5,Wilmington,DE
+494,379919.5,Wilmington,MD
+495,197750.5,Phoenix,AZ
+496,197750.5,Mesa,AZ
+497,197750.5,Scottsdale,AZ
+498,3188.5,Pine Bluff,AR
+499,124631.5,Pittsburgh,PA
+500,6169.5,Pittsfield,MA
+501,2510.0,Pocatello,ID
+502,26891.0,Portland,ME
+503,26891.0,South Portland,ME
+504,143840.5,Portland,OR
+505,143840.5,Portland,WA
+506,143840.5,Vancouver,OR
+507,143840.5,Vancouver,WA
+508,143840.5,Hillsboro,OR
+509,143840.5,Hillsboro,WA
+510,11564.0,Port St. Lucie,FL
+511,5028.5,Prescott,AZ
+512,71690.0,Providence,RI
+513,71690.0,Providence,MA
+514,71690.0,Warwick,RI
+515,71690.0,Warwick,MA
+516,17413.5,Provo,UT
+517,17413.5,Orem,UT
+518,4435.0,Pueblo,CO
+519,3372.0,Punta Gorda,FL
+520,7587.5,Racine,WI
+521,63574.5,Raleigh,NC
+522,5885.0,Rapid City,SD
+523,16312.5,Reading,PA
+524,5171.5,Redding,CA
+525,20142.5,Reno,NV
+526,68701.5,Richmond,VA
+527,124120.5,Riverside,CA
+528,124120.5,San Bernardino,CA
+529,124120.5,Ontario,CA
+530,13958.0,Roanoke,VA
+531,10574.5,Rochester,MN
+532,52490.0,Rochester,NY
+533,13712.0,Rockford,IL
+534,5993.0,Rocky Mount,NC
+535,3438.0,Rome,GA
+536,102352.5,Sacramento,CA
+538,102352.5,Roseville,CA
+540,102352.5,Arden,CA
+541,102352.5,Arcade,CA
+542,7553.0,Saginaw,MI
+543,8399.0,St. Cloud,MN
+544,3833.5,St. George,UT
+545,5460.5,St. Joseph,MO
+546,5460.5,St. Joseph,KS
+547,144260.0,St. Louis,MO
+548,144260.0,St. Louis,IL
+549,12922.5,Salem,OR
+550,19900.5,Salinas,CA
+551,14541.0,Salisbury,MD
+552,14541.0,Salisbury,DE
+553,70875.0,Salt Lake City,UT
+554,4659.0,San Angelo,TX
+555,97339.0,San Antonio,TX
+556,97339.0,New Braunfels,TX
+557,193693.0,San Diego,CA
+558,193693.0,Carlsbad,CA
+559,375801.0,San Francisco,CA
+560,375801.0,Oakland,CA
+561,375801.0,Hayward,CA
+562,187356.0,San Jose,CA
+563,187356.0,Sunnyvale,CA
+564,187356.0,Santa Clara,CA
+565,12574.5,San Luis Obispo,CA
+566,12574.5,Paso Robles,CA
+567,12574.5,Arroyo Grande,CA
+568,11280.5,Santa Cruz,CA
+569,11280.5,Watsonville,CA
+570,6800.0,Santa Fe,NM
+571,22404.0,Santa Maria,CA
+572,22404.0,Santa Barbara,CA
+573,22158.5,Santa Rosa,CA
+574,15066.5,Savannah,GA
+575,21199.5,Scranton,PA
+577,21199.5,Wilkes,PA
+578,21199.5,Barre,PA
+580,21199.5,Hazleton,PA
+581,273881.5,Seattle,WA
+582,273881.5,Tacoma,WA
+583,273881.5,Bellevue,WA
+584,4424.5,Sebastian,FL
+585,4424.5,Vero Beach,FL
+586,1982.0,Sebring,FL
+587,5462.0,Sheboygan,WI
+588,3845.5,Sherman,TX
+589,3845.5,Denison,TX
+590,21282.0,Shreveport,LA
+591,21282.0,Bossier City,LA
+592,4085.0,Sierra Vista,AZ
+593,4085.0,Douglas,AZ
+594,8416.5,Sioux City,IA
+595,8416.5,Sioux City,NE
+596,8416.5,Sioux City,SD
+597,15934.0,Sioux Falls,SD
+598,12446.5,South Bend,IN
+599,12446.5,South Bend,MI
+600,12446.5,Mishawaka,IN
+601,12446.5,Mishawaka,MI
+602,12320.5,Spartanburg,SC
+603,21393.5,Spokane,WA
+604,21393.5,Spokane Valley,WA
+605,9467.0,Springfield,IL
+606,24347.0,Springfield,MA
+607,16183.5,Springfield,MO
+608,4022.5,Springfield,OH
+609,7560.0,State College,PA
+610,4473.5,Staunton,VA
+611,4473.5,Waynesboro,VA
+612,22319.5,Stockton,CA
+613,22319.5,Lodi,CA
+614,3504.0,Sumter,SC
+615,30387.0,Syracuse,NY
+616,14043.0,Tallahassee,FL
+617,121708.5,Tampa,FL
+618,121708.5,St. Petersburg,FL
+619,121708.5,Clearwater,FL
+620,6337.5,Terre Haute,IN
+621,5004.5,Texarkana,TX
+622,5004.5,Texarkana,AR
+623,2113.5,The Villages,FL
+624,30095.5,Toledo,OH
+625,9827.5,Topeka,KS
+626,29374.0,Trenton,NJ
+627,36433.5,Tucson,AZ
+628,60214.0,Tulsa,OK
+629,11009.0,Tuscaloosa,AL
+630,3574.0,Twin Falls,ID
+631,14332.5,Tyler,TX
+632,56291.0,Urban Honolulu,HI
+633,10239.0,Utica,NY
+634,10239.0,Rome,NY
+635,4537.5,Valdosta,GA
+636,19073.0,Vallejo,CA
+637,19073.0,Fairfield,CA
+638,5174.5,Victoria,TX
+639,5293.5,Vineland,NJ
+640,5293.5,Bridgeton,NJ
+641,84949.5,Virginia Beach,VA
+642,84949.5,Virginia Beach,NC
+643,84949.5,Norfolk,VA
+644,84949.5,Norfolk,NC
+645,84949.5,Newport News,VA
+646,84949.5,Newport News,NC
+647,13687.0,Visalia,CA
+648,13687.0,Porterville,CA
+649,10019.5,Waco,TX
+650,2669.5,Walla Walla,WA
+651,6535.0,Warner Robins,GA
+652,456746.0,Washington,DC
+653,456746.0,Washington,VA
+654,456746.0,Washington,MD
+655,456746.0,Washington,WV
+656,456746.0,Arlington,DC
+657,456746.0,Arlington,VA
+658,456746.0,Arlington,MD
+659,456746.0,Arlington,WV
+660,456746.0,Alexandria,DC
+661,456746.0,Alexandria,VA
+662,456746.0,Alexandria,MD
+663,456746.0,Alexandria,WV
+664,8939.0,Waterloo,IA
+665,8939.0,Cedar Falls,IA
+666,6428.0,Watertown,NY
+667,6428.0,Fort Drum,NY
+668,6693.5,Wausau,WI
+669,3999.5,Weirton,WV
+670,3999.5,Weirton,OH
+671,3999.5,Steubenville,WV
+672,3999.5,Steubenville,OH
+673,4156.0,Wenatchee,WA
+674,6884.0,Wheeling,WV
+675,6884.0,Wheeling,OH
+676,29357.0,Wichita,KS
+677,7412.5,Wichita Falls,TX
+678,4834.5,Williamsport,PA
+679,11368.5,Wilmington,NC
+680,5600.5,Winchester,VA
+681,5600.5,Winchester,WV
+682,24742.5,Winston,NC
+683,24742.5,Salem,NC
+684,36964.0,Worcester,MA
+685,36964.0,Worcester,CT
+686,8752.0,Yakima,WA
+687,16668.5,York,PA
+688,16668.5,Hanover,PA
+689,19041.5,Youngstown,OH
+690,19041.5,Youngstown,PA
+691,19041.5,Warren,OH
+692,19041.5,Warren,PA
+693,19041.5,Boardman,OH
+694,19041.5,Boardman,PA
+587,5077.5,Yuba City,CA
+588,5837.5,Yuma,AZ

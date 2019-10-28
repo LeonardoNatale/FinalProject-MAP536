@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import holidays
 import datetime
-from service.holidays_manager import HolidaysManager
+from holidays_manager import HolidaysManager
 
 class ExternalDataGenerator():
 
@@ -57,12 +57,17 @@ class ExternalDataGenerator():
             left_on = 'AirPort',
             right_on = 'iata_code'
         )
-        self._Data = external_data.merge(
+        external_data = external_data.merge(
             gdp, 
             how = 'left', 
             left_on = ['iso_region', 'municipality'], 
             right_on = ['state', 'city']
         )
+
+        rm_cols = [col for col in external_data.columns if 'Unnamed' in col]
+
+        self._Data = external_data.drop(rm_cols, axis = 1)
+
 
     def _read_file(self, file_name):
         return pd.read_csv(os.path.join(self._path, self._data_dir, file_name))
@@ -83,3 +88,5 @@ class ExternalDataGenerator():
     def head(self, n = 10):
         return self._Data.head(n)
 
+# x = ExternalDataGenerator()
+# x._write_external_data()

@@ -1,0 +1,22 @@
+{
+    "problem_title" : "Number of air passengers prediction",
+    "target_column_name" : "log_PAX",
+    "train_f_name" : "train.csv.bz2",
+    "test_f_name" : "test.csv.bz2",
+    "external_data_model_columns" : [
+        "Date",
+        "AirPort",
+        "Mean TemperatureC",
+        "Mean Humidity",
+        "Mean Sea Level PressurehPa",
+        "Mean VisibilityKm",
+        "Mean Wind SpeedKm/h",
+        "CloudCover",
+        "Events",
+        "is_holiday",
+        "is_beginning_holiday",
+        "is_end_holiday",
+        "type",
+        "gdp"
+    ]
+}

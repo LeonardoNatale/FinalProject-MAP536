@@ -5,8 +5,9 @@ import rampwf as rw
 import holidays
 import datetime
 from sklearn.model_selection import ShuffleSplit
-from service.holidays_manager import HolidaysManager
-from service.external_data_generator import ExternalDataGenerator
+
+# from service.holidays_manager import HolidaysManager
+# from service.external_data_generator import ExternalDataGenerator
 
 problem_title = 'Number of air passengers prediction'
 _target_column_name = 'log_PAX'
@@ -52,20 +53,21 @@ def get_test_data(path='.'):
     return _read_data(path, f_name)
 
 
-def generate_external_data(path = '.'):
-    """
-    This function returns the external data that 
-    is going to be used for the model.
-    """
-    weather_f_name = 'weather_data.csv'
-    airports_f_name = 'airport-codes.csv'
-    gdp_f_name = 'gdp.csv'
-    external_data_f_name = 'external_data.csv'
+# def generate_external_data(path = '.'):
+#     """
+#     This function returns the external data that 
+#     is going to be used for the model.
+#     """
+#     weather_f_name = 'weather_data.csv'
+#     airports_f_name = 'airport-codes.csv'
+#     gdp_f_name = 'gdp.csv'
+#     external_data_f_name = 'external_data.csv'
 
-    # TODO make the external data generator dependent on the submission
-    # by creating a config file containing all the infos about the submission.
-    dg = ExternalDataGenerator()
-    dg._generate_external_data()
-    print(dg.head())
+#     # TODO make the external data generator dependent on the submission
+#     # by creating a config file containing all the infos about the submission.
+#     dg = ExternalDataGenerator()
+#     dg._generate_external_data()
+#     dg._write_external_data()
+#     print(dg.head())
 
-generate_external_data()
+# generate_external_data()
