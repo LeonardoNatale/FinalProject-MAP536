@@ -1,6 +1,7 @@
 import os, json
 from sklearn.pipeline import Pipeline
 from model_optimizer import ModelOptimizer
+from data_manager import DataManager
 
 class Model():
 
@@ -14,7 +15,8 @@ class Model():
         self._model_name_lower = self._model_name.lower()
         self._is_optimized = False
         self._optimal_params = None
-
+        self._dm = DataManager()
+        
         f = os.path.join(
             Model.Optimizable_parameters_path,
             Model.Optimizable_parameters_dir,
@@ -60,9 +62,15 @@ class Model():
         print(f'Optimizing model : {self._model_name}...')
         if self._pipeline != None :
             mo = ModelOptimizer(self)
-            self._optimal_params = mo.CV()
+            self._optimal_params = mo.CV(self._dm._train_X, self._dm._train_y)
             self._pipeline.set_params(**self._optimal_params)
             self._is_optimized = True
             print('Optimization finished.')
         else:
             raise ValueError('No pipeline is set up, nothing to optimize.')
+
+    # TODO make this work, problem with the number of features. Why?
+    # def fit(self) :
+    #     print(f'Fitting training data for model {self._model_name}...')
+    #     self._pipeline.fit(X = self._dm._train_X, y = self._dm._train_y)
+    #     print(self._pipeline.score(X = self._dm._test_X, y = self._dm._test_y))

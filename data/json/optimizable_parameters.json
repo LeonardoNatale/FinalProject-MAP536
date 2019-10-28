@@ -9,14 +9,14 @@
                 "law" : "randint",
                 "kwargs" : {
                     "low" : 10, 
-                    "high" :100
+                    "high" :30
                 }
             },
             "max_depth" : {
                 "law" : "randint",
                 "kwargs" : {
                     "low" : 10, 
-                    "high" :100
+                    "high" :30
                 }
             }
         }

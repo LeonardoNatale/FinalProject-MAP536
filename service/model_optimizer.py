@@ -4,8 +4,6 @@ import scipy.stats
 import pandas as pd
 from sklearn.model_selection import RandomizedSearchCV
 
-from data_manager import DataManager
-
 # TODO Would be nice to create a Model class which contains
 # the model and uses this class to optimize it.
 # I.e. get rid of make_pipeline method and create a specific class.
@@ -19,10 +17,8 @@ class ModelOptimizer():
     def __init__(self, model):
         self._model = model
         self._pipeline = model._pipeline
-        # Creatign a problem object to get the parameters.
-        self._dm = DataManager()
         
-    def CV(self) :
+    def CV(self, X, y) :
         """
         For every parameter specified in the `optimizable_parameters` field
         of the json, we create a RandomizedSearchCV with the given params
@@ -44,5 +40,5 @@ class ModelOptimizer():
             n_jobs=4, 
             cv=5
         )
-        model_grid_search.fit(self._dm._train_X, self._dm._train_y)
+        model_grid_search.fit(X, y)
         return model_grid_search.best_params_

@@ -11,7 +11,8 @@ class DataManager():
         self._train_X, self._train_y = self._read_train_data()
         self._test_X, self._test_y = self._read_test_data()
         self._set_external_data()
-        self.transform()
+        self._train_X = self.transform(self._train_X)
+        self._test_X = self.transform(self._test_X)
         
 
     def _read_data(self, path, f_name):
@@ -43,11 +44,11 @@ class DataManager():
         edg = ExternalDataGenerator()
         self._external_data = edg.get_data()
 
-    def transform(self) :
+    def transform(self, data) :
         """
         Data reformatter, making the data ready for model fitting.
         """
-        new_X = self._train_X
+        new_X = data
 
         # We keep only the columns that are relevant for our model.
         external_data = self._external_data.filter(
@@ -85,4 +86,4 @@ class DataManager():
             )
             new_X.drop(key, axis = 1, inplace = True)
 
-        self._train_X = new_X
+        return new_X
