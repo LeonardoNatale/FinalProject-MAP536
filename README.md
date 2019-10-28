@@ -2,7 +2,7 @@
 
 [More information here](https://ramp.r0h.eu/problems/air_passengers)
 
-## How to optimize the hyperparameters of a model automatically?
+## Optimizing the hyperparameters of a model automatically
 
 If you want to optimize some hyperparameters of a model, follow these steps :
 

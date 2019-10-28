@@ -12,7 +12,6 @@ class Model():
         self._model = sk_model
         self._model_name = self._model.__name__
         self._model_name_lower = self._model_name.lower()
-        print(f'Model : {self._model}\nName : {self._model_name}')
         self._is_optimized = False
         self._optimal_params = None
 
@@ -50,11 +49,20 @@ class Model():
         else :
             raise ValueError('Model has not been optimized, could not find optimal values.')
 
+    def get_optimal_model(self) :
+        if self._is_optimized :
+            return self._pipeline
+        else :
+            raise ValueError('Model has not been optimized.')
+
+
     def optimize_model(self):
+        print(f'Optimizing model : {self._model_name}...')
         if self._pipeline != None :
             mo = ModelOptimizer(self)
             self._optimal_params = mo.CV()
             self._pipeline.set_params(**self._optimal_params)
             self._is_optimized = True
+            print('Optimization finished.')
         else:
             raise ValueError('No pipeline is set up, nothing to optimize.')
