@@ -18,7 +18,7 @@ class ModelOptimizer():
         self._model = model
         self._pipeline = model._pipeline
     
-    def grid_search_optimize(self, X, y) :
+    def grid_search_optimize(self, X, y, grid_opt_param) :
         # TODO update documentation
         """
         For every parameter specified in the `optimizable_parameters` field
@@ -26,7 +26,6 @@ class ModelOptimizer():
         to which we associate the given distribution.
         The output is the optimal value of the parameters for the model.
         """
-        grid_opt_param = self._model.get_grid_optimizable_parameters()
         grid_params = {
             self._model._model_name_lower + '__' + str(key) : val 
             for key, val in grid_opt_param.items()
@@ -42,7 +41,7 @@ class ModelOptimizer():
         model_grid_search.fit(X, y)
         return model_grid_search.best_params_
 
-    def random_search_optimize(self, X, y) :
+    def random_search_optimize(self, X, y, random_opt_param) :
         # TODO update documentation
         """
         For every parameter specified in the `optimizable_parameters` field
@@ -50,7 +49,6 @@ class ModelOptimizer():
         to which we associate the given distribution.
         The output is the optimal value of the parameters for the model.
         """
-        random_opt_param = self._model.get_random_optimizable_parameters()
         distributions = {
             self._model._model_name_lower + '__' + str(key) : 
             getattr(scipy.stats, val['law'])(**val['kwargs'])  

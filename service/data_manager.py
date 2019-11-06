@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-from problem_manager import Problem
-from external_data_generator import ExternalDataGenerator
+from service.problem_manager import Problem
+from service.external_data_generator import ExternalDataGenerator
 
 class DataManager():
 
@@ -11,9 +11,7 @@ class DataManager():
         self._train_X, self._train_y = self._read_train_data()
         self._test_X, self._test_y = self._read_test_data()
         self._set_external_data()
-        self._train_X = self.transform(self._train_X)
-        self._test_X = self.transform(self._test_X)
-        
+        self.transform()
 
     def _read_data(self, path, f_name):
         """
@@ -44,11 +42,16 @@ class DataManager():
         edg = ExternalDataGenerator()
         self._external_data = edg.get_data()
 
-    def transform(self, data) :
+    def transform(self) :
         """
         Data reformatter, making the data ready for model fitting.
         """
-        new_X = data
+        train_X = self._train_X
+        train_X['label'] = 'train'
+        test_X = self._test_X
+        test_X['label'] = 'test'
+        
+        new_X = pd.concat([train_X , test_X])
 
         # We keep only the columns that are relevant for our model.
         external_data = self._external_data.filter(
@@ -86,4 +89,6 @@ class DataManager():
             )
             new_X.drop(key, axis = 1, inplace = True)
 
-        return new_X
+        self._train_X = new_X[new_X['label'] == 'train'].drop('label', axis = 1)
+        self._test_X = new_X[new_X['label'] == 'test'].drop('label', axis = 1)
+        return

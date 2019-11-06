@@ -20,9 +20,25 @@
                         "high" :30
                     }
                 }    
+            }
+        }
+    },
+    "Ridge" : {
+        "fixed_parameters" : {
+            "tol" : 1e-3
+        },
+        "optimizable_parameters" : {
+            "RandomSearch" :{
+                "alpha" : {
+                    "law" : "uniform",
+                    "kwargs" : {
+                        "loc" : 1, 
+                        "scale" : 20
+                    }
+                }  
             },
             "GridSearch" : {
-                "criterion" : ["mse", "mae"]
+                "solver" : ["svd", "cholesky", "lsqr"]
             }
         }
     },

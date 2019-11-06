@@ -5,21 +5,15 @@ from sklearn.svm import SVR
 from sklearn.gaussian_process import GaussianProcessRegressor
 import pandas as pd
 
+from service.model import Model
+
+import os
+
 class Regressor(BaseEstimator):
     def __init__(self):
-        self.reg = {
-            'RandomForest' : RandomForestRegressor(
-                n_estimators = 20, 
-                max_depth = 50,
-                max_features = 10
-            ),
-            'Ridge' : Ridge(),
-            'Lasso' : Lasso(),
-            'ElasticNet' : ElasticNet(),
-            'SVM' : SVR()
-
-        }
-
+        m = Model(RandomForestRegressor)
+        m.load_from_file()
+        self.reg = {'RF' : m._pipeline}
 
     def fit(self, X, y):
         for regressor in self.reg.values():

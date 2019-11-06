@@ -1,7 +1,7 @@
 import os
 import json
 import pandas as pd
-from external_data_generator import ExternalDataGenerator
+from service.external_data_generator import ExternalDataGenerator
 
 class Problem():
     

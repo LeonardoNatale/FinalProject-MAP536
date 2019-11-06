@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import holidays
 import datetime
-from holidays_manager import HolidaysManager
+from service.holidays_manager import HolidaysManager
 
 class ExternalDataGenerator():
 

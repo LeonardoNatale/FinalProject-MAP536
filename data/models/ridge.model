@@ -1,0 +1,1 @@
+{"fixed": {"tol": 0.001}, "opt": {"ridge__alpha": 4.084094140229285, "ridge__solver": "cholesky"}}
