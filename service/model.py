@@ -14,7 +14,7 @@ class Model():
         self._model_name = self._model.__name__
         self._model_name_lower = self._model_name.lower()
         self._is_optimized = False
-        self._optimal_params = None
+        self._optimal_params = {}
         self._dm = DataManager()
         
         f = os.path.join(
@@ -29,8 +29,12 @@ class Model():
         self._fixed_parameters = parameters[self._model_name]["fixed_parameters"]
         self.build_pipeline()
         
-    def get_optimizable_parameters(self):
-        return self._optimizable_parameters
+    def get_random_optimizable_parameters(self):
+        return self._optimizable_parameters['RandomSearch']
+
+    def get_grid_optimizable_parameters(self):
+        return self._optimizable_parameters['GridSearch']
+
 
     def get_fixed_parameters(self):
         return self._fixed_parameters
@@ -62,7 +66,9 @@ class Model():
         print(f'Optimizing model : {self._model_name}...')
         if self._pipeline != None :
             mo = ModelOptimizer(self)
-            self._optimal_params = mo.CV(self._dm._train_X, self._dm._train_y)
+            self._optimal_params.update(mo.random_search_optimize(self._dm._train_X, self._dm._train_y))
+            self._pipeline.set_params(**self._optimal_params)
+            self._optimal_params.update(mo.grid_search_optimize(self._dm._train_X, self._dm._train_y))
             self._pipeline.set_params(**self._optimal_params)
             self._is_optimized = True
             print('Optimization finished.')
