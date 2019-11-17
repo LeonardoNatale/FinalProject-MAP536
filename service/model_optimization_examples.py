@@ -1,5 +1,5 @@
 import json
-from service.model import Model
+from model import Model
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
@@ -27,6 +27,8 @@ print(x.get_optimal_parameters())
 print(x.get_optimal_model())
 
 x.fit()
+
+print(x.predict())
 
 x.save_model()
 

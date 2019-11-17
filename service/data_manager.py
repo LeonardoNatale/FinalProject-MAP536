@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-from service.problem_manager import Problem
-from service.external_data_generator import ExternalDataGenerator
+from problem_manager import Problem
+from external_data_generator import ExternalDataGenerator
 
 class DataManager():
 

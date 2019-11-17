@@ -11,9 +11,9 @@ import os
 
 class Regressor(BaseEstimator):
     def __init__(self):
-        m = Model(RandomForestRegressor)
+        m = Model(Ridge)
         m.load_from_file()
-        self.reg = {'RF' : m._pipeline}
+        self.reg = {'R' : m._pipeline}
 
     def fit(self, X, y):
         for regressor in self.reg.values():

@@ -1,9 +1,10 @@
 import os
 import json
 from sklearn.pipeline import Pipeline
-from service.model_optimizer import ModelOptimizer
-from service.data_manager import DataManager
+from model_optimizer import ModelOptimizer
+from data_manager import DataManager
 
+from sklearn.exceptions import NotFittedError
 
 class Model():
 
@@ -19,7 +20,6 @@ class Model():
         self._is_optimized = False
         self._optimal_params = {}
         self._dm = DataManager()
-
         f = os.path.join(
             Model.Optimizable_parameters_path,
             Model.Optimizable_parameters_dir,
@@ -53,7 +53,7 @@ class Model():
         self.build_pipeline()
         self._optimal_params = params['opt']
         self.update_model()
-        
+        self._is_optimized = True
 
     def get_fixed_parameters(self):
         return self._fixed_parameters
@@ -84,34 +84,37 @@ class Model():
     def update_model(self) :
         self._pipeline.set_params(**self._optimal_params)
 
-    def optimize_model(self):
-        print(f'Optimizing model : {self._model_name}...')
-        if self._pipeline != None:
-            mo = ModelOptimizer(self)
-            # Checking that the dict is not empty
-            if self._ramdom_opt_params :
-                self._optimal_params.update(
-                    mo.random_search_optimize(
-                        self._dm._train_X,
-                        self._dm._train_y, 
-                        self._ramdom_opt_params
+    def optimize_model(self, force = False):
+        if self._is_optimized and not force :
+            print(f'Model {self._model_name} is already optimized, doing nothing, use force = True to force reoptimization.') 
+        else :
+            print(f'Optimizing model : {self._model_name}...')
+            if self._pipeline != None:
+                mo = ModelOptimizer(self)
+                # Checking that the dict is not empty
+                if self._ramdom_opt_params :
+                    self._optimal_params.update(
+                        mo.random_search_optimize(
+                            self._dm._train_X,
+                            self._dm._train_y, 
+                            self._ramdom_opt_params
+                        )
                     )
-                )
-                self.update_model()
-            # Checking that the dict is not empty
-            if self._grid_opt_params :
-                self._optimal_params.update(
-                    mo.grid_search_optimize(
-                        self._dm._train_X,
-                        self._dm._train_y,
-                        self._grid_opt_params
+                    self.update_model()
+                # Checking that the dict is not empty
+                if self._grid_opt_params :
+                    self._optimal_params.update(
+                        mo.grid_search_optimize(
+                            self._dm._train_X,
+                            self._dm._train_y,
+                            self._grid_opt_params
+                        )
                     )
-                )
-                self.update_model()
-            self._is_optimized = True
-            print('Optimization finished.')
-        else:
-            raise ValueError('No pipeline is set up, nothing to optimize.')
+                    self.update_model()
+                self._is_optimized = True
+                print('Optimization finished.')
+            else:
+                raise ValueError('No pipeline is set up, nothing to optimize.')
 
     def save_model(self) :
         model_params = {
@@ -127,6 +130,16 @@ class Model():
             json.dump(model_params, f)
 
     def fit(self) :
+        if not self._is_optimized :
+            print(f'Running a fit on a non optimized model : {self._model_name}')
         print(f'Fitting training data for model {self._model_name}...')
         self._pipeline.fit(X = self._dm._train_X, y = self._dm._train_y)
         print(self._pipeline.score(X = self._dm._test_X, y = self._dm._test_y))
+
+    def predict(self):
+        try :
+            pred = self._pipeline.predict(self._dm._test_X)
+        except NotFittedError as e:
+            print(f'Model {self._model_name} not fitted. {e}')
+            return None
+        return pred 
