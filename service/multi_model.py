@@ -75,6 +75,7 @@ class MultiModel():
     def score(self, reduce_pred = True):
         self.check_all_optimized()
         pred = self.predict(reduce_pred)
+        
 
 
 
