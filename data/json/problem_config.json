@@ -17,6 +17,7 @@
         "is_beginning_holiday",
         "is_end_holiday",
         "type",
-        "gdp"
+        "gdp",
+        "coordinates"
     ]
 }

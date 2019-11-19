@@ -27,10 +27,10 @@ print(x.get_optimal_parameters())
 print(x.get_optimal_model())
 
 x.fit()
-
+x.r2_score()
 print(x.predict())
 
-x.save_model()
+# x.save_model()
 
 
 # Takes long to run

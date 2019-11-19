@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import geopy.distance
 
 from problem_manager import Problem
 from external_data_generator import ExternalDataGenerator
@@ -7,6 +8,7 @@ from external_data_generator import ExternalDataGenerator
 class DataManager():
 
     def __init__(self):
+        print('Initializing data manager...')
         self._problem = Problem()
         self._train_X, self._train_y = self._read_train_data()
         self._test_X, self._test_y = self._read_test_data()
@@ -39,13 +41,42 @@ class DataManager():
         return self._read_data(path, self._problem.get_test_f_name())
 
     def _set_external_data(self) :
-        edg = ExternalDataGenerator()
+        print("Retrieving external_data...")
+        edg = ExternalDataGenerator(read_only = True)
         self._external_data = edg.get_data()
+
+    def suffix_join(self, X, additional, suffix, col) :
+        additional.columns += suffix
+
+        # Renaming in order to join.
+        additional = additional.rename(
+            columns={
+                'Date' + suffix : 'DateOfDeparture', 
+                'AirPort' + suffix : col
+            }
+        )
+        
+        new_X = pd.merge(
+            X, additional, how='left',
+            left_on=['DateOfDeparture', col],
+            right_on=['DateOfDeparture', col],
+            sort=False
+        )
+
+        additional.columns = additional.columns.str.replace(suffix, '')
+        additional = additional.rename(
+            columns={
+                'DateOfDeparture' : 'Date', 
+                col : 'AirPort'
+            }
+        )
+        return new_X, additional
 
     def transform(self) :
         """
         Data reformatter, making the data ready for model fitting.
         """
+        print("Transforming data...")
         train_X = self._train_X
         train_X['label'] = 'train'
         test_X = self._test_X
@@ -58,22 +89,35 @@ class DataManager():
             self._problem.get_ed_model_columns()
         )
         
-        # Renaming in order to join.
-        external_data = external_data.rename(
-            columns={'Date': 'DateOfDeparture', 'AirPort': 'Arrival'})
+        
+        new_X, external_data = self.suffix_join(new_X, external_data, '_dep', 'Departure')
+        new_X, external_data = self.suffix_join(new_X, external_data, '_arr', 'Arrival')
 
-        new_X = pd.merge(
-            new_X, external_data, how='left',
-            left_on=['DateOfDeparture', 'Arrival'],
-            right_on=['DateOfDeparture', 'Arrival'],
-            sort=False)
+        # Distanc between 2 airports 
+        dep_coords = list(
+            zip(
+                new_X.loc[:, 'coordinates_dep'].apply(lambda x: float(x.split(", ")[0])),
+                new_X.loc[:, 'coordinates_dep'].apply(lambda x: float(x.split(", ")[1]))
+            )
+        )
 
-        new_X.drop('DateOfDeparture', axis = 1, inplace = True)
+        arr_coords = list(
+            zip(
+                new_X.loc[:, 'coordinates_arr'].apply(lambda x: float(x.split(", ")[0])),
+                new_X.loc[:, 'coordinates_arr'].apply(lambda x: float(x.split(", ")[1]))
+            )
+        )
+        
+        new_X.loc[:, 'distance'] = [geopy.distance.distance(dep, arr).km for dep, arr in zip(dep_coords, arr_coords)]
+
+        new_X.drop(['DateOfDeparture', 'coordinates_dep', 'coordinates_arr'], axis = 1, inplace = True)
 
         # Creating dummy variables.
         to_dumify = {
-            'Events' : 'e',
-            'type' : 't',
+            'Events_dep' : 'e_d',
+            'type_dep' : 't_d',
+            'Events_arr' : 'e_a',
+            'type_arr' : 't_a',
             'Departure' : 'd',
             'Arrival' : 'a'
         }

@@ -23,7 +23,23 @@
             }
         }
     },
-    "Ridge" : {
+    "Lasso" : {
+        "fixed_parameters" : {
+            "tol" : 1e-3
+        },
+        "optimizable_parameters" : {
+            "RandomSearch" :{
+                "alpha" : {
+                    "law" : "uniform",
+                    "kwargs" : {
+                        "loc" : 1, 
+                        "scale" : 20
+                    }
+                }  
+            },
+            "GridSearch" : {}
+        }
+    },"Ridge" : {
         "fixed_parameters" : {
             "tol" : 1e-3
         },
@@ -56,5 +72,9 @@
                 }
             }
         }
+    },
+    "LinearRegression" : {
+        "fixed_parameters" : {},
+        "optimizable_parameters" : {}
     }
 }

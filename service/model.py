@@ -13,13 +13,13 @@ class Model():
     Model_save_dir = 'data/models'
     Optimizable_parameters_f_name = 'optimizable_parameters.json'
 
-    def __init__(self, sk_model):
+    def __init__(self, sk_model, dm = DataManager()):
         self._model = sk_model
         self._model_name = self._model.__name__
         self._model_name_lower = self._model_name.lower()
         self._is_optimized = False
         self._optimal_params = {}
-        self._dm = DataManager()
+        self._dm = dm
         f = os.path.join(
             Model.Optimizable_parameters_path,
             Model.Optimizable_parameters_dir,
@@ -134,7 +134,10 @@ class Model():
             print(f'Running a fit on a non optimized model : {self._model_name}')
         print(f'Fitting training data for model {self._model_name}...')
         self._pipeline.fit(X = self._dm._train_X, y = self._dm._train_y)
-        print(self._pipeline.score(X = self._dm._test_X, y = self._dm._test_y))
+        
+    def r2_score(self):
+        test_score = self._pipeline.score(X = self._dm._test_X, y = self._dm._test_y)
+        print(f'R^2 coefficient : {test_score}')
 
     def predict(self):
         try :

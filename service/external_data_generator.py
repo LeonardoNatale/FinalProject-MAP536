@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import holidays
+import json
 import datetime
 from holidays_manager import HolidaysManager
 
@@ -17,20 +18,27 @@ class ExternalDataGenerator():
             'airports' : 'airport-codes.csv',
             'gdp' : 'gdp.csv',
             'external_data' : 'external_data.csv'
-        }
+        },
+        read_only = False
     ) :
         self._path = path
         self._data_dir = data_dir
         self._submission = submission
         self._submissions_dir = submissions_dir
-        self._Data = None
         self._f_names = f_names
+        
+        
+        with open('./data/json/problem_config.json', 'r') as f:
+            config = json.load(f)
 
-        # Should we call the generation of the data right away?
-        self._generate_external_data()
-        # What about the writing to the disk
-        # self._write_external_data(self._f_names['external_data'])
+        self._ed_model_columns = config['external_data_model_columns']
 
+        if read_only :
+            self._Data = self._read_external_data()
+        else :
+            self._Data = None
+            self._generate_external_data()
+        
     def _generate_external_data(self) :
         # Reading external sources of data.
         weather = self._read_file(self._f_names['weather'])
@@ -67,16 +75,29 @@ class ExternalDataGenerator():
         rm_cols = [col for col in external_data.columns if 'Unnamed' in col]
 
         self._Data = external_data.drop(rm_cols, axis = 1)
+        self._Data = external_data.filter(
+            self._ed_model_columns
+        )
 
 
     def _read_file(self, file_name):
         return pd.read_csv(os.path.join(self._path, self._data_dir, file_name))
 
-    def _write_external_data(self, file_name = 'external_data.csv'):
+    def _read_external_data(self) :
+        return pd.read_csv(
+            os.path.join(
+                self._path, 
+                self._submissions_dir, 
+                self._submission, 
+                self._f_names['external_data']
+            )
+        )
+    def _write_external_data(self):
         self._Data.to_csv(os.path.join(
             self._path, 
             self._submissions_dir, 
-            self._submission, file_name
+            self._submission, 
+            self._f_names['external_data']
         ))
 
     def get_data(self) :
