@@ -6,8 +6,7 @@ import holidays
 import datetime
 from sklearn.model_selection import ShuffleSplit
 
-# from service.holidays_manager import HolidaysManager
-# from service.external_data_generator import ExternalDataGenerator
+from Service.data_manager import DataManager
 
 problem_title = 'Number of air passengers prediction'
 _target_column_name = 'log_PAX'
@@ -42,13 +41,16 @@ def get_train_data(path='.'):
     """
     Returns the training data for the model.
     """
+    dm = DataManager()
     f_name = 'train.csv.bz2'
-    return _read_data(path, f_name)
-
+    x, y = _read_data(path, f_name)
+    return dm.append_to_data(x), y
 
 def get_test_data(path='.'):
     """
     Returns the testing data for the model.
     """
+    dm = DataManager()
     f_name = 'test.csv.bz2'
-    return _read_data(path, f_name)
+    x, y = _read_data(path, f_name)
+    return dm.append_to_data(x), y

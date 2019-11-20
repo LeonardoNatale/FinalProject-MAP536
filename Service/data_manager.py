@@ -7,7 +7,7 @@ from Service.external_data_generator import ExternalDataGenerator
 
 class DataManager:
 
-    def __init__(self, x=None):
+    def __init__(self):
         self._problem = Problem()
         self._set_external_data()
         print('Initializing data manager...')
@@ -22,9 +22,6 @@ class DataManager:
 
         self.transform()
 
-        if x is not None:
-            self.__other_x = x
-
     def get_test_X(self):
         return self.__test_X
 
@@ -36,9 +33,6 @@ class DataManager:
 
     def get_train_y(self):
         return self.__train_y
-
-    def get_other_x(self):
-        return self.__other_x
 
     def _read_data(self, path, f_name):
         """

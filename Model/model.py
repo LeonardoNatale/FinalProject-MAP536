@@ -37,6 +37,9 @@ class Model:
         self._fixed_parameters = fixed_parameters
         self.build_pipeline()
 
+    def get_pipeline(self):
+        return self._pipeline
+
     def load_from_file(self):
         with open(os.path.join(
                 Model.Optimizable_parameters_path,

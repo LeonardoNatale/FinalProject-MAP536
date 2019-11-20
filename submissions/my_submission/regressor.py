@@ -11,11 +11,10 @@ class Regressor(BaseEstimator):
     def __init__(self):
         m = Model(HistGradientBoostingRegressor)
         m.load_from_file()
-        self.reg = m._pipeline
+        self.reg = m.get_pipeline()
 
     def fit(self, X, y):
         self.reg.fit(X, y)
-
 
     def predict(self, X):
         return self.reg.predict(X)
