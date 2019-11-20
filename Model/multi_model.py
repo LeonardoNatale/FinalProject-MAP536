@@ -14,6 +14,7 @@ class MultiModel:
         print('Initializing mulitimodel...')
         self._dm = DataManager()
         self._models = []
+        init_str = ''
         if isinstance(models, list):
             init_str = [mod.__name__ for mod in models]
             for model in models:
