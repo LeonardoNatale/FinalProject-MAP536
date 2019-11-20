@@ -1,25 +1,26 @@
 import os
 import json
 from sklearn.pipeline import Pipeline
-from model_optimizer import ModelOptimizer
-from data_manager import DataManager
+from Service.model_optimizer import ModelOptimizer
+from Service.data_manager import DataManager
 
 from sklearn.exceptions import NotFittedError
 
-class Model():
 
+class Model:
     Optimizable_parameters_path = '.'
     Optimizable_parameters_dir = 'data/json'
     Model_save_dir = 'data/models'
     Optimizable_parameters_f_name = 'optimizable_parameters.json'
 
-    def __init__(self, sk_model, dm = DataManager()):
+    def __init__(self, sk_model, dm=DataManager()):
         self._model = sk_model
         self._model_name = self._model.__name__
         self._model_name_lower = self._model_name.lower()
         self._is_optimized = False
         self._optimal_params = {}
         self._dm = dm
+        self._pipeline = None
         f = os.path.join(
             Model.Optimizable_parameters_path,
             Model.Optimizable_parameters_dir,
@@ -29,23 +30,23 @@ class Model():
             parameters = json.load(params)
 
         optimizable_parameters = parameters[self._model_name]["optimizable_parameters"]
-        if('RandomSearch' in optimizable_parameters.keys()) :
-            self._ramdom_opt_params = optimizable_parameters['RandomSearch']
-        else :
-            self._ramdom_opt_params = {}
-        if('GridSearch' in optimizable_parameters.keys()) :
+        if 'RandomSearch' in optimizable_parameters.keys():
+            self._random_opt_params = optimizable_parameters['RandomSearch']
+        else:
+            self._random_opt_params = {}
+        if 'GridSearch' in optimizable_parameters.keys():
             self._grid_opt_params = optimizable_parameters['GridSearch']
-        else :
+        else:
             self._grid_opt_params = {}
-        
+
         self._fixed_parameters = parameters[self._model_name]["fixed_parameters"]
         self.build_pipeline()
 
     def load_from_file(self):
         with open(os.path.join(
-            Model.Optimizable_parameters_path,
-            Model.Model_save_dir,
-            self._model_name_lower + '.model'
+                Model.Optimizable_parameters_path,
+                Model.Model_save_dir,
+                self._model_name_lower + '.model'
         ), 'r') as f:
             params = json.load(f)
 
@@ -81,28 +82,29 @@ class Model():
         else:
             raise ValueError('Model has not been optimized.')
 
-    def update_model(self) :
+    def update_model(self):
         self._pipeline.set_params(**self._optimal_params)
 
-    def optimize_model(self, force = False):
-        if self._is_optimized and not force :
-            print(f'Model {self._model_name} is already optimized, doing nothing, use force = True to force reoptimization.') 
-        else :
+    def optimize_model(self, force=False):
+        if self._is_optimized and not force:
+            print(
+                f'Model {self._model_name} is already optimized, doing nothing, use force = True to force reoptimization.')
+        else:
             print(f'Optimizing model : {self._model_name}...')
-            if self._pipeline != None:
+            if self._pipeline is not None:
                 mo = ModelOptimizer(self)
                 # Checking that the dict is not empty
-                if self._ramdom_opt_params :
+                if self._random_opt_params:
                     self._optimal_params.update(
                         mo.random_search_optimize(
                             self._dm._train_X,
-                            self._dm._train_y, 
-                            self._ramdom_opt_params
+                            self._dm._train_y,
+                            self._random_opt_params
                         )
                     )
                     self.update_model()
                 # Checking that the dict is not empty
-                if self._grid_opt_params :
+                if self._grid_opt_params:
                     self._optimal_params.update(
                         mo.grid_search_optimize(
                             self._dm._train_X,
@@ -116,33 +118,33 @@ class Model():
             else:
                 raise ValueError('No pipeline is set up, nothing to optimize.')
 
-    def save_model(self) :
+    def save_model(self):
         model_params = {
-            'fixed' : self._fixed_parameters,
-            'opt' : self._optimal_params
+            'fixed': self._fixed_parameters,
+            'opt': self._optimal_params
         }
-        
+
         with open(os.path.join(
-            Model.Optimizable_parameters_path,
-            Model.Model_save_dir,
-            self._model_name_lower + '.model'
+                Model.Optimizable_parameters_path,
+                Model.Model_save_dir,
+                self._model_name_lower + '.model'
         ), 'w') as f:
             json.dump(model_params, f)
 
-    def fit(self) :
-        if not self._is_optimized :
+    def fit(self):
+        if not self._is_optimized:
             print(f'Running a fit on a non optimized model : {self._model_name}')
         print(f'Fitting training data for model {self._model_name}...')
-        self._pipeline.fit(X = self._dm._train_X, y = self._dm._train_y)
-        
+        self._pipeline.fit(X=self._dm._train_X, y=self._dm._train_y)
+
     def r2_score(self):
-        test_score = self._pipeline.score(X = self._dm._test_X, y = self._dm._test_y)
+        test_score = self._pipeline.score(X=self._dm._test_X, y=self._dm._test_y)
         print(f'R^2 coefficient : {test_score}')
 
     def predict(self):
-        try :
+        try:
             pred = self._pipeline.predict(self._dm._test_X)
         except NotFittedError as e:
             print(f'Model {self._model_name} not fitted. {e}')
             return None
-        return pred 
+        return pred

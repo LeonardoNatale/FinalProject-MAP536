@@ -1,13 +1,9 @@
-from sklearn.ensemble import RandomForestRegressor
 from sklearn.base import BaseEstimator
-from sklearn.linear_model import Ridge, Lasso, ElasticNet
-from sklearn.svm import SVR
-from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.linear_model import Ridge
 import pandas as pd
 
-from service.model import Model
+from Model.model import Model
 
-import os
 
 class Regressor(BaseEstimator):
     def __init__(self):

@@ -1,5 +1,5 @@
 import json
-from model import Model
+from Model.model import Model
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression

@@ -1,14 +1,12 @@
 import os
 import json
-import pandas as pd
-from external_data_generator import ExternalDataGenerator
 
-class Problem():
-    
+
+class Problem:
     _problem_path = '.'
     _problem_dir = 'data/json'
     _problem_f_name = 'problem_config.json'
-    
+
     def __init__(self):
         full_path = os.path.join(
             Problem._problem_path,
@@ -22,8 +20,8 @@ class Problem():
         self._train_f_name = config['train_f_name']
         self._test_f_name = config['test_f_name']
         self._ed_model_columns = config['external_data_model_columns']
-        
-    def get_target_column_name(self) :
+
+    def get_target_column_name(self):
         return self._target_column_name
 
     def get_train_f_name(self):
@@ -34,4 +32,3 @@ class Problem():
 
     def get_ed_model_columns(self):
         return self._ed_model_columns
-    

@@ -2,7 +2,8 @@ import holidays
 import datetime
 import pandas as pd
 
-class HolidaysManager():
+
+class HolidaysManager:
 
     def __init__(self, date):
         if isinstance(date, datetime.datetime):
@@ -23,15 +24,13 @@ class HolidaysManager():
         """
         return self._date in holidays.US()
 
-
     def _is_beginning_holiday(self):
         """
         Returns True is the day is a holiday and if the day 
         before is not.
         """
         return self._is_holiday() and \
-        not self._date - datetime.timedelta(days=1) in holidays.US()
-
+               not self._date - datetime.timedelta(days=1) in holidays.US()
 
     def _is_end_holiday(self):
         """
@@ -39,4 +38,4 @@ class HolidaysManager():
         after is not.
         """
         return self._is_holiday() and \
-        not self._date + datetime.timedelta(days=1) in holidays.US()
+               not self._date + datetime.timedelta(days=1) in holidays.US()
