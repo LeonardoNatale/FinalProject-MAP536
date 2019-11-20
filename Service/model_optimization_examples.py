@@ -1,5 +1,8 @@
 import json
 from Model.model import Model
+import scipy.stats
+from sklearn.experimental import enable_hist_gradient_boosting
+from sklearn.ensemble import HistGradientBoostingRegressor
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
@@ -17,8 +20,16 @@ from sklearn.pipeline import Pipeline
 # t = Model(RandomForestRegressor)
 # t.load_from_file()
 # print(t._pipeline)
-
-x = Model(Ridge)
+x = Model(
+    HistGradientBoostingRegressor,
+    fixed_parameters={"loss": 'least_squares'},
+    optimizable_parameters={
+        "RandomSearch": {
+            "learning_rate": scipy.stats.uniform(0, 1),
+            "l2_regularization": scipy.stats.uniform(0, 1)
+        }
+    }
+)
 
 x.fit()
 
@@ -30,10 +41,8 @@ x.fit()
 x.r2_score()
 print(x.predict())
 
-# x.save_model()
+x.save_model()
 
-
-# Takes long to run
-# x = Model(SVR)
-# x.optimize_model()
-# print(x.get_optimal_parameters())
+x = Model(HistGradientBoostingRegressor)
+x.load_from_file()
+print(x.get_optimal_parameters())

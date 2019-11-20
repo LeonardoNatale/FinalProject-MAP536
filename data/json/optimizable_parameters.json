@@ -76,5 +76,9 @@
     "LinearRegression" : {
         "fixed_parameters" : {},
         "optimizable_parameters" : {}
+    },
+    "GradientBoostingRegressor" : {
+        "fixed_parameters" : {},
+        "optimizable_parameters" : {}
     }
 }

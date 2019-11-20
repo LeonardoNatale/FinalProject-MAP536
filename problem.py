@@ -20,6 +20,7 @@ score_types = [
     rw.score_types.RMSE(name='rmse', precision=3),
 ]
 
+
 def get_cv(X, y):
     cv = ShuffleSplit(n_splits=8, test_size=0.5, random_state=57)
     return cv.split(X)
@@ -51,23 +52,3 @@ def get_test_data(path='.'):
     """
     f_name = 'test.csv.bz2'
     return _read_data(path, f_name)
-
-
-# def generate_external_data(path = '.'):
-#     """
-#     This function returns the external data that 
-#     is going to be used for the model.
-#     """
-#     weather_f_name = 'weather_data.csv'
-#     airports_f_name = 'airport-codes.csv'
-#     gdp_f_name = 'gdp.csv'
-#     external_data_f_name = 'external_data.csv'
-
-#     # TODO make the external data generator dependent on the submission
-#     # by creating a config file containing all the infos about the submission.
-#     dg = ExternalDataGenerator()
-#     dg._generate_external_data()
-#     dg._write_external_data()
-#     print(dg.head())
-
-# generate_external_data()

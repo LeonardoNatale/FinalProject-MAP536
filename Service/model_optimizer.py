@@ -50,8 +50,7 @@ class ModelOptimizer:
         The output is the optimal value of the parameters for the model.
         """
         distributions = {
-            self._model._model_name_lower + '__' + str(key):
-                getattr(scipy.stats, val['law'])(**val['kwargs'])
+            self._model._model_name_lower + '__' + str(key): val
             for key, val in random_opt_param.items()
         }
         print('Beginning Randomized search for the following parameters : ')

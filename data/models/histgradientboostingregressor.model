@@ -1,0 +1,1 @@
+{"fixed": {"loss": "least_squares"}, "opt": {"histgradientboostingregressor__l2_regularization": 0.9752299302272766, "histgradientboostingregressor__learning_rate": 0.153187560120574}}
