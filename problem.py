@@ -41,7 +41,7 @@ def get_train_data(path='.'):
     """
     Returns the training data for the model.
     """
-    dm = DataManager()
+    dm = DataManager(ramp=True)
     f_name = 'train.csv.bz2'
     x, y = _read_data(path, f_name)
     return dm.append_to_data(x), y
@@ -50,7 +50,7 @@ def get_test_data(path='.'):
     """
     Returns the testing data for the model.
     """
-    dm = DataManager()
+    dm = DataManager(ramp=True)
     f_name = 'test.csv.bz2'
     x, y = _read_data(path, f_name)
     return dm.append_to_data(x), y

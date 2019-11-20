@@ -2,10 +2,10 @@ from sklearn.base import BaseEstimator
 from sklearn.linear_model import Ridge
 import pandas as pd
 from sklearn.experimental import enable_hist_gradient_boosting
-from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor
 
 from Model.model import Model
-
+from Model.multi_model import MultiModel
 
 class Regressor(BaseEstimator):
     def __init__(self):

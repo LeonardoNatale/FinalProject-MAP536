@@ -1,0 +1,1 @@
+{"fixed": {}, "opt": {"gradientboostingregressor__alpha": 0.019912693296153083, "gradientboostingregressor__learning_rate": 0.4548428457533418, "gradientboostingregressor__max_features": 0.9396568585133848, "gradientboostingregressor__criterion": "mse", "gradientboostingregressor__loss": "ls"}}

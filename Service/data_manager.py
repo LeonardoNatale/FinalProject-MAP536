@@ -7,7 +7,8 @@ from Service.external_data_generator import ExternalDataGenerator
 
 class DataManager:
 
-    def __init__(self):
+    def __init__(self, ramp = False):
+        self.__ramp = ramp
         self._problem = Problem()
         self._set_external_data()
         print('Initializing data manager...')
@@ -148,9 +149,11 @@ class DataManager:
         # and then remove the original variable form the data.
         for key in to_dummify.keys():
             column = new_x[key]
-            if not full:
+            if not full and self.__ramp:
                 categories = list(self.__full_X[key].dropna().unique())
                 column = pd.Categorical(column, categories=categories)
+                new_x.drop(key, axis=1, inplace=True)
+            if not self.__ramp:
                 new_x.drop(key, axis=1, inplace=True)
             dummies = pd.get_dummies(
                 column,
@@ -167,4 +170,6 @@ class DataManager:
         """
         print("Transforming data...")
         self.__full_X = self.append_to_data(self.__full_X, full=True)
+        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
+        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
         return
