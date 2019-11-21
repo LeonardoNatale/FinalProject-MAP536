@@ -116,6 +116,3 @@ class ExternalDataGenerator:
         return self._Data.head(n)
 
 
-# x = ExternalDataGenerator()
-# x._write_external_data()
-

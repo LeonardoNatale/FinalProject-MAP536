@@ -151,11 +151,14 @@ class Model:
         prediction = self.predict()
         return np.sqrt(np.mean((prediction - self.dm.get_test_y()) ** 2))
 
-    def model_quality_testing(self):
+    def model_quality_testing(self, as_df=False):
         self.fit()
         before_rmse = self.rmse()
         self.optimize_model()
         self.fit()
-        print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
-        print(f'RMSE of non optimized model : {before_rmse}')
-        print(f'RMSE of optimized model : {self.rmse()}')
+        if as_df:
+            return[self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse()]
+        else:
+            print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
+            print(f'RMSE of non optimized model : {before_rmse}')
+            print(f'RMSE of optimized model : {self.rmse()}')

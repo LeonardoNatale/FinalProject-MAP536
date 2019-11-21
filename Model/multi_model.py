@@ -100,88 +100,9 @@ class MultiModel:
             data = pred.subtract(pd.Series(true), axis=0)
         return np.sqrt(np.mean(data ** 2))
 
-
-# Test
-GradientBoostingRegressor()
-
-# multi = MultiModel(
-#     {
-#         "models": {
-#             Ridge: {
-#                 "fixed_parameters": {
-#                     "tol": 1e-3
-#                 },
-#                 "optimizable_parameters": {
-#                     "RandomSearch": {
-#                         "alpha": scipy.stats.uniform(1, 20)
-#                     },
-#                     "GridSearch": {
-#                         "solver": ["svd", "cholesky", "lsqr"]
-#                     }
-#                 }
-#             },
-#             GradientBoostingRegressor: {
-#                 "fixed_parameters": {
-#                     "loss": 'ls'
-#                 },
-#                 "optimizable_parameters": {
-#                     "RandomSearch": {
-#                         "alpha": scipy.stats.uniform(0, 1),
-#                         "max_depth": scipy.stats.uniform(2, 10)
-#                     },
-#                     "GridSearch": {
-#                         "criterion": ["friedman_mse", "mse"]
-#                     }
-#                 }
-#             }
-#
-#         }
-#     }
-# )
-
-# multi = MultiModel(
-#     {
-#         "models": {
-#             GradientBoostingRegressor: {
-#                 "fixed_parameters": {
-#                     "loss": 'ls'
-#                 },
-#                 "optimizable_parameters": {
-#                     "RandomSearch": {
-#                         "alpha": scipy.stats.uniform(0, 1),
-#                         "max_depth": scipy.stats.uniform(2, 10)
-#                     },
-#                     "GridSearch": {
-#                         "criterion": ["friedman_mse", "mse"]
-#                     }
-#                 }
-#             }
-#
-#         }
-#     }
-# )
-
-multi = MultiModel(
-    {
-        "models": {
-            HistGradientBoostingRegressor: {
-                "fixed_parameters": {
-                    "loss": 'least_squares'
-                },
-                "optimizable_parameters": {
-                    "RandomSearch": {
-                        "learning_rate": scipy.stats.uniform(0, 1),
-                        "l2_regularization": scipy.stats.uniform(0, 1)
-                    }
-                }
-            }
-
-        }
-    }
-)
-
-multi.optimize()
-multi.fit()
-
-print(multi.score(reduced_pred=False))
-print(multi.score(reduced_pred=True))
+    def multi_model_testing(self):
+        cols = ['model_name', 'opt_params', 'rmse_before', 'rmse_after']
+        df = pd.DataFrame(columns=cols)
+        for model in self._models:
+            df = df.append(pd.Series(model.model_quality_testing(as_df=True), index=cols), ignore_index=True)
+        return df

@@ -10,7 +10,6 @@ from Service.data_manager import DataManager
 
 class Regressor(BaseEstimator):
     def __init__(self):
-        print(os.listdir("./../"))
         m = Model(HistGradientBoostingRegressor)
         m.load_from_file()
         self.dm = DataManager(ramp=True)
