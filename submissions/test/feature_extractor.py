@@ -13,7 +13,7 @@ class FeatureExtractor(object):
         X_encoded = X_df
         path = os.path.dirname(__file__)
         data_weather = pd.read_csv(os.path.join(path, 'external_data.csv'))
-        X_weather = data_weather[['Date', 'AirPort', 'Max TemperatureC']]
+        X_weather = data_weather[['Date', 'AirPort', 'Mean TemperatureC']]
         X_weather = X_weather.rename(
             columns={'Date': 'DateOfDeparture', 'AirPort': 'Arrival'})
         X_encoded = pd.merge(

@@ -3,6 +3,14 @@
     "target_column_name" : "log_PAX",
     "train_f_name" : "train.csv.bz2",
     "test_f_name" : "test.csv.bz2",
+    "ext_data_f_names" : {
+        "weather": "weather_data.csv",
+        "airports": "airport-codes.csv",
+        "gdp": "gdp.csv",
+        "external_data": "external_data.csv",
+        "jetfuel": "jetfuel.csv",
+        "passengers": "passengers.csv"
+    },
     "external_data_model_columns" : [
         "Date",
         "AirPort",
@@ -18,6 +26,8 @@
         "is_end_holiday",
         "type",
         "gdp",
-        "coordinates"
+        "coordinates",
+        "Dollars_per_Gallon",
+        "passengers"
     ]
 }

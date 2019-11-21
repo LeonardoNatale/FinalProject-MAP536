@@ -1,4 +1,4 @@
-ORIGIN,DEST,MONTH,PASSENGERS,YEAR
+origin,destination,month,passengers,year
 ATL,ATL,2,32.0,2009
 ATL,ATL,4,119.0,2009
 ATL,ATL,12,41.0,2009

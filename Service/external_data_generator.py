@@ -14,24 +14,18 @@ class ExternalDataGenerator:
             submissions_dir='submissions',
             data_dir='data',
             path='.',
-            f_names={
-                'weather': 'weather_data.csv',
-                'airports': 'airport-codes.csv',
-                'gdp': 'gdp.csv',
-                'external_data': 'external_data.csv'
-            },
             read_only=False
     ):
         self._path = path
         self._data_dir = data_dir
         self._submission = submission
         self._submissions_dir = submissions_dir
-        self._f_names = f_names
 
         with open('./data/json/problem_config.json', 'r') as f:
             config = json.load(f)
 
         self._ed_model_columns = config['external_data_model_columns']
+        self._f_names = config['ext_data_f_names']
 
         if read_only:
             self._Data = self._read_external_data()
@@ -44,6 +38,7 @@ class ExternalDataGenerator:
         weather = self._read_file(self._f_names['weather'])
         airports = self._read_file(self._f_names['airports'])
         gdp = self._read_file(self._f_names['gdp'])
+        jetfuel = self._read_file(self._f_names['jetfuel'])
 
         # Adding some features to the weather data.
         weather.loc[:, 'holidate'] = HolidaysManager.to_holiday(weather.loc[:, 'Date'])
@@ -72,6 +67,15 @@ class ExternalDataGenerator:
             right_on=['state', 'city']
         )
 
+        external_data = external_data.merge(
+            jetfuel,
+            how='left',
+            left_on=['Date'],
+            right_on=['Date']
+        )
+
+        external_data['fuel_price'] = external_data['fuel_price'].fillna(method='ffill')
+
         rm_cols = [col for col in external_data.columns if 'Unnamed' in col]
 
         self._Data = external_data.drop(rm_cols, axis=1)
@@ -92,13 +96,15 @@ class ExternalDataGenerator:
             )
         )
 
-    def _write_external_data(self):
+    def _write_external_data(self, verbose=False):
+        if verbose: print('saving ext data')
         self._Data.to_csv(os.path.join(
             self._path,
             self._submissions_dir,
             self._submission,
             self._f_names['external_data']
         ))
+        if verbose: print('ext data saved')
 
     def get_data(self):
         return self._Data
@@ -109,5 +115,7 @@ class ExternalDataGenerator:
     def head(self, n=10):
         return self._Data.head(n)
 
+
 # x = ExternalDataGenerator()
 # x._write_external_data()
+

@@ -19,7 +19,6 @@ score_types = [
     rw.score_types.RMSE(name='rmse', precision=3),
 ]
 
-
 def get_cv(X, y):
     cv = ShuffleSplit(n_splits=8, test_size=0.5, random_state=57)
     return cv.split(X)
@@ -41,16 +40,13 @@ def get_train_data(path='.'):
     """
     Returns the training data for the model.
     """
-    dm = DataManager(ramp=True)
     f_name = 'train.csv.bz2'
-    x, y = _read_data(path, f_name)
-    return dm.append_to_data(x), y
+    return _read_data(path, f_name)
 
 def get_test_data(path='.'):
     """
     Returns the testing data for the model.
     """
-    dm = DataManager(ramp=True)
     f_name = 'test.csv.bz2'
-    x, y = _read_data(path, f_name)
-    return dm.append_to_data(x), y
+    return _read_data(path, f_name)
+

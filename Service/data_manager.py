@@ -16,7 +16,6 @@ class DataManager:
         train_x['label'] = 'train'
         test_x, self.__test_y = self._read_test_data()
         test_x['label'] = 'test'
-
         self.__full_X = pd.concat([train_x, test_x])
         self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
         self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
@@ -133,7 +132,16 @@ class DataManager:
         new_x = new_x.join(pd.get_dummies(new_x['weekday'], prefix='wd'))
         new_x = new_x.join(pd.get_dummies(new_x['week'], prefix='w'))
 
-        new_x.drop(['DateOfDeparture', 'coordinates_dep', 'coordinates_arr'], axis=1, inplace=True)
+        # Need to add the number of passengers here because we don't have the info in external_data_generator.
+        passengers = pd.read_csv(os.path.join('./data', self._problem.get_ext_data_f_names()['passengers']))
+        new_x = new_x.merge(
+            passengers,
+            how='left',
+            left_on=['month', 'year', 'Departure', 'Arrival'],
+            right_on=['month', 'year', 'origin', 'destination']
+        )
+
+        new_x.drop(['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'], axis=1, inplace=True)
 
         # Creating dummy variables.
         to_dummify = {

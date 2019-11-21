@@ -6,29 +6,8 @@ from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegr
 from sklearn.linear_model import SGDRegressor
 
 
-
-
-def make_process(x, model_type):
-    x.fit()
-
-    x.optimize_model()
-    print(x.get_optimal_parameters())
-    print(x.get_optimal_model())
-
-    x.fit()
-    x.r2_score()
-    print(x.predict())
-
-    x.save_model()
-
-    x = Model(model_type)
-    x.load_from_file()
-    print(x.get_optimal_parameters())
-
-
-model_type = HistGradientBoostingRegressor
 x = Model(
-    model_type,
+    HistGradientBoostingRegressor,
     fixed_parameters={"loss": 'least_squares'},
     optimizable_parameters={
         "RandomSearch": {
@@ -38,11 +17,10 @@ x = Model(
     }
 )
 
-# make_process(x, model_type)
+# x.model_quality_testing()
 
-model_type = GradientBoostingRegressor
 x = Model(
-    model_type,
+    GradientBoostingRegressor,
     fixed_parameters={},
     optimizable_parameters={
         "RandomSearch": {
@@ -51,10 +29,10 @@ x = Model(
             "alpha": scipy.stats.uniform(0, 1)
         },
         'GridSearch': {
-            "loss" : ['ls', 'quantile'],
+            "loss": ['ls', 'quantile'],
             "criterion": ["friedman_mse", "mse"]
         }
     }
 )
 
-make_process(x, model_type)
+x.model_quality_testing()

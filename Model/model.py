@@ -1,9 +1,9 @@
 import os
 import json
+import numpy as np
 from sklearn.pipeline import Pipeline
 from Service.model_optimizer import ModelOptimizer
 from Service.data_manager import DataManager
-
 from sklearn.exceptions import NotFittedError
 
 
@@ -135,14 +135,27 @@ class Model:
         print(f'Fitting training data for model {self.model_name}...')
         self._pipeline.fit(X=self.dm.get_train_X(), y=self.dm.get_train_y())
 
+    def predict(self):
+        try:
+            prediction = self._pipeline.predict(self.dm.get_test_X())
+        except NotFittedError as e:
+            print(f'Model {self.model_name} not fitted. {e}')
+            return None
+        return prediction
+
     def r2_score(self):
         test_score = self._pipeline.score(X=self.dm.get_test_X(), y=self.dm.get_test_y())
         print(f'R^2 coefficient : {test_score}')
 
-    def predict(self):
-        try:
-            pred = self._pipeline.predict(self.dm.get_test_X())
-        except NotFittedError as e:
-            print(f'Model {self.model_name} not fitted. {e}')
-            return None
-        return pred
+    def rmse(self):
+        prediction = self.predict()
+        return np.sqrt(np.mean((prediction - self.dm.get_test_y()) ** 2))
+
+    def model_quality_testing(self):
+        self.fit()
+        before_rmse = self.rmse()
+        self.optimize_model()
+        self.fit()
+        print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
+        print(f'RMSE of non optimized model : {before_rmse}')
+        print(f'RMSE of optimized model : {self.rmse()}')

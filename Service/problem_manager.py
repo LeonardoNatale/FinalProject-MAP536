@@ -20,6 +20,7 @@ class Problem:
         self._train_f_name = config['train_f_name']
         self._test_f_name = config['test_f_name']
         self._ed_model_columns = config['external_data_model_columns']
+        self._ext_data_f_names = config['ext_data_f_names']
 
     def get_target_column_name(self):
         return self._target_column_name
@@ -32,3 +33,6 @@ class Problem:
 
     def get_ed_model_columns(self):
         return self._ed_model_columns
+
+    def get_ext_data_f_names(self):
+        return self._ext_data_f_names

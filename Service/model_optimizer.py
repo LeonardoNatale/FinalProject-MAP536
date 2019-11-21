@@ -58,7 +58,7 @@ class ModelOptimizer:
         model_random_search = RandomizedSearchCV(
             self._pipeline,
             param_distributions=distributions,
-            n_jobs=4,
+            n_jobs=-1,
             cv=5
         )
         model_random_search.fit(X, y)
