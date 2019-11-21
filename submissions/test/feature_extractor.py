@@ -47,3 +47,5 @@ class FeatureExtractor(object):
         X_encoded = X_encoded.drop('DateOfDeparture', axis=1)
         X_array = X_encoded.values
         return X_array
+
+
