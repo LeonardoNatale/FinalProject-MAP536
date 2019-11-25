@@ -8,7 +8,7 @@
         "airports": "airport-codes.csv",
         "gdp": "gdp.csv",
         "external_data": "external_data.csv",
-        "jetfuel": "jetfuel.csv",
+        "jet_fuel": "jetfuel.csv",
         "passengers": "passengers.csv"
     },
     "external_data_model_columns" : [

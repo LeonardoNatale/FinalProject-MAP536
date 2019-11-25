@@ -3,6 +3,9 @@ import json
 
 
 class Problem:
+    """
+    This class is in charge of managing a Problem i.e. the configuration of the model implementation.
+    """
     _problem_path = '.'
     _problem_dir = 'data/json'
     _problem_f_name = 'problem_config.json'

@@ -85,7 +85,8 @@ class DataManager:
         edg = ExternalDataGenerator(read_only=True)
         self._external_data = edg.get_data()
 
-    def suffix_join(self, x, additional, suffix, col):
+    @staticmethod
+    def suffix_join(x, additional, suffix, col):
         """
         joins the X `DataFrame` with `additional`, adding `suffix` to each column of `additional`.
         This method is precisely used to join external_data with departure and arrival.
@@ -138,8 +139,8 @@ class DataManager:
             self._problem.get_ed_model_columns()
         )
 
-        new_x, external_data = self.suffix_join(new_x, external_data, '_dep', 'Departure')
-        new_x, external_data = self.suffix_join(new_x, external_data, '_arr', 'Arrival')
+        new_x, external_data = DataManager.suffix_join(new_x, external_data, '_dep', 'Departure')
+        new_x, external_data = DataManager.suffix_join(new_x, external_data, '_arr', 'Arrival')
 
         # Distance between 2 airports
         dep_coords = list(

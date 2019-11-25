@@ -66,7 +66,7 @@ class MultiModel:
 
     def optimize(self, force=False):
         """
-        Optimizes all the models sequenltially.
+        Optimizes all the models sequentially.
 
         :param force: True to force the model to optimize even though
         it's already optimized.

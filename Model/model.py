@@ -55,6 +55,9 @@ class Model:
             self._grid_opt_params = optimizable_parameters['GridSearch']
         self.build_pipeline()
 
+    def get_model_name_lower(self):
+        return self._model_name_lower
+
     def get_pipeline(self):
         return self._pipeline
 
