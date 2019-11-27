@@ -5,12 +5,13 @@ import scipy.stats
 from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor, BaggingRegressor, AdaBoostRegressor
 from sklearn.linear_model import SGDRegressor
-
+from Service.data_manager import DataManager
 
 model = False
-multi = True
+multi = False
 external_data = False
 
+dm = DataManager()
 # ------------------ EXTERNAL DATA ------------------ #
 
 # To generate external data once again
