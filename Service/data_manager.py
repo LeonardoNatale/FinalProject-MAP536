@@ -5,13 +5,22 @@ import geopy.distance
 from Service.problem_manager import Problem
 from Service.external_data_generator import ExternalDataGenerator
 
-class DataManager:
 
-    def __init__(self, ramp = False):
+class DataManager:
+    """
+    This class is used to manage all data related operations.
+    """
+
+    def __init__(self, ramp=False):
+        """
+        Initializes the DataManager and makes the data ready.
+
+        :param ramp: boolean parameter used to make this class work with ramp submissions.
+        """
         self.__ramp = ramp
+        print('Initializing data manager...')
         self._problem = Problem()
         self._set_external_data()
-        print('Initializing data manager...')
         train_x, self.__train_y = self._read_train_data()
         train_x['label'] = 'train'
         test_x, self.__test_y = self._read_test_data()
@@ -19,9 +28,10 @@ class DataManager:
         self.__full_X = pd.concat([train_x, test_x])
         self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
         self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
-
+        # Transforming the data to be ready for fit.
         self.transform()
 
+    # --- Getters --- #
     def get_test_X(self):
         return self.__test_X
 
@@ -37,8 +47,12 @@ class DataManager:
     def _read_data(self, path, f_name):
         """
         Reads data from a file and returns the predictors
-        as a data frame and the variable to predict as a 
+        as a data frame and the variable to predict as a
         Series.
+
+        :param path: the root directory of the file.
+        :param f_name: the name of the file.
+        :return: the X and y.
         """
         data = pd.read_csv(os.path.join(path, 'data', f_name))
         y_array = data[self._problem.get_target_column_name()].values
@@ -48,21 +62,41 @@ class DataManager:
     def _read_train_data(self, path='.'):
         """
         Returns the training data for the model.
+
+        :param path: The root directory
+        :return: X_train and y_train
         """
         return self._read_data(path, self._problem.get_train_f_name())
 
     def _read_test_data(self, path='.'):
         """
         Returns the testing data for the model.
+
+        :param path: The root directory
+        :return: X_test and y_test
         """
         return self._read_data(path, self._problem.get_test_f_name())
 
     def _set_external_data(self):
+        """
+        Reads the external data and stores it in the class.
+        """
         print("Retrieving external_data...")
         edg = ExternalDataGenerator(read_only=True)
         self._external_data = edg.get_data()
 
-    def suffix_join(self, x, additional, suffix, col):
+    @staticmethod
+    def suffix_join(x, additional, suffix, col):
+        """
+        joins the X `DataFrame` with `additional`, adding `suffix` to each column of `additional`.
+        This method is precisely used to join external_data with departure and arrival.
+
+        :param x: The DataFrame to use in the join
+        :param additional: The additional data to join with.
+        :param suffix: The suffix to add to `additional` columns.
+        :param col: The column to rename Airport to (to make te join work)
+        :return: the new X and the additional data.
+        """
         additional.columns += suffix
 
         # Renaming in order to join.
@@ -89,7 +123,15 @@ class DataManager:
         )
         return new_x, additional
 
-    def append_to_data(self, data, full = False):
+    def append_to_data(self, data, full=False):
+        """
+        Appends the external data to the X.
+
+        :param data:
+        :param full: Boolean to know if the data is full or not (if not
+        the get_dummies has to be modified not to return errors on fit).
+        :return: The new data
+        """
         new_x = data
 
         # We keep only the columns that are relevant for our model.
@@ -97,8 +139,8 @@ class DataManager:
             self._problem.get_ed_model_columns()
         )
 
-        new_x, external_data = self.suffix_join(new_x, external_data, '_dep', 'Departure')
-        new_x, external_data = self.suffix_join(new_x, external_data, '_arr', 'Arrival')
+        new_x, external_data = DataManager.suffix_join(new_x, external_data, '_dep', 'Departure')
+        new_x, external_data = DataManager.suffix_join(new_x, external_data, '_arr', 'Arrival')
 
         # Distance between 2 airports
         dep_coords = list(
@@ -141,7 +183,11 @@ class DataManager:
             right_on=['month', 'year', 'origin', 'destination']
         )
 
-        new_x.drop(['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'], axis=1, inplace=True)
+        new_x.drop(
+            ['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'],
+            axis=1,
+            inplace=True
+        )
 
         # Creating dummy variables.
         to_dummify = {
@@ -174,10 +220,9 @@ class DataManager:
 
     def transform(self):
         """
-        Data reformatter, making the data ready for model fitting.
+        Data re-formatter, making the data ready for model fitting.
         """
         print("Transforming data...")
         self.__full_X = self.append_to_data(self.__full_X, full=True)
         self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
         self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
-        return
