@@ -3,7 +3,7 @@ from sklearn.model_selection import RandomizedSearchCV, GridSearchCV
 
 class ModelOptimizer:
     """
-    This class is in charge of the optimization of the models by GridSearch and RadomizerdSearch
+    This class is in charge of the optimization of the models by GridSearch and RandomizedSearch
     """
     def __init__(self, model):
         self._model = model

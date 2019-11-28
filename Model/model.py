@@ -27,11 +27,9 @@ class Model:
         :param sk_model: Sklearn model to implement.
         :param dm: DataManager instance used to retrieve the data.
         :param fixed_parameters: Constant parameters of the model, given as a dictionary
-        :param optimizable_parameters: Parameters to be optimized by this class, given as a dictionnary.
+        :param optimizable_parameters: Parameters to be optimized by this class, given as a dictionary.
         """
         # Storing the model type
-        if fixed_parameters is None:
-            fixed_parameters = dict()
         self._model = sk_model
         self.model_name = self._model.__name__
         self._model_name_lower = self.model_name.lower()
@@ -43,9 +41,7 @@ class Model:
         self._pipeline = None
 
         # Parameter objects
-        if fixed_parameters is None:
-            fixed_parameters = {}
-        self._fixed_parameters = fixed_parameters
+        self._fixed_parameters = dict() if fixed_parameters is None else fixed_parameters
         self._random_opt_params = {}
         # If no parameter is provided, then we use an empty dict.
         if 'RandomSearch' in optimizable_parameters.keys():

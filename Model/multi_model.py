@@ -24,25 +24,17 @@ class MultiModel:
             else:
                 lff = False
             init_str = [mod.__name__ for mod in models['models'].keys()]
-            [self._models.append(
-                Model(
-                    model,
-                    self._dm,
-                    params['fixed_parameters'],
-                    params['optimizable_parameters']
+
+            for model, params in models['models'].items():
+                self._models.append(
+                    Model(
+                        model,
+                        self._dm,
+                        params['fixed_parameters'],
+                        params['optimizable_parameters']
+                    )
                 )
-            )
-                for model, params in models['models'].items()
-            ]
-            # for model, params in models['models'].items():
-            #     self._models.append(
-            #         Model(
-            #             model,
-            #             self._dm,
-            #             params['fixed_parameters'],
-            #             params['optimizable_parameters']
-            #         )
-            #     )
+
             if lff:
                 self._models[-1].load_from_file()
         # Otherwise check if it's only a sklearn module.
