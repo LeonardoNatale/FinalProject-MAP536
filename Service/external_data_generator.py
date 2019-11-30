@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 import json
 from Service.holidays_manager import HolidaysManager
 
@@ -58,6 +59,7 @@ class ExternalDataGenerator:
         airports = self._read_file(self._f_names['airports'])
         gdp = self._read_file(self._f_names['gdp'])
         jet_fuel = self._read_file(self._f_names['jet_fuel'])
+        jet_fuel["Date"] = pd.to_datetime(jet_fuel["Date"])
 
         # Adding some features to the weather data.
         weather.loc[:, 'holidate'] = HolidaysManager.to_holiday(weather.loc[:, 'Date'])
@@ -65,7 +67,19 @@ class ExternalDataGenerator:
         weather.loc[:, 'is_beginning_holiday'] = weather.loc[:, 'holidate'].apply(HolidaysManager.is_beginning_holiday)
         weather.loc[:, 'is_end_holiday'] = weather.loc[:, 'holidate'].apply(HolidaysManager.is_end_holiday)
 
-        weather.drop('holidate', axis=1, inplace=True)
+        # Get distance in days to the closest holiday
+        weather["Date"] = pd.to_datetime(weather["Date"])
+        weather["dumb1"] = weather["Date"][weather["is_holiday"]]
+        weather["dumb2"] = weather["Date"][weather["is_holiday"]]
+        weather["dumb1"] = weather["dumb1"].fillna(method="ffill").fillna(method="bfill")
+        weather["dumb2"] = weather["dumb2"].fillna(method="bfill").fillna(method="ffill")
+        weather["distance_to_previous"] = pd.to_numeric(np.abs(weather["dumb1"] - weather["Date"]).dt.days)
+        weather["distance_to_next"] = pd.to_numeric(np.abs(weather["dumb2"] - weather["Date"]).dt.days)
+        weather["holidays_distance"] = np.minimum(weather.distance_to_previous, weather.distance_to_next)
+        # print(weather.head())
+
+        # weather.drop('holidate', axis=1, inplace=True)
+        weather.drop(['holidate', 'dumb1', 'dumb2', 'distance_to_previous', 'distance_to_next'], axis=1, inplace=True)
 
         # Stripping the iso region from its prefix to allow a join on this column.
         airports.loc[:, 'iso_region'] = airports.loc[:, 'iso_region'].apply(
@@ -79,6 +93,7 @@ class ExternalDataGenerator:
             left_on='AirPort',
             right_on='iata_code'
         )
+
         external_data = external_data.merge(
             gdp,
             how='left',

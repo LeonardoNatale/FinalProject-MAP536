@@ -200,7 +200,7 @@ class DataManager:
         }
 
         # For every variable to dummify, we create dummies
-        # and then remove the original variable form the data.
+        # and then remove the original variable from the data.
         for key in to_dummify.keys():
             column = new_x[key]
             if not full and self.__ramp:

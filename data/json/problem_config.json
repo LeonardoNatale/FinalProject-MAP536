@@ -24,10 +24,11 @@
         "is_holiday",
         "is_beginning_holiday",
         "is_end_holiday",
+        "holidays_distance",
         "type",
         "gdp",
         "coordinates",
-        "Dollars_per_Gallon",
+        "fuel_price",
         "passengers"
     ]
 }

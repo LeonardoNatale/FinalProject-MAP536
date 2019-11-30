@@ -37,10 +37,10 @@ class HolidaysManager:
         """
         Returns True is the day is a holiday and if the day before is not.
         """
-        return self._is_holiday() and not self._date - datetime.timedelta(days=1) in holidays.US()
+        return self.is_holiday() and not self._date - datetime.timedelta(days=1) in holidays.US()
 
     def is_end_holiday(self):
         """
         Returns True is the day is a holiday and if the day after is not.
         """
-        return self._is_holiday() and not self._date + datetime.timedelta(days=1) in holidays.US()
+        return self.is_holiday() and not self._date + datetime.timedelta(days=1) in holidays.US()

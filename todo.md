@@ -8,3 +8,5 @@
 - Try TimeSeries
 - Try AdaBoost
 - Do we need a function to return the model name lowercase?
+- Do we want to scale and use a column transformer?
+- Make classes more Pythonese. Adding decorator @property and fixing the setters

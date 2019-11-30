@@ -43,6 +43,7 @@ def get_train_data(path='.'):
     f_name = 'train.csv.bz2'
     return _read_data(path, f_name)
 
+
 def get_test_data(path='.'):
     """
     Returns the testing data for the model.
