@@ -143,7 +143,7 @@ class MultiModel:
         Utility function to compare model one to another.
         :return: A DataFrame with the models performances.
         """
-        cols = ['model_name', 'opt_params', 'rmse_before', 'rmse_after']
+        cols = ['model_name', 'opt_params', 'rmse_before', 'rmse_after', 'fit_time']
         df = pd.DataFrame(columns=cols)
         for model in self._models:
             df = df.append(pd.Series(model.model_quality_testing(as_df=True), index=cols), ignore_index=True)

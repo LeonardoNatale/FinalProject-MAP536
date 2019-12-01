@@ -85,6 +85,12 @@ class DataManager:
         edg = ExternalDataGenerator(read_only=True)
         self._external_data = edg.get_data()
 
+    # TODO remove, used for debug only.
+    def print_dimensions(self):
+        print(f'X_train : {self.__train_X.shape}\nY_train : {self.__train_y.shape}\nX_test : {self.__test_X.shape}\n'
+              f'Y_test : {self.__test_y.shape}')
+
+
     @staticmethod
     def suffix_join(x, additional, suffix, col):
         """
@@ -183,6 +189,15 @@ class DataManager:
             right_on=['month', 'year', 'origin', 'destination']
         )
 
+        pax_aggregations = pd.read_csv(os.path.join('./data', self._problem.get_ext_data_f_names()['pax_aggregations']), index_col=0)
+        pax_aggregations['DateOfDeparture'] = pd.to_datetime(pax_aggregations['DateOfDeparture'])
+
+        new_x = new_x.merge(
+            pax_aggregations,
+            how='left',
+            on=["Departure", "DateOfDeparture"]
+        )
+
         new_x.drop(
             ['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'],
             axis=1,
@@ -216,6 +231,10 @@ class DataManager:
             new_x = new_x.join(
                 dummies
             )
+
+        rm_cols = [col for col in new_x.columns if 'Unnamed' in col]
+        new_x = new_x.drop(rm_cols, axis=1)
+
         return new_x
 
     def transform(self):

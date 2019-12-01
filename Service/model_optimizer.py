@@ -15,19 +15,22 @@ class ModelOptimizer:
         the given distribution. The output is the optimal value of the
         parameters for the model.
         """
-        grid_params = {
-            self._model.get_model_name_lower() + '__' + str(key): val
-            for key, val in grid_opt_param.items()
-        }
-        print(f'Beginning Grid search for the following parameters : {list(grid_params)}')
-        model_grid_search = GridSearchCV(
-            self.model.get_pipeline(),
-            param_grid=grid_params,
-            n_jobs=4,
-            cv=5
-        )
-        model_grid_search.fit(x, y)
-        return model_grid_search.best_params_
+        if grid_opt_param:
+            grid_params = {
+                self._model.get_model_name_lower() + '__' + str(key): val
+                for key, val in grid_opt_param.items()
+            }
+            print(f'Beginning Grid search for the following parameters : {list(grid_params)}')
+            model_grid_search = GridSearchCV(
+                self._model.get_pipeline(),
+                param_grid=grid_params,
+                n_jobs=4,
+                cv=5
+            )
+            model_grid_search.fit(x, y)
+            return model_grid_search.best_params_
+        else:
+            return {}
 
     def random_search_optimize(self, x, y, random_opt_param):
         """
@@ -36,17 +39,20 @@ class ModelOptimizer:
         the given distribution. The output is the optimal value of the
         parameters for the model.
         """
-        distributions = {
-            self._model.get_model_name_lower() + '__' + str(key): val
-            for key, val in random_opt_param.items()
-        }
-        print(f'Beginning Randomized search for the following parameters : {list(distributions.keys())}')
-        model_random_search = RandomizedSearchCV(
-            self.model.get_pipeline(),
-            param_distributions=distributions,
-            n_jobs=-1,
-            cv=5
-        )
-        model_random_search.fit(x, y)
-        # Merging the optimized values into one single dict.
-        return model_random_search.best_params_
+        if random_opt_param:
+            distributions = {
+                self._model.get_model_name_lower() + '__' + str(key): val
+                for key, val in random_opt_param.items()
+            }
+            print(f'Beginning Randomized search for the following parameters : {list(distributions.keys())}')
+            model_random_search = RandomizedSearchCV(
+                self._model.get_pipeline(),
+                param_distributions=distributions,
+                n_jobs=-1,
+                cv=5
+            )
+            model_random_search.fit(x, y)
+            # Merging the optimized values into one single dict.
+            return model_random_search.best_params_
+        else:
+            return {}

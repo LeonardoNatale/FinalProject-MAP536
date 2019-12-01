@@ -1,6 +1,6 @@
 # TO DO
 
-- Track the evolution of our MRSE
+- Track the evolution of our RMSE
 - Adjust Date features (day, week, month, weekday)
 - Calculate the distance to the closest holiday
 - Interaction between monthly passengers and day of the month

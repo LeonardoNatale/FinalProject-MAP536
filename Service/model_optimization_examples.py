@@ -7,11 +7,17 @@ from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegr
 from sklearn.linear_model import SGDRegressor
 from Service.data_manager import DataManager
 
-model = False
+model = True
 multi = False
 external_data = False
+data_manager = False
 
-dm = DataManager()
+# ------------------ DATA MANAGER ------------------ #
+
+if data_manager:
+    dm = DataManager()
+    dm.get_train_X().head(10)
+
 # ------------------ EXTERNAL DATA ------------------ #
 
 # To generate external data once again
@@ -22,36 +28,62 @@ if external_data:
 # ------------------ MODELS ------------------ #
 
 if model:
-    x = Model(
-        HistGradientBoostingRegressor,
-        fixed_parameters={"loss": 'least_squares'},
-        optimizable_parameters={
-            "RandomSearch": {
-                "learning_rate": scipy.stats.uniform(0, 1),
-                "l2_regularization": scipy.stats.uniform(0, 1)
-            }
-        }
-    )
 
+    model_type = HistGradientBoostingRegressor
+    fixed = {"loss": 'least_squares'}
+    opt = {
+        "RandomSearch": {
+            "learning_rate": scipy.stats.uniform(0, 1),
+            "l2_regularization": scipy.stats.uniform(0, 1)
+        }
+    }
+
+    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
     # x.model_quality_testing()
 
-    x = Model(
-        GradientBoostingRegressor,
-        fixed_parameters={},
-        optimizable_parameters={
-            "RandomSearch": {
-                "learning_rate": scipy.stats.uniform(0, 1),
-                "max_features": scipy.stats.uniform(0, 1),
-                "alpha": scipy.stats.uniform(0, 1)
-            },
-            'GridSearch': {
-                "loss": ['ls', 'quantile'],
-                "criterion": ["friedman_mse", "mse"]
-            }
+    model_type = GradientBoostingRegressor
+    fixed = {}
+    opt = {
+        "RandomSearch": {
+            "learning_rate": scipy.stats.uniform(0, 1),
+            "max_features": scipy.stats.uniform(0, 1),
+            "alpha": scipy.stats.uniform(0, 1)
+        },
+        'GridSearch': {
+            "loss": ['ls', 'quantile'],
+            "criterion": ["friedman_mse", "mse"]
         }
-    )
+    }
 
+    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+    # x.model_quality_testing()
+
+    model_type = BaggingRegressor
+    fixed = {
+        "base_estimator": HistGradientBoostingRegressor(),
+        "n_jobs": -1
+    }
+    opt = {
+        "RandomSearch": {},
+        "GridSearch": {}
+    }
+
+    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+    # x.model_quality_testing()
+
+    model_type = AdaBoostRegressor
+    fixed = {
+        "base_estimator": HistGradientBoostingRegressor(),
+    }
+    opt = {
+        "RandomSearch": {},
+        "GridSearch": {}
+    }
+
+    x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
     x.model_quality_testing()
+    x.save_model()
+
 
 # ------------------ MULTI MODELS ------------------ #
 

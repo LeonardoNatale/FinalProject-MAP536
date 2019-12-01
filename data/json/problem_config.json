@@ -9,7 +9,8 @@
         "gdp": "gdp.csv",
         "external_data": "external_data.csv",
         "jet_fuel": "jetfuel.csv",
-        "passengers": "passengers.csv"
+        "passengers": "passengers.csv",
+        "pax_aggregations": "aggregated_PAX.csv"
     },
     "external_data_model_columns" : [
         "Date",

@@ -1,11 +1,12 @@
 import os
-import json
+import pickle
 import numpy as np
 from sklearn.pipeline import Pipeline
 from Service.model_optimizer import ModelOptimizer
 from Service.data_manager import DataManager
 from sklearn.exceptions import NotFittedError
 from sklearn.metrics import mean_squared_error
+import time
 
 
 class Model:
@@ -20,7 +21,7 @@ class Model:
     Model_save_dir = 'data/models'
     Optimizable_parameters_f_name = 'optimizable_parameters.json'
 
-    def __init__(self, sk_model, dm=DataManager(), fixed_parameters=None, optimizable_parameters=None):
+    def __init__(self, sk_model, dm=None, fixed_parameters=None, optimizable_parameters=None, from_file = False):
         """
         Constructor of the model.
 
@@ -33,23 +34,29 @@ class Model:
         self._model = sk_model
         self.model_name = self._model.__name__
         self._model_name_lower = self.model_name.lower()
-        # Data about optimization
-        self.is_optimized = False
-        self._optimal_params = {}
-        # Data objects
-        self.dm = dm
-        self._pipeline = None
+        if from_file:
+            self.load_from_file()
+        else:
+            # Data about optimization
+            self.is_optimized = False
+            self._optimal_params = {}
+            # Data objects
+            if dm:
+                self.dm = dm
+            else:
+                self.dm = DataManager()
+            self._pipeline = None
 
-        # Parameter objects
-        self._fixed_parameters = dict() if fixed_parameters is None else fixed_parameters
-        self._random_opt_params = {}
-        # If no parameter is provided, then we use an empty dict.
-        if 'RandomSearch' in optimizable_parameters.keys():
-            self._random_opt_params = optimizable_parameters['RandomSearch']
-        self._grid_opt_params = {}
-        if 'GridSearch' in optimizable_parameters.keys():
-            self._grid_opt_params = optimizable_parameters['GridSearch']
-        self.build_pipeline()
+            # Parameter objects
+            self._fixed_parameters = dict() if fixed_parameters is None else fixed_parameters
+            self._random_opt_params = {}
+            # If no parameter is provided, then we use an empty dict.
+            if optimizable_parameters and 'RandomSearch' in optimizable_parameters.keys():
+                self._random_opt_params = optimizable_parameters['RandomSearch']
+            self._grid_opt_params = {}
+            if optimizable_parameters and 'GridSearch' in optimizable_parameters.keys():
+                self._grid_opt_params = optimizable_parameters['GridSearch']
+            self.build_pipeline()
 
     def get_model_name_lower(self):
         return self._model_name_lower
@@ -187,13 +194,16 @@ class Model:
         self.fit()
         before_rmse = self.rmse()
         self.optimize_model()
+        start_time = time.time()
         self.fit()
+        fit_time = time.time() - start_time
         if as_df:
-            return [self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse()]
+            return [self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse(), fit_time]
         else:
             print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
             print(f'RMSE of non optimized model : {before_rmse}')
             print(f'RMSE of optimized model : {self.rmse()}')
+            print(f'Fit time : {fit_time}')
 
     def save_model(self):
         """
@@ -209,8 +219,8 @@ class Model:
                 Model.Optimizable_parameters_path,
                 Model.Model_save_dir,
                 self._model_name_lower + '.model'
-        ), 'w') as f:
-            json.dump(model_params, f)
+        ), 'wb') as f:
+            pickle.dump(model_params, f)
 
     def load_from_file(self):
         """
@@ -223,8 +233,8 @@ class Model:
                 Model.Optimizable_parameters_path,
                 Model.Model_save_dir,
                 self._model_name_lower + '.model'
-        ), 'r') as f:
-            params = json.load(f)
+        ), 'rb') as f:
+            params = pickle.load(f)
 
         # Updating the parameters to the one of the file.
         self._fixed_parameters = params['fixed']
