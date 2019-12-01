@@ -1,6 +1,6 @@
 \BOOKMARK [1][-]{section.1}{The Task}{}% 1
-\BOOKMARK [1][-]{section.2}{Data Manipulation}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Getting Extra Data}{section.2}% 3
+\BOOKMARK [1][-]{section.2}{External Data and Data Preprocessing}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Getting External Data}{section.2}% 3
 \BOOKMARK [2][-]{subsection.2.2}{Feature Engineering}{section.2}% 4
 \BOOKMARK [1][-]{section.3}{Installation du package}{}% 5
 \BOOKMARK [2][-]{subsection.3.1}{Pr\351requis}{section.3}% 6

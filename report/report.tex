@@ -30,9 +30,9 @@ Bonus (advanced):
 	\item Evaluate uncertainty in predictions
 \end{itemize}
 
-\section{Data Manipulation}
+\section{External Data and Data Preprocessing}
 
-\subsection{Getting Extra Data}
+\subsection{Getting External Data}
 The original data consists of:
 \begin{itemize}
 	\item the date of departure
@@ -41,7 +41,26 @@ The original data consists of:
     \item a field called log\_PAX which is related to the number of passengers (the actual number were changed for privacy reasons)
 \end{itemize}
 
+We have added the following data:
+\begin{itemize}
+	\item Daily Jet Fuel Price
+	\item Airport Location (geographical coordinates)
+	\item Departure and Arrival GDP
+	\item Monthly flow of passengers in the US between airports.
+	\item Daily Weather Data
+	\item US Holiday Calendar
+\end{itemize}
+
 \subsection{Feature Engineering}
+
+We were able to add the following extra features, by using the data described above:
+\begin{itemize}
+	\item Number of days to the closest holiday.
+	\item Distance in kilometers between departure and arrival airport.
+	\item Airport Dimension	 (I couldn't find where we get it)
+	\item Monthly log\_PAX per airport, both arrival and departure.
+\end{itemize}
+
 
 \section{Installation du package}
 
