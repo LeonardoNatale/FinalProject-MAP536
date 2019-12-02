@@ -170,9 +170,15 @@ class RampDataManager:
         )
 
         new_x = new_x.merge(
-            self.__edg.get_log_pax(),
+            self.__edg.get_monthly_log_pax(),
             how='left',
             on=["Departure", "month"]
+        )
+
+        new_x = new_x.merge(
+            self.__edg.get_weekday_log_pax(),
+            how='left',
+            on=["Departure", "weekday"]
         )
 
         new_x.drop(
@@ -223,19 +229,17 @@ class RampExternalDataGenerator:
 
     DataSeparator = '#-#'
 
-    def __init__(
-            self,
-            submission='my_submission',
-            submissions_dir='submissions',
-            path='.'
-    ):
+    def __init__(self):
         external_data_path = os.path.join(os.path.dirname(__file__), 'external_data.csv')
         self.__external_data = pd.read_csv(external_data_path, header=0)
         self.__passengers = pd.read_csv(
             'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/passengers.csv'
         )
-        self.__logPAX = pd.read_csv(
-            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_PAX.csv'
+        self.__monthly_logPAX = pd.read_csv(
+            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_monthly_PAX.csv'
+        )
+        self.__weekday_logPAX = pd.read_csv(
+            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_weekday_PAX.csv'
         )
 
     def get_external_data(self):
@@ -244,8 +248,11 @@ class RampExternalDataGenerator:
     def get_passengers(self):
         return self.__passengers
 
-    def get_log_pax(self):
-        return self.__logPAX
+    def get_monthly_log_pax(self):
+        return self.__monthly_logPAX
+
+    def get_weekday_log_pax(self):
+        return self.__weekday_logPAX
 
 
 class RampModel:
@@ -272,6 +279,7 @@ class RampModel:
     def fit(self, x, y):
         print('Fitting training data...')
         new_x = self.__dm.append_external_data(x)
+        nas = new_x.isna().any()
         self.__pipeline.fit(X=new_x, y=y)
 
     def predict(self, x):
@@ -310,6 +318,14 @@ class Regressor(BaseEstimator):
             },
             optimizable_parameters={}
         )
+        # self.reg = RampModel(
+        #     sk_model=HistGradientBoostingRegressor,
+        #     fixed_parameters={
+        #         "l2_regularization": 0.9752299302272766,
+        #         "learning_rate": 0.153187560120574
+        #     },
+        #     optimizable_parameters={}
+        # )
 
     def fit(self, X, y):
         print("fit...")
