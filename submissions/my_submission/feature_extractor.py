@@ -1,7 +1,3 @@
-import pandas as pd
-import os
-
-from Service.data_manager import DataManager
 
 
 class FeatureExtractor(object):
@@ -12,5 +8,4 @@ class FeatureExtractor(object):
         pass
 
     def transform(self, x_df):
-        # x_df = self.__dm.append_to_data(x_df)
         return x_df

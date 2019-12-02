@@ -7,6 +7,8 @@ from Service.data_manager import DataManager
 from sklearn.exceptions import NotFittedError
 from sklearn.metrics import mean_squared_error
 import time
+import numpy as np
+import matplotlib.pyplot as plt
 
 
 class Model:
@@ -21,7 +23,7 @@ class Model:
     Model_save_dir = 'data/models'
     Optimizable_parameters_f_name = 'optimizable_parameters.json'
 
-    def __init__(self, sk_model, dm=None, fixed_parameters=None, optimizable_parameters=None, from_file = False):
+    def __init__(self, sk_model, dm=None, fixed_parameters=None, optimizable_parameters=None, from_file=False):
         """
         Constructor of the model.
 
@@ -242,3 +244,15 @@ class Model:
         self._optimal_params = params['opt']
         self.update_model()
         self.is_optimized = True
+
+    def feature_importance(self):
+        ordering = np.argsort(self._pipeline[0].feature_importances_)[::-1][:20]
+        importances = self._pipeline[0].feature_importances_[ordering]
+        feature_names = self.dm.get_train_X().columns[ordering]
+        x = np.arange(len(feature_names))
+        plt.figure()
+        plt.bar(x, importances)
+        plt.xticks(x, feature_names, rotation=90)
+        plt.show()
+
+

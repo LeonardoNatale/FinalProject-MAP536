@@ -55,33 +55,34 @@ if model:
         }
     }
 
-    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-    # x.model_quality_testing()
-
-    model_type = BaggingRegressor
-    fixed = {
-        "base_estimator": HistGradientBoostingRegressor(),
-        "n_jobs": -1
-    }
     opt = {
         "RandomSearch": {},
-        "GridSearch": {}
+        'GridSearch': {}
     }
 
-    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-    # x.model_quality_testing()
+    # model_type = BaggingRegressor
+    # fixed = {
+    #     "base_estimator": HistGradientBoostingRegressor(),
+    #     "n_jobs": -1
+    # }
+    # opt = {
+    #     "RandomSearch": {},
+    #     "GridSearch": {}
+    # }
 
-    model_type = AdaBoostRegressor
-    fixed = {
-        "base_estimator": HistGradientBoostingRegressor(),
-    }
-    opt = {
-        "RandomSearch": {},
-        "GridSearch": {}
-    }
+    # model_type = AdaBoostRegressor
+    # fixed = {
+    #     "base_estimator": HistGradientBoostingRegressor(),
+    # }
+    # opt = {
+    #     "RandomSearch": {},
+    #     "GridSearch": {}
+    # }
 
     x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+
     x.model_quality_testing()
+    x.feature_importance()
     x.save_model()
 
 
@@ -143,3 +144,13 @@ if multi:
     )
 
     print(multi.multi_model_testing())
+
+
+# model_type = AdaBoostRegressor
+# fixed = {
+#     "base_estimator": HistGradientBoostingRegressor(
+#         l2_regularization=0.9752299302272766,
+#         learning_rate=0.153187560120574
+#     ),
+# }
+

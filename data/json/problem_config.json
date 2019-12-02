@@ -21,7 +21,6 @@
         "Mean VisibilityKm",
         "Mean Wind SpeedKm/h",
         "CloudCover",
-        "Events",
         "is_holiday",
         "is_beginning_holiday",
         "is_end_holiday",

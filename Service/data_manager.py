@@ -1,7 +1,6 @@
 import pandas as pd
 import os
 import geopy.distance
-
 from Service.problem_manager import Problem
 from Service.external_data_generator import ExternalDataGenerator
 
@@ -206,13 +205,14 @@ class DataManager:
 
         # Creating dummy variables.
         to_dummify = {
-            'Events_dep': 'e_d',
             'type_dep': 't_d',
-            'Events_arr': 'e_a',
             'type_arr': 't_a',
             'Departure': 'dep',
             'Arrival': 'arr'
         }
+
+        # 'Events_dep': 'e_d',
+        # 'Events_arr': 'e_a',
 
         # For every variable to dummify, we create dummies
         # and then remove the original variable from the data.
