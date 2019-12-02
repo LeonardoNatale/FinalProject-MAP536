@@ -22,7 +22,7 @@ class RampDataManager:
         self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
         self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
         # Transforming the data to be ready for fit.
-        self.transform()
+        # self.transform()
 
     @staticmethod
     def suffix_join(x, additional, suffix, col):

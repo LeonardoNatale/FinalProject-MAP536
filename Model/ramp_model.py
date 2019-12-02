@@ -15,7 +15,9 @@ class RampModel:
         self._model_name_lower = self.model_name.lower()
         self.__dm = RampDataManager()
         self.is_optimized = False
-        self.__fixed_parameters = fixed_parameters
+        self.__optimal_params = {}
+        self.__fixed_parameters = dict() if fixed_parameters is None else fixed_parameters
+        self._random_opt_params = {}
         self.__optimizable_parameters = optimizable_parameters
         self.__pipeline = Pipeline(
             [
@@ -25,22 +27,30 @@ class RampModel:
                 )
             ]
         )
+        if optimizable_parameters and 'RandomSearch' in optimizable_parameters.keys():
+            self.__random_opt_params = optimizable_parameters['RandomSearch']
+        self._grid_opt_params = {}
+        if optimizable_parameters and 'GridSearch' in optimizable_parameters.keys():
+            self._grid_opt_params = optimizable_parameters['GridSearch']
+
+    def get_model_name_lower(self):
+        return self._model_name_lower
 
     def get_pipeline(self):
         return self.__pipeline
 
     def get_fixed_parameters(self):
-        return self._fixed_parameters
+        return self.__fixed_parameters
 
     def get_optimal_parameters(self):
         if self.is_optimized:
-            return self._optimal_params
+            return self.__optimal_params
         else:
             raise ValueError('Model has not been optimized. Please run optimize_model()')
 
     def get_optimal_model(self):
         if self.is_optimized:
-            return self._pipeline
+            return self.__pipeline
         else:
             raise ValueError('Model has not been optimized. Please run optimize_model()')
 
@@ -48,11 +58,11 @@ class RampModel:
         """
         Creates a pipeline with the model and its fixed parameters.
         """
-        self._pipeline = Pipeline(
+        self.__pipeline = Pipeline(
             [
                 (
                     self._model_name_lower,
-                    self._model(**self._fixed_parameters)
+                    self._model(**self.__fixed_parameters)
                 )
             ]
         )
@@ -70,16 +80,16 @@ class RampModel:
         else:
             print(f'Optimizing model : {self.model_name}...')
             # Check that we have a pipeline, which should always be the case.
-            if self._pipeline is not None:
+            if self.__pipeline is not None:
                 mo = ModelOptimizer(self)
                 # Checking that the dict is not empty
-                if self._random_opt_params:
+                if self.__random_opt_params:
                     # Doing the RandomSearchCV
-                    self._optimal_params.update(
+                    self.__optimal_params.update(
                         mo.random_search_optimize(
-                            self.dm.get_train_X(),
-                            self.dm.get_train_y(),
-                            self._random_opt_params
+                            self.__dm.get_train_X(),
+                            self.__dm.get_train_y(),
+                            self.__random_opt_params
                         )
                     )
                     # Updating model.
@@ -87,10 +97,10 @@ class RampModel:
                 # Checking that the dict is not empty
                 if self._grid_opt_params:
                     # Doing the GridSearchCV
-                    self._optimal_params.update(
+                    self.__optimal_params.update(
                         mo.grid_search_optimize(
-                            self.dm.get_train_X(),
-                            self.dm.get_train_y(),
+                            self.__dm.get_train_X(),
+                            self.__dm.get_train_y(),
                             self._grid_opt_params
                         )
                     )
@@ -105,7 +115,7 @@ class RampModel:
         """
         Updates the model with the most recent optimized parameters.
         """
-        self._pipeline.set_params(**self._optimal_params)
+        self.__pipeline.set_params(**self.__optimal_params)
 
     def fit(self, x, y):
         print('Fitting training data...')
@@ -134,17 +144,17 @@ class RampModel:
         :return: A DataFrame with the before/after RMSEs, the model name and it's optimized parameters.
         """
         self.fit(self.__dm.get_train_X(), self.__dm.get_train_y())
-        before_rmse = self.rmse()
+        before_rmse = self.rmse(self.__dm.get_train_X(), self.__dm.get_train_y())
         self.optimize_model()
         start_time = time.time()
         self.fit(self.__dm.get_train_X(), self.__dm.get_train_y())
         fit_time = time.time() - start_time
         if as_df:
-            return [self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse(), fit_time]
+            return [self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse(self.__dm.get_train_X(), self.__dm.get_train_y()), fit_time]
         else:
             print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
             print(f'RMSE of non optimized model : {before_rmse}')
-            print(f'RMSE of optimized model : {self.rmse()}')
+            print(f'RMSE of optimized model : {self.rmse(self.__dm.get_train_X(), self.__dm.get_train_y())}')
             print(f'Fit time : {fit_time}')
 
     def feature_importance(self, x):
