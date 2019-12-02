@@ -5,7 +5,7 @@
 \usepackage{url,csquotes}
 \usepackage[hidelinks,hyperfootnotes=false]{hyperref}
 \usepackage[titlepage,fancysections,pagenumber]{polytechnique}
-
+\usepackage{float}
 
 \title{MAP-536}
 \subtitle{Final Project}
@@ -15,20 +15,6 @@
 \begin{document}
 
 \maketitle
-
-\section{The Task}
-Approach:
-\begin{itemize}
-	\item Explore different ML models
-	\item Data preprocessing, and external datasets
-	\item Tune model hyper parameters \\
-
-\end{itemize}
-Bonus (advanced):
-\begin{itemize}
-	\item Model interpretability
-	\item Evaluate uncertainty in predictions
-\end{itemize}
 
 \section{External Data and Data Preprocessing}
 
@@ -40,7 +26,6 @@ The original data consists of:
 	\item the mean and standard deviation of the number of weeks of the reservations made before the departure date
     \item a field called log\_PAX which is related to the number of passengers (the actual number were changed for privacy reasons)
 \end{itemize}
-
 We have added the following data:
 \begin{itemize}
 	\item Daily Jet Fuel Price
@@ -57,64 +42,47 @@ We were able to add the following extra features, by using the data described ab
 \begin{itemize}
 	\item Number of days to the closest holiday.
 	\item Distance in kilometers between departure and arrival airport.
-	\item Airport Dimension	 (I couldn't find where we get it)
+	\item Airport Dimension
 	\item Monthly log\_PAX per airport, both arrival and departure.
 \end{itemize}
 
 
-\section{Installation du package}
+\section{Structure}
+(Adjust the size and position, maybe explanation at the right)
+\begin{figure}[H]
+	\includegraphics[width=100mm,scale=0.5]{UML.png}
+\end{figure}
 
-\subsection{Prérequis}
+\section{Models and Tuning}
+\subsection{Models}
+Add a table with comparison between different models.
+\begin{center}
+	\begin{tabular}{||c || c c c||} 
+		\hline
+			 & RMSE & Parameter1 & Parameter2 \\ [0.5ex] 
+		\hline\hline
+		\textbf{Model1} & 6 & 87837 & 787 \\ 
+		\hline
+		\textbf{Model2} & 7 & 78 & 5415 \\
+		\hline
+		\textbf{Model3} & 545 & 778 & 7507 \\
+		\hline
+	\end{tabular}
+\end{center}
+Explain why we have chosen our model.
 
-\subsubsection{Packages requis}
+\subsection{Hyperparameters Tuning}
+Our ModelOptimizer class is in charge of the optimization of the models by Grid Search and Randomized Search. It is composed by two methods:
+\begin{itemize}
+	\item grid\_search\_optimize runs a GridSearchCV with the given params and outputs the optimal value of the parameters for the model.
+	\item random\_search\_optimize runs a a RandomSearchCV with the given params to which we associate the given distribution.
+\end{itemize}
 
-
-
-\subsubsection{Installer les packages manquants}
-
-
-\paragraph{Mac} Pour mettre à jour ou installer des packages, il faut utiliser l'application \emph{Tex Live utility}, dont un tutoriel en français très 
-\paragraph{Linux} Dans un terminal, exécuter la commande 
-\begin{verbatim}
-tlmgr install <nom du package>
-\end{verbatim}
-
-
-\subsection{Installation du package \texttt{polytechnique}}
-
-\subsubsection{Méthode automatique}
-
-
-
-Extraire le dossier \texttt{polytechnique-LaTeX} à la racine de l'archive quelque part sur son ordinateur. Entrer dans le dossier et effectuer l'action suivante :
-\begin{description}
-\item[Windows] double-cliquer sur \texttt{makefile\_windows.bat} ;
-\item[Linux ou Mac] ouvrir un terminal dans le dossier et y entrer la commande
-\begin{verbatim}
-make && make install
-\end{verbatim}
-\end{description}
-Après exécution du script, le message affiché sur la console devrait être :
-\begin{verbatim}
-************************************************
-* Le package a ete installe ! La documentation *
-* se trouve a l'emplacement suivant :          *
-<chemin qui dépend de votre ordinateur>
-* Les fichiers sources et resources a          *
-* l'endroit suivant :                          *
-<chemin qui dépend de votre ordinateur>
-* Et le .sty a l'endroit suivant :             *
-<chemin qui dépend de votre ordinateur>
-* Bonne utilisation !                          *
-************************************************
-\end{verbatim}
-
-Si ce message ne s'affiche pas ou si l'installation semble ne pas fonctionner quand vous essayez d'utiliser le package, se reporter à la méthode manuelle.
-\subsubsection{Méthode manuelle}
-
-
-\subsection{Documentation}
-
-La documentation du package est le fichier \texttt{polytechnique.pdf} qui se trouve entre autres dans le dossier \emph{source} de l'archive extraite.
+\section{Conclusion}
+\subsection{Model Interpretability}
+Feature importance graph and comments.
+\subsection{Evaluation of Uncertainty in Predictions}
+Talk about: 
+\subsection{Final Comments and Possible Improvements}
 
 \end{document}

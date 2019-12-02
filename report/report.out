@@ -1,12 +1,11 @@
-\BOOKMARK [1][-]{section.1}{The Task}{}% 1
-\BOOKMARK [1][-]{section.2}{External Data and Data Preprocessing}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Getting External Data}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Feature Engineering}{section.2}% 4
-\BOOKMARK [1][-]{section.3}{Installation du package}{}% 5
-\BOOKMARK [2][-]{subsection.3.1}{Pr\351requis}{section.3}% 6
-\BOOKMARK [3][-]{subsubsection.3.1.1}{Packages requis}{subsection.3.1}% 7
-\BOOKMARK [3][-]{subsubsection.3.1.2}{Installer les packages manquants}{subsection.3.1}% 8
-\BOOKMARK [2][-]{subsection.3.2}{Installation du package polytechnique}{section.3}% 9
-\BOOKMARK [3][-]{subsubsection.3.2.1}{M\351thode automatique}{subsection.3.2}% 10
-\BOOKMARK [3][-]{subsubsection.3.2.2}{M\351thode manuelle}{subsection.3.2}% 11
-\BOOKMARK [2][-]{subsection.3.3}{Documentation}{section.3}% 12
+\BOOKMARK [1][-]{section.1}{External Data and Data Preprocessing}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Getting External Data}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Feature Engineering}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Structure}{}% 4
+\BOOKMARK [1][-]{section.3}{Models and Tuning}{}% 5
+\BOOKMARK [2][-]{subsection.3.1}{Models}{section.3}% 6
+\BOOKMARK [2][-]{subsection.3.2}{Hyperparameters Tuning}{section.3}% 7
+\BOOKMARK [1][-]{section.4}{Conclusion}{}% 8
+\BOOKMARK [2][-]{subsection.4.1}{Model Interpretability}{section.4}% 9
+\BOOKMARK [2][-]{subsection.4.2}{Evaluation of Uncertainty in Predictions}{section.4}% 10
+\BOOKMARK [2][-]{subsection.4.3}{Final Comments and Possible Improvements}{section.4}% 11
