@@ -11,19 +11,38 @@ class Problem:
     _problem_f_name = 'problem_config.json'
 
     def __init__(self):
-        full_path = os.path.join(
-            Problem._problem_path,
-            Problem._problem_dir,
-            Problem._problem_f_name
-        )
-        with open(full_path, 'r') as f:
-            config = json.load(f)
-        self._problem_title = config['problem_title']
-        self._target_column_name = config['target_column_name']
-        self._train_f_name = config['train_f_name']
-        self._test_f_name = config['test_f_name']
-        self._ed_model_columns = config['external_data_model_columns']
-        self._ext_data_f_names = config['ext_data_f_names']
+        self._problem_title = "Number of air passengers prediction"
+        self._target_column_name = "log_PAX"
+        self._train_f_name = "train.csv.bz2"
+        self._test_f_name = "test.csv.bz2"
+        self._ed_model_columns = [
+            "Date",
+            "AirPort",
+            "Mean TemperatureC",
+            "Mean Humidity",
+            "Mean Sea Level PressurehPa",
+            "Mean VisibilityKm",
+            "Mean Wind SpeedKm/h",
+            "CloudCover",
+            "is_holiday",
+            "is_beginning_holiday",
+            "is_end_holiday",
+            "holidays_distance",
+            "type",
+            "gdp",
+            "coordinates",
+            "fuel_price",
+            "passengers"
+        ]
+        self._ext_data_f_names = {
+            "weather": "weather_data.csv",
+            "airports": "airport-codes.csv",
+            "gdp": "gdp.csv",
+            "external_data": "external_data.csv",
+            "jet_fuel": "jetfuel.csv",
+            "passengers": "passengers.csv",
+            "pax_aggregations": "aggregated_PAX.csv"
+        }
 
     def get_target_column_name(self):
         return self._target_column_name

@@ -2,6 +2,7 @@ from Model.multi_model import MultiModel
 from Model.model import Model
 from Service.external_data_generator import ExternalDataGenerator
 import scipy.stats
+import pandas as pd
 from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor, BaggingRegressor, AdaBoostRegressor
 from sklearn.linear_model import SGDRegressor
@@ -36,13 +37,19 @@ if model:
     opt = {
         "RandomSearch": {
             "l2_regularization": scipy.stats.uniform(0, 10),
-            "min_samples_leaf": scipy.stats.uniform(10, 50),
-            "max_iter": scipy.stats.uniform(50, 200)
+            "min_samples_leaf": scipy.stats.randint(low=10, high=50),
+            "max_iter": scipy.stats.randint(low=50, high=200)
         }
     }
 
     x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-    x.model_quality_testing()
+    dm = x.get_data_manager()
+    x.model_quality_testing(
+        train_x=dm.get_train_X(),
+        train_y=dm.get_train_y(),
+        test_x=dm.get_test_X(),
+        test_y=dm.get_test_y()
+    )
 
     # model_type = GradientBoostingRegressor
     # fixed = {}

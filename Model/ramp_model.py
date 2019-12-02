@@ -33,6 +33,9 @@ class RampModel:
         if optimizable_parameters and 'GridSearch' in optimizable_parameters.keys():
             self._grid_opt_params = optimizable_parameters['GridSearch']
 
+    def get_data_manager(self):
+        return self.__dm
+
     def get_model_name_lower(self):
         return self._model_name_lower
 
@@ -67,12 +70,14 @@ class RampModel:
             ]
         )
 
-    def optimize_model(self, force=False):
+    def optimize_model(self, x, y, force=False):
         """
         Optimizes the model using GridSearch and RandomSearch and updates the model accordingly.
+        :param y:
+        :param x:
         :param force: Boolean to force re-optimization if the model is already optimized.
         """
-
+        x = self.__dm.append_external_data(x)
         if self.is_optimized and not force:
             print(
                 f'Model {self.model_name} is already optimized, doing nothing, use force = True to force '
@@ -87,8 +92,8 @@ class RampModel:
                     # Doing the RandomSearchCV
                     self.__optimal_params.update(
                         mo.random_search_optimize(
-                            self.__dm.get_train_X(),
-                            self.__dm.get_train_y(),
+                            x,
+                            y,
                             self.__random_opt_params
                         )
                     )
@@ -99,8 +104,8 @@ class RampModel:
                     # Doing the GridSearchCV
                     self.__optimal_params.update(
                         mo.grid_search_optimize(
-                            self.__dm.get_train_X(),
-                            self.__dm.get_train_y(),
+                            x,
+                            y,
                             self._grid_opt_params
                         )
                     )
@@ -136,25 +141,35 @@ class RampModel:
         """
         return np.sqrt(mean_squared_error(self.predict(x), y))
 
-    def model_quality_testing(self, as_df=False):
+    def model_quality_testing(self, train_x, train_y, test_x, test_y, as_df=False):
         """
         Utility function that computes the difference of RMSE before and after optimization.
 
+        :param test_y:
+        :param test_x:
+        :param train_y:
+        :param train_x:
         :param as_df: Whereas the result should be returned as a DataFrame or just printed to the console.
         :return: A DataFrame with the before/after RMSEs, the model name and it's optimized parameters.
         """
-        self.fit(self.__dm.get_train_X(), self.__dm.get_train_y())
-        before_rmse = self.rmse(self.__dm.get_train_X(), self.__dm.get_train_y())
-        self.optimize_model()
+        self.fit(train_x, train_y)
+        before_rmse = self.rmse(test_x, test_y)
+        self.optimize_model(train_x, train_y)
         start_time = time.time()
-        self.fit(self.__dm.get_train_X(), self.__dm.get_train_y())
+        self.fit(train_x, train_y)
         fit_time = time.time() - start_time
         if as_df:
-            return [self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse(self.__dm.get_train_X(), self.__dm.get_train_y()), fit_time]
+            return [
+                self._model_name_lower,
+                self.get_optimal_parameters(),
+                before_rmse,
+                self.rmse(test_x, test_y),
+                fit_time
+            ]
         else:
             print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
             print(f'RMSE of non optimized model : {before_rmse}')
-            print(f'RMSE of optimized model : {self.rmse(self.__dm.get_train_X(), self.__dm.get_train_y())}')
+            print(f'RMSE of optimized model : {self.rmse(test_x, test_y)}')
             print(f'Fit time : {fit_time}')
 
     def feature_importance(self, x):
