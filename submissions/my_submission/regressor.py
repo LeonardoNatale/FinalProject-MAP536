@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-import geopy
+import geopy.distance
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error
 from sklearn.base import BaseEstimator
@@ -172,7 +172,7 @@ class RampDataManager:
         new_x = new_x.merge(
             self.__edg.get_log_pax(),
             how='left',
-            on=["Departure", "DateOfDeparture"]
+            on=["Departure", "month"]
         )
 
         new_x.drop(
@@ -229,7 +229,7 @@ class RampExternalDataGenerator:
             submissions_dir='submissions',
             path='.'
     ):
-        external_data_path = os.path.join(path, submissions_dir, submission, 'external_data.csv')
+        external_data_path = os.path.join(os.path.dirname(__file__), 'external_data.csv')
         self.__external_data = pd.read_csv(external_data_path, header=0)
         self.__passengers = pd.read_csv(
             'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/passengers.csv'
@@ -237,7 +237,6 @@ class RampExternalDataGenerator:
         self.__logPAX = pd.read_csv(
             'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_PAX.csv'
         )
-        self.__logPAX['DateOfDeparture'] = pd.to_datetime(self.__logPAX['DateOfDeparture'])
 
     def get_external_data(self):
         return self.__external_data
@@ -273,7 +272,6 @@ class RampModel:
     def fit(self, x, y):
         print('Fitting training data...')
         new_x = self.__dm.append_external_data(x)
-        print(f'X columns :\n{list(new_x.columns)}')
         self.__pipeline.fit(X=new_x, y=y)
 
     def predict(self, x):
@@ -303,8 +301,13 @@ class RampModel:
 class Regressor(BaseEstimator):
     def __init__(self):
         self.reg = RampModel(
-            sk_model=HistGradientBoostingRegressor,
-            fixed_parameters={},
+            sk_model=AdaBoostRegressor,
+            fixed_parameters={
+                "base_estimator": HistGradientBoostingRegressor(
+                    l2_regularization=0.9752299302272766,
+                    learning_rate=0.153187560120574
+                )
+            },
             optimizable_parameters={}
         )
 
