@@ -3,6 +3,7 @@ from Service.ramp_external_data_generator import RampExternalDataGenerator
 from Service.problem_manager import Problem
 import pandas as pd
 import geopy
+import os
 
 
 class RampDataManager:
@@ -12,6 +13,14 @@ class RampDataManager:
         # TODO put the attributes of problem in DM directly?
         self.__problem = Problem()
         self.categorical_columns = ['type_dep', 'type_arr']
+
+        train_x, self.__train_y = self._read_train_data()
+        train_x['label'] = 'train'
+        test_x, self.__test_y = self._read_test_data()
+        test_x['label'] = 'test'
+        self.__full_X = pd.concat([train_x, test_x])
+        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
+        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
 
     @staticmethod
     def suffix_join(x, additional, suffix, col):
@@ -154,3 +163,48 @@ class RampDataManager:
         new_x = new_x.drop(rm_cols, axis=1)
 
         return new_x
+
+    def get_test_X(self):
+        return self.__test_X
+
+    def get_test_y(self):
+        return self.__test_y
+
+    def get_train_X(self):
+        return self.__train_X
+
+    def get_train_y(self):
+        return self.__train_y
+
+    def _read_data(self, path, f_name):
+        """
+        Reads data from a file and returns the predictors
+        as a data frame and the variable to predict as a
+        Series.
+
+        :param path: the root directory of the file.
+        :param f_name: the name of the file.
+        :return: the X and y.
+        """
+        data = pd.read_csv(os.path.join(path, 'data', f_name))
+        y_array = data[self._problem.get_target_column_name()].values
+        x_df = data.drop(self._problem.get_target_column_name(), axis=1)
+        return x_df, y_array
+
+    def _read_train_data(self, path='.'):
+        """
+        Returns the training data for the model.
+
+        :param path: The root directory
+        :return: X_train and y_train
+        """
+        return self._read_data(path, self._problem.get_train_f_name())
+
+    def _read_test_data(self, path='.'):
+        """
+        Returns the testing data for the model.
+
+        :param path: The root directory
+        :return: X_test and y_test
+        """
+        return self._read_data(path, self._problem.get_test_f_name())

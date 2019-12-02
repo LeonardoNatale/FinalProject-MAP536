@@ -6,6 +6,8 @@ from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor, BaggingRegressor, AdaBoostRegressor
 from sklearn.linear_model import SGDRegressor
 from Service.data_manager import DataManager
+from Service.ramp_data_manager import RampDataManager
+from Model.ramp_model import RampModel
 
 model = True
 multi = False
@@ -33,32 +35,33 @@ if model:
     fixed = {"loss": 'least_squares'}
     opt = {
         "RandomSearch": {
-            "learning_rate": scipy.stats.uniform(0, 1),
-            "l2_regularization": scipy.stats.uniform(0, 1)
+            "l2_regularization": scipy.stats.uniform(0, 10),
+            "min_samples_leaf": scipy.stats.uniform(10, 50),
+            "max_iter": scipy.stats.uniform(50, 200)
         }
     }
 
-    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-    # x.model_quality_testing()
+    x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+    x.model_quality_testing()
 
-    model_type = GradientBoostingRegressor
-    fixed = {}
-    opt = {
-        "RandomSearch": {
-            "learning_rate": scipy.stats.uniform(0, 1),
-            "max_features": scipy.stats.uniform(0, 1),
-            "alpha": scipy.stats.uniform(0, 1)
-        },
-        'GridSearch': {
-            "loss": ['ls', 'quantile'],
-            "criterion": ["friedman_mse", "mse"]
-        }
-    }
-
-    opt = {
-        "RandomSearch": {},
-        'GridSearch': {}
-    }
+    # model_type = GradientBoostingRegressor
+    # fixed = {}
+    # opt = {
+    #     "RandomSearch": {
+    #         "learning_rate": scipy.stats.uniform(0, 1),
+    #         "max_features": scipy.stats.uniform(0, 1),
+    #         "alpha": scipy.stats.uniform(0, 1)
+    #     },
+    #     'GridSearch': {
+    #         "loss": ['ls', 'quantile'],
+    #         "criterion": ["friedman_mse", "mse"]
+    #     }
+    # }
+    #
+    # opt = {
+    #     "RandomSearch": {},
+    #     'GridSearch': {}
+    # }
 
     # model_type = BaggingRegressor
     # fixed = {
@@ -79,16 +82,16 @@ if model:
     #     "GridSearch": {}
     # }
 
-    x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-
-    x.model_quality_testing()
-    x.feature_importance()
-    x.save_model()
+    # x = Model(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+    #
+    # x.model_quality_testing()
+    # x.feature_importance()
+    # x.save_model()
 
 
 # ------------------ MULTI MODELS ------------------ #
 
-if multi:
+# if multi:
     # multi = MultiModel(
     #     {
     #         "models": {
@@ -109,21 +112,21 @@ if multi:
     #         }
     #     }
     # )
-
-    multi = MultiModel(
-        {
-            "models": {
-                HistGradientBoostingRegressor: {
-                    "fixed_parameters": {
-                        "loss": 'least_squares'
-                    },
-                    "optimizable_parameters": {
-                        "RandomSearch": {
-                            "learning_rate": scipy.stats.uniform(0, 1),
-                            "l2_regularization": scipy.stats.uniform(0, 1)
-                        }
-                    }
-                }
+    #
+    # multi = MultiModel(
+    #     {
+    #         "models": {
+    #             HistGradientBoostingRegressor: {
+    #                 "fixed_parameters": {
+    #                     "loss": 'least_squares'
+    #                 },
+    #                 "optimizable_parameters": {
+    #                     "RandomSearch": {
+    #                         "learning_rate": scipy.stats.uniform(0, 1),
+    #                         "l2_regularization": scipy.stats.uniform(0, 1)
+    #                     }
+    #                 }
+    #             }
                 # ,
                 # GradientBoostingRegressor: {
                 #     "fixed_parameters": {
@@ -139,11 +142,11 @@ if multi:
                 #         }
                 #     }
                 # }
-            }
-        }
-    )
-
-    print(multi.multi_model_testing())
+    #         }
+    #     }
+    # )
+    #
+    # print(multi.multi_model_testing())
 
 
 # model_type = AdaBoostRegressor
