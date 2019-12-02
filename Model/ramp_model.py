@@ -125,7 +125,7 @@ class RampModel:
     def fit(self, x, y):
         print('Fitting training data...')
         new_x = self.__dm.append_external_data(x)
-        print(f'X columns :\n{list(new_x.columns)}')
+        # print(f'X columns :\n{list(new_x.columns)}')
         self.__pipeline.fit(X=new_x, y=y)
 
     def predict(self, x):
@@ -153,7 +153,8 @@ class RampModel:
         :return: A DataFrame with the before/after RMSEs, the model name and it's optimized parameters.
         """
         self.fit(train_x, train_y)
-        before_rmse = self.rmse(test_x, test_y)
+        before_rmse_train = self.rmse(train_x, train_y)
+        before_rmse_test = self.rmse(test_x, test_y)
         self.optimize_model(train_x, train_y)
         start_time = time.time()
         self.fit(train_x, train_y)
@@ -162,14 +163,16 @@ class RampModel:
             return [
                 self._model_name_lower,
                 self.get_optimal_parameters(),
-                before_rmse,
+                before_rmse_train,
                 self.rmse(test_x, test_y),
                 fit_time
             ]
         else:
             print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
-            print(f'RMSE of non optimized model : {before_rmse}')
-            print(f'RMSE of optimized model : {self.rmse(test_x, test_y)}')
+            print(f'RMSE Train of non optimized model : {before_rmse_train}')
+            print(f'RMSE Train of optimized model : {self.rmse(train_x, train_y)}')
+            print(f'RMSE Test of non optimized model : {before_rmse_test}')
+            print(f'RMSE Test of optimized model : {self.rmse(test_x, test_y)}')
             print(f'Fit time : {fit_time}')
 
     def feature_importance(self, x):

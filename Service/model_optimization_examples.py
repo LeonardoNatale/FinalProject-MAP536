@@ -36,9 +36,9 @@ if model:
     fixed = {"loss": 'least_squares'}
     opt = {
         "RandomSearch": {
-            "l2_regularization": scipy.stats.uniform(0, 10),
+            "l2_regularization": scipy.stats.uniform(0.001, 10),
             "min_samples_leaf": scipy.stats.randint(low=10, high=50),
-            "max_iter": scipy.stats.randint(low=50, high=200)
+            "max_iter": scipy.stats.randint(low=400, high=800)
         }
     }
 
