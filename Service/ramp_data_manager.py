@@ -21,6 +21,8 @@ class RampDataManager:
         self.__full_X = pd.concat([train_x, test_x])
         self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
         self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
+        # Transforming the data to be ready for fit.
+        self.transform()
 
     @staticmethod
     def suffix_join(x, additional, suffix, col):
@@ -72,8 +74,8 @@ class RampDataManager:
             self.__problem.get_ed_model_columns()
         )
 
-        new_x, external_data = DataManager.suffix_join(new_x, external_data, '_dep', 'Departure')
-        new_x, external_data = DataManager.suffix_join(new_x, external_data, '_arr', 'Arrival')
+        new_x, external_data = RampDataManager.suffix_join(new_x, external_data, '_dep', 'Departure')
+        new_x, external_data = RampDataManager.suffix_join(new_x, external_data, '_arr', 'Arrival')
 
         # Distance between 2 airports
         dep_coords = list(
@@ -116,9 +118,15 @@ class RampDataManager:
         )
 
         new_x = new_x.merge(
-            self.__edg.get_log_pax(),
+            self.__edg.get_monthly_log_pax(),
             how='left',
-            on=["Departure", "DateOfDeparture"]
+            on=["Departure", "month"]
+        )
+
+        new_x = new_x.merge(
+            self.__edg.get_weekday_log_pax(),
+            how='left',
+            on=["Departure", "weekday"]
         )
 
         new_x.drop(
@@ -187,8 +195,8 @@ class RampDataManager:
         :return: the X and y.
         """
         data = pd.read_csv(os.path.join(path, 'data', f_name))
-        y_array = data[self._problem.get_target_column_name()].values
-        x_df = data.drop(self._problem.get_target_column_name(), axis=1)
+        y_array = data[self.__problem.get_target_column_name()].values
+        x_df = data.drop(self.__problem.get_target_column_name(), axis=1)
         return x_df, y_array
 
     def _read_train_data(self, path='.'):
@@ -198,7 +206,7 @@ class RampDataManager:
         :param path: The root directory
         :return: X_train and y_train
         """
-        return self._read_data(path, self._problem.get_train_f_name())
+        return self._read_data(path, self.__problem.get_train_f_name())
 
     def _read_test_data(self, path='.'):
         """
@@ -207,4 +215,13 @@ class RampDataManager:
         :param path: The root directory
         :return: X_test and y_test
         """
-        return self._read_data(path, self._problem.get_test_f_name())
+        return self._read_data(path, self.__problem.get_test_f_name())
+
+    def transform(self):
+        """
+        Data re-formatter, making the data ready for model fitting.
+        """
+        print("Transforming data...")
+        self.__full_X = self.append_external_data(self.__full_X)
+        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
+        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)

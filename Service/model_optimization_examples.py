@@ -6,7 +6,7 @@ from sklearn.experimental import enable_hist_gradient_boosting
 from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor, BaggingRegressor, AdaBoostRegressor
 from sklearn.linear_model import SGDRegressor
 from Service.data_manager import DataManager
-from Service.ramp_data_manager import RampDataManager
+from Service.ramp_external_data_generator import RampExternalDataGenerator
 from Model.ramp_model import RampModel
 
 model = True
@@ -24,7 +24,7 @@ if data_manager:
 
 # To generate external data once again
 if external_data:
-    x = ExternalDataGenerator()
+    x = RampExternalDataGenerator()
     x._write_external_data()
 
 # ------------------ MODELS ------------------ #

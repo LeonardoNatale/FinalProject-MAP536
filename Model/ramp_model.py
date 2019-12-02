@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from Service.model_optimizer import ModelOptimizer
 import matplotlib.pyplot as plt
+import time
 
 
 class RampModel:
@@ -124,6 +125,27 @@ class RampModel:
         :return: The RMSE of the model.
         """
         return np.sqrt(mean_squared_error(self.predict(x), y))
+
+    def model_quality_testing(self, as_df=False):
+        """
+        Utility function that computes the difference of RMSE before and after optimization.
+
+        :param as_df: Whereas the result should be returned as a DataFrame or just printed to the console.
+        :return: A DataFrame with the before/after RMSEs, the model name and it's optimized parameters.
+        """
+        self.fit(self.__dm.get_train_X(), self.__dm.get_train_y())
+        before_rmse = self.rmse()
+        self.optimize_model()
+        start_time = time.time()
+        self.fit(self.__dm.get_train_X(), self.__dm.get_train_y())
+        fit_time = time.time() - start_time
+        if as_df:
+            return [self._model_name_lower, self.get_optimal_parameters(), before_rmse, self.rmse(), fit_time]
+        else:
+            print(f'Optimal parameters of the model :\n{self.get_optimal_parameters()}')
+            print(f'RMSE of non optimized model : {before_rmse}')
+            print(f'RMSE of optimized model : {self.rmse()}')
+            print(f'Fit time : {fit_time}')
 
     def feature_importance(self, x):
         ordering = np.argsort(self.__pipeline[0].feature_importances_)[::-1][:20]
