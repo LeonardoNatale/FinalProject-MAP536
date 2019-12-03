@@ -51,12 +51,13 @@ if external_data:
 if model:
 
     model_type = HistGradientBoostingRegressor
-    fixed = {"loss": 'least_squares', "min_samples_leaf": 20}
+    fixed = {"loss": 'least_squares'}
     opt = {
         "RandomSearch": {
-            "max_depth": scipy.stats.randint(5, 15),
-            "l2_regularization": scipy.stats.uniform(0.001, 2),
-            "max_iter": scipy.stats.randint(low=800, high=1000)
+            "max_depth": [5, 10, 15, 20],
+            "min_samples_leaf": scipy.stats.randint(20, 100),
+            "l2_regularization": [0.0015, 0.0025, 0.0035, 0.0045, 0.0055, 0.0065, 0.0075, 0.0085, 0.0095],
+            "max_iter": [200, 500, 800, 1000, 1500, 2000]
         }
     }
 

@@ -14,3 +14,8 @@
 - Copy df below
 - Tune the model
 - Add LogPAX to problem config
+
+# Features
+
+- Mean STD
+- Mean

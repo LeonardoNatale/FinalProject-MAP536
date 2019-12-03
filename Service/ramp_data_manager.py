@@ -109,6 +109,7 @@ class RampDataManager:
         new_x = new_x.join(pd.get_dummies(new_x['weekday'], prefix='wd'))
         new_x = new_x.join(pd.get_dummies(new_x['week'], prefix='w'))
 
+        new_x["is_weekend"] = new_x["weekday"].apply(lambda x: x in [4, 5, 6])
         # Need to add the number of passengers here because we don't have the info in external_data_generator.
         new_x = new_x.merge(
             self.__edg.get_passengers(),
@@ -117,7 +118,7 @@ class RampDataManager:
             right_on=['month', 'year', 'origin', 'destination']
         )
 
-        print(list(new_x.columns))
+        # print(list(new_x.columns))
 
         new_x = new_x.merge(
             self.__edg.get_monthly_log_pax_dep(),
@@ -154,14 +155,11 @@ class RampDataManager:
         )
 
         to_dummify = {
-            'type_dep': 't_d',
-            'type_arr': 't_a',
             'Departure': 'dep',
             'Arrival': 'arr'
         }
 
         new_x['prodGDP'] = new_x['gdp_dep'] * new_x['gdp_arr']
-        new_x['prodPAX'] = new_x['gdp_dep'] * new_x['gdp_arr']
 
         # Add events in problemConfig
         # 'Events_dep': 'e_d',

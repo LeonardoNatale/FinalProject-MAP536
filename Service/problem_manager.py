@@ -28,7 +28,6 @@ class Problem:
             "is_beginning_holiday",
             "is_end_holiday",
             "holidays_distance",
-            "type",
             "gdp",
             "coordinates",
             "fuel_price",
