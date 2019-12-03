@@ -1,4 +1,3 @@
-from Service.external_data_generator import ExternalDataGenerator
 import os
 import pandas as pd
 

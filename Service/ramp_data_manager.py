@@ -1,4 +1,3 @@
-from Service.data_manager import DataManager
 from Service.ramp_external_data_generator import RampExternalDataGenerator
 from Service.problem_manager import Problem
 import pandas as pd

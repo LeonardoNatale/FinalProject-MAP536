@@ -1,7 +1,3 @@
-import os
-import json
-
-
 class Problem:
     """
     This class is in charge of managing a Problem i.e. the configuration of the model implementation.
