@@ -18,12 +18,19 @@ class RampExternalDataGenerator:
         self.__passengers = pd.read_csv(
             'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/passengers.csv'
         )
-        self.__monthly_logPAX = pd.read_csv(
-            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_monthly_PAX.csv'
+        self.__monthly_logPAX_dep = pd.read_csv(
+            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_monthly_PAX_dep.csv'
         )
-        self.__weekday_logPAX = pd.read_csv(
-            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_weekday_PAX.csv'
+        self.__weekday_logPAX_dep = pd.read_csv(
+            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_weekday_PAX_dep.csv'
         )
+        self.__monthly_logPAX_arr = pd.read_csv(
+            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_monthly_PAX_arr.csv'
+        )
+        self.__weekday_logPAX_arr = pd.read_csv(
+            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_weekday_PAX_arr.csv'
+        )
+
 
     def get_external_data(self):
         return self.__external_data
@@ -31,11 +38,17 @@ class RampExternalDataGenerator:
     def get_passengers(self):
         return self.__passengers
 
-    def get_monthly_log_pax(self):
-        return self.__monthly_logPAX
+    def get_monthly_log_pax_dep(self):
+        return self.__monthly_logPAX_dep
 
-    def get_weekday_log_pax(self):
-        return self.__weekday_logPAX
+    def get_weekday_log_pax_dep(self):
+        return self.__weekday_logPAX_dep
+
+    def get_monthly_log_pax_arr(self):
+        return self.__monthly_logPAX_arr
+
+    def get_weekday_log_pax_arr(self):
+        return self.__weekday_logPAX_arr
 
     def _write_external_data(self, verbose=False):
         """
