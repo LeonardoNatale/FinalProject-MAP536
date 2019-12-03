@@ -1,6 +1,9 @@
+library(ggplot2)
+library(dplyr)
+
 init.date <- as.Date("2019-10-25")
 init.x <- init.date + c(0, 1, 15, 18, 20)
-init.y <- c(0.85, 0.84, 0.83, 0.75, 0.37)
+init.y <- c(0.85, 0.84, 0.83, 0.75, 0.39)
 
 init.df <- data.frame(
   x = init.x,
@@ -9,20 +12,39 @@ init.df <- data.frame(
 
 divergence.date <- as.Date("2019-11-14")
 
-continue.x <- divergence.date + c(5, 10, 15)
-continue.y <- c(0.34, 0.29, 0.25)
+continue.x <- divergence.date + c(5, 7, 10, 15)
+continue.y <- c(0.39, 0.37, 0.35, 0.34)
 continue.df <- data.frame(
   x = continue.x,
   y = continue.y
 )
 
 normal.df <- rbind(init.df, continue.df)
-normal.df[, 'is_notable'] <- c(F, F, F, T, T, F, T, F)
+normal.df[, 'is_notable'] <- c(T, F, F, T, T, F, T, T, T)
 normal.notables <- normal.df %>% filter(is_notable)
 normal.notables[, 'annotation'] <- c(
-  'Hyper-parameter tuning', 
-  'GradientBoostingRegressor',
-  'Hyper-parameter tuning'
+  'RandomForest',
+  'Added the distance between airports', 
+  'GradientBoosting',
+  'Hyper-parameter Tuning',
+  'HistGradientBoosting',
+  'AdaBoost'
+)
+normal.notables[, 'ax'] <- c(
+  30,
+  40,
+  40,
+  40,
+  50,
+  -40
+)
+normal.notables[, 'ay'] <- c(
+  30,
+  -40,
+  -40,
+  -30,
+  -20,
+  20
 )
 
 normal.annotation <- list(
@@ -34,20 +56,19 @@ normal.annotation <- list(
   showarrow = TRUE,
   arrowhead = 7,
   arrowsize = .5,
-  ax = 40,
-  ay = -30
+  ax = normal.notables$ax,
+  ay = normal.notables$ay
 )
 print(normal.annotation)
 
 cheat.x <- divergence.date + c(5, 10, 15)
-cheat.y <- c(0.34, 0.14, 0)
+cheat.y <- c(0.39, 0.14, 0)
 cheat.df <- data.frame(
   x = cheat.x,
   y = cheat.y
 )
 cheat.df[, 'is_notable'] <- c(F, F, F)
 
-library(ggplot2)
 
 ggplot(normal.df, aes(x = x, y = y)) +
   geom_line(aes(color = "normal")) +

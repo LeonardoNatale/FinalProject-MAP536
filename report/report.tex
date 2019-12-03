@@ -19,13 +19,8 @@
 \section{External Data and Data Preprocessing}
 
 \subsection{Getting External Data}
-The original data consists of:
-\begin{itemize}
-	\item the date of departure
-	\item the departure and arrival airport
-	\item the mean and standard deviation of the number of weeks of the reservations made before the departure date
-    \item a field called log\_PAX which is related to the number of passengers (the actual number were changed for privacy reasons)
-\end{itemize}
+The original data consists of : The date of departure, the departure and arrival airport, the mean and standard deviation of the number of weeks of the reservations made before the departure date, a field called log\_PAX which is related to the number of passengers (the actual number were changed for privacy reasons).
+
 We have added the following data:
 \begin{itemize}
 	\item Daily Jet Fuel Price
@@ -52,6 +47,17 @@ We were able to add the following extra features, by using the data described ab
 \begin{figure}[H]
 	\includegraphics[width=100mm,scale=0.5]{UML.png}
 \end{figure}
+
+\begin{itemize}
+	\item \textbf{Data} contains all the external data files that we use to create our additional features.
+	\item \textbf{ExtrnalDataGenerator} merges all our external data into the \textit{external_data.csv} file. It is the class that is responsible for all the feature engineering of our models.
+	\item \textbf{DataManager} is some kind of an interface between the model and the external data. It takes data as an input (either the train or test data) and merges it with external data, making it ready for fitting.
+	\item \textbf{Model} is a utility class that stores a sklearn model and two lists : a list of parameters that are to optimize via GridSearchCV and another with parameters that are to be optimized via RandomSearchCV. The main role of this class, when used locally, is to compare the quality of the fit of a model before and after optimization of the hyper-parameters. When used on RAMP, it's role is to contain the model and to fit and predict based on the data passed as an input.
+	\item \textbf{MultiModel} is a class that goal is to simplify the testing of multiple models at the same time. When creating an instance, one can pass multiple models and hyper-parameters list. Then all the models are going to be optimized. The predict method can be used in two different ways : either returning separate predictions for each model or either making the average of the models, which can allow to test models that are combinations of several models.
+	\item \textbf{ModelOptimizer} is an interface, called by Model, that takes care of the RandomSearchCV and GridSearchCV and returns the result to model.
+	\item \textbf{HolidaysManager} is a utility class used to vectorize operations on dates to determine whether they are holidays or how close they are to a holiday.
+	\item \textbf{ProblemManager} is a class that contains metadata about the problem we intend to solve (columns that are relevant, external data we use, etc.)
+\end{itemize}
 
 \section{Models and Tuning}
 \subsection{Models}

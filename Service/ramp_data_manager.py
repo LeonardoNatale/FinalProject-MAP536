@@ -117,8 +117,6 @@ class RampDataManager:
             right_on=['month', 'year', 'origin', 'destination']
         )
 
-        print(list(new_x.columns))
-
         new_x = new_x.merge(
             self.__edg.get_monthly_log_pax_dep(),
             how='left',
@@ -142,7 +140,6 @@ class RampDataManager:
             how='left',
             on=["Arrival", "weekday"]
         )
-        new_x = new_x.rename(columns={'weekday_avg_logPAX': 'weekday_avg_logPAX_dep'})
 
         new_x['prodPAXMonthly'] = new_x['monthly_avg_logPAX_dep'] * new_x['monthly_avg_logPAX_arr']
         new_x['prodPAXWeekday'] = new_x['weekday_avg_logPAX_dep'] * new_x['weekday_avg_logPAX_arr']
@@ -191,6 +188,8 @@ class RampDataManager:
         # rm_cols += [col for col in new_x.columns if 'PAXMean' in col]
         new_x = new_x.drop(rm_cols, axis=1)
 
+        print('Data transformation finished.')
+        print(new_x.shape)
         return new_x
 
     def get_test_X(self):
