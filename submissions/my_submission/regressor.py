@@ -36,7 +36,6 @@ class Problem:
             "is_beginning_holiday",
             "is_end_holiday",
             "holidays_distance",
-            "type",
             "gdp",
             "coordinates",
             "fuel_price",
@@ -75,6 +74,16 @@ class RampDataManager:
         # TODO put the attributes of problem in DM directly?
         self.__problem = Problem()
         self.categorical_columns = ['type_dep', 'type_arr']
+
+        train_x, self.__train_y = self._read_train_data()
+        train_x['label'] = 'train'
+        test_x, self.__test_y = self._read_test_data()
+        test_x['label'] = 'test'
+        self.__full_X = pd.concat([train_x, test_x])
+        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
+        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
+        # Transforming the data to be ready for fit.
+        # self.transform()
 
     @staticmethod
     def suffix_join(x, additional, suffix, col):
@@ -161,6 +170,7 @@ class RampDataManager:
         new_x = new_x.join(pd.get_dummies(new_x['weekday'], prefix='wd'))
         new_x = new_x.join(pd.get_dummies(new_x['week'], prefix='w'))
 
+        new_x["is_weekend"] = new_x["weekday"].apply(lambda x: x in [4, 5, 6])
         # Need to add the number of passengers here because we don't have the info in external_data_generator.
         new_x = new_x.merge(
             self.__edg.get_passengers(),
@@ -170,16 +180,31 @@ class RampDataManager:
         )
 
         new_x = new_x.merge(
-            self.__edg.get_monthly_log_pax(),
+            self.__edg.get_monthly_log_pax_dep(),
             how='left',
             on=["Departure", "month"]
         )
 
         new_x = new_x.merge(
-            self.__edg.get_weekday_log_pax(),
+            self.__edg.get_monthly_log_pax_arr(),
+            how='left',
+            on=["Arrival", "month"]
+        )
+
+        new_x = new_x.merge(
+            self.__edg.get_weekday_log_pax_dep(),
             how='left',
             on=["Departure", "weekday"]
         )
+
+        new_x = new_x.merge(
+            self.__edg.get_weekday_log_pax_arr(),
+            how='left',
+            on=["Arrival", "weekday"]
+        )
+
+        new_x['prodPAXMonthly'] = new_x['monthly_avg_logPAX_dep'] * new_x['monthly_avg_logPAX_arr']
+        new_x['prodPAXWeekday'] = new_x['weekday_avg_logPAX_dep'] * new_x['weekday_avg_logPAX_arr']
 
         new_x.drop(
             ['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'],
@@ -188,11 +213,11 @@ class RampDataManager:
         )
 
         to_dummify = {
-            'type_dep': 't_d',
-            'type_arr': 't_a',
             'Departure': 'dep',
             'Arrival': 'arr'
         }
+
+        new_x['prodGDP'] = new_x['gdp_dep'] * new_x['gdp_arr']
 
         # Add events in problemConfig
         # 'Events_dep': 'e_d',
@@ -222,25 +247,85 @@ class RampDataManager:
         # rm_cols += [col for col in new_x.columns if 'PAXMean' in col]
         new_x = new_x.drop(rm_cols, axis=1)
 
+        print('Data transformation finished.')
+        print(new_x.shape)
         return new_x
+
+    def get_test_X(self):
+        return self.__test_X
+
+    def get_test_y(self):
+        return self.__test_y
+
+    def get_train_X(self):
+        return self.__train_X
+
+    def get_train_y(self):
+        return self.__train_y
+
+    def _read_data(self, path, f_name):
+        """
+        Reads data from a file and returns the predictors
+        as a data frame and the variable to predict as a
+        Series.
+
+        :param path: the root directory of the file.
+        :param f_name: the name of the file.
+        :return: the X and y.
+        """
+        data = pd.read_csv(os.path.join(path, 'data', f_name))
+        y_array = data[self.__problem.get_target_column_name()].values
+        x_df = data.drop(self.__problem.get_target_column_name(), axis=1)
+        return x_df, y_array
+
+    def _read_train_data(self, path='.'):
+        """
+        Returns the training data for the model.
+
+        :param path: The root directory
+        :return: X_train and y_train
+        """
+        return self._read_data(path, self.__problem.get_train_f_name())
+
+    def _read_test_data(self, path='.'):
+        """
+        Returns the testing data for the model.
+
+        :param path: The root directory
+        :return: X_test and y_test
+        """
+        return self._read_data(path, self.__problem.get_test_f_name())
+
+    def transform(self):
+        """
+        Data re-formatter, making the data ready for model fitting.
+        """
+        print("Transforming data...")
+        self.__full_X = self.append_external_data(self.__full_X)
+        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
+        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
 
 
 class RampExternalDataGenerator:
 
-    DataSeparator = '#-#'
+    def __init__(
+            self,
+            submission='my_submission',
+            submissions_dir='submissions',
+            path='.'
+    ):
+        self.external_data_path = os.path.join(path, submissions_dir, submission, 'external_data.csv')
+        self.__external_data = pd.read_csv(self.external_data_path, header=0)
+        github_data_dir = 'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master'
 
-    def __init__(self):
-        external_data_path = os.path.join(os.path.dirname(__file__), 'external_data.csv')
-        self.__external_data = pd.read_csv(external_data_path, header=0)
-        self.__passengers = pd.read_csv(
-            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/passengers.csv'
-        )
-        self.__monthly_logPAX = pd.read_csv(
-            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_monthly_PAX.csv'
-        )
-        self.__weekday_logPAX = pd.read_csv(
-            'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master/aggregated_weekday_PAX.csv'
-        )
+        # Local override
+        # github_data_dir = '../MAP536Data'
+
+        self.__passengers = pd.read_csv(os.path.join(github_data_dir, 'passengers.csv'))
+        self.__monthly_logPAX_dep = pd.read_csv(os.path.join(github_data_dir, 'aggregated_monthly_PAX_dep.csv'))
+        self.__weekday_logPAX_dep = pd.read_csv(os.path.join(github_data_dir, 'aggregated_weekday_PAX_dep.csv'))
+        self.__monthly_logPAX_arr = pd.read_csv(os.path.join(github_data_dir, 'aggregated_monthly_PAX_arr.csv'))
+        self.__weekday_logPAX_arr = pd.read_csv(os.path.join(github_data_dir, 'aggregated_weekday_PAX_arr.csv'))
 
     def get_external_data(self):
         return self.__external_data
@@ -248,21 +333,41 @@ class RampExternalDataGenerator:
     def get_passengers(self):
         return self.__passengers
 
-    def get_monthly_log_pax(self):
-        return self.__monthly_logPAX
+    def get_monthly_log_pax_dep(self):
+        return self.__monthly_logPAX_dep
 
-    def get_weekday_log_pax(self):
-        return self.__weekday_logPAX
+    def get_weekday_log_pax_dep(self):
+        return self.__weekday_logPAX_dep
+
+    def get_monthly_log_pax_arr(self):
+        return self.__monthly_logPAX_arr
+
+    def get_weekday_log_pax_arr(self):
+        return self.__weekday_logPAX_arr
+
+    def _write_external_data(self, verbose=False):
+        """
+        Writes the content of the _Data attribute to the submission associated with the instance.
+        :param verbose: Verbose boolean.
+        """
+        if verbose:
+            print('saving ext data')
+        self.__external_data.to_csv(self.external_data_path, index=False)
+        if verbose:
+            print('ext data saved')
 
 
 class RampModel:
 
-    def __init__(self, sk_model, fixed_parameters=None, optimizable_parameters=None):
+    def __init__(self, sk_model, dm=None, fixed_parameters=None, optimizable_parameters=None):
         self._model = sk_model
         self.model_name = self._model.__name__
         self._model_name_lower = self.model_name.lower()
         self.__dm = RampDataManager()
-        self.__fixed_parameters = fixed_parameters
+        self.is_optimized = False
+        self.__optimal_params = {}
+        self.__fixed_parameters = dict() if fixed_parameters is None else fixed_parameters
+        self._random_opt_params = {}
         self.__optimizable_parameters = optimizable_parameters
         self.__pipeline = Pipeline(
             [
@@ -272,28 +377,47 @@ class RampModel:
                 )
             ]
         )
+        if optimizable_parameters and 'RandomSearch' in optimizable_parameters.keys():
+            self.__random_opt_params = optimizable_parameters['RandomSearch']
+        self._grid_opt_params = {}
+        if optimizable_parameters and 'GridSearch' in optimizable_parameters.keys():
+            self._grid_opt_params = optimizable_parameters['GridSearch']
+
+    def get_data_manager(self):
+        return self.__dm
+
+    def get_model_name_lower(self):
+        return self._model_name_lower
 
     def get_pipeline(self):
         return self.__pipeline
 
+    def get_fixed_parameters(self):
+        return self.__fixed_parameters
+
+    def build_pipeline(self):
+        """
+        Creates a pipeline with the model and its fixed parameters.
+        """
+        self.__pipeline = Pipeline(
+            [
+                (
+                    self._model_name_lower,
+                    self._model(**self.__fixed_parameters)
+                )
+            ]
+        )
+
     def fit(self, x, y):
         print('Fitting training data...')
         new_x = self.__dm.append_external_data(x)
-        nas = new_x.isna().any()
+        # print(f'X columns :\n{list(new_x.columns)}')
         self.__pipeline.fit(X=new_x, y=y)
 
     def predict(self, x):
         print('Making prediction...')
         new_x = self.__dm.append_external_data(x)
         return self.__pipeline.predict(X=new_x)
-
-    def rmse(self, x, y):
-        """
-        Returns the RMSE of the model on test data.
-
-        :return: The RMSE of the model.
-        """
-        return np.sqrt(mean_squared_error(self.predict(x), y))
 
     def feature_importance(self, x):
         ordering = np.argsort(self.__pipeline[0].feature_importances_)[::-1][:20]
@@ -308,24 +432,28 @@ class RampModel:
 
 class Regressor(BaseEstimator):
     def __init__(self):
-        self.reg = RampModel(
-            sk_model=AdaBoostRegressor,
-            fixed_parameters={
-                "base_estimator": HistGradientBoostingRegressor(
-                    l2_regularization=0.9752299302272766,
-                    learning_rate=0.153187560120574
-                )
-            },
-            optimizable_parameters={}
-        )
         # self.reg = RampModel(
-        #     sk_model=HistGradientBoostingRegressor,
+        #     sk_model=AdaBoostRegressor,
         #     fixed_parameters={
-        #         "l2_regularization": 0.9752299302272766,
-        #         "learning_rate": 0.153187560120574
+        #         "base_estimator": HistGradientBoostingRegressor(
+        #             l2_regularization=1.75,
+        #             max_depth=20,
+        #             max_iter=861,
+        #             min_samples_leaf=30
+        #         )
         #     },
         #     optimizable_parameters={}
         # )
+        self.reg = RampModel(
+            sk_model=HistGradientBoostingRegressor,
+            fixed_parameters={
+                "l2_regularization": 1.75,
+                "max_depth": 20,
+                "max_iter": 861,
+                "min_samples_leaf": 30
+            },
+            optimizable_parameters={}
+        )
 
     def fit(self, X, y):
         print("fit...")

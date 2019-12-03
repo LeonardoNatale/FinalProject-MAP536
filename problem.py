@@ -6,8 +6,6 @@ import holidays
 import datetime
 from sklearn.model_selection import ShuffleSplit
 
-from Service.data_manager import DataManager
-
 problem_title = 'Number of air passengers prediction'
 _target_column_name = 'log_PAX'
 # A type (class) which will be used to create wrapper objects for y_pred
