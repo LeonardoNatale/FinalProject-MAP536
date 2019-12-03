@@ -15,7 +15,6 @@ class RampExternalDataGenerator:
     ):
         self.external_data_path = os.path.join(path, submissions_dir, submission, 'external_data.csv')
         self.__external_data = pd.read_csv(self.external_data_path, header=0)
-
         github_data_dir = 'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master'
 
         # Local override
@@ -26,7 +25,6 @@ class RampExternalDataGenerator:
         self.__weekday_logPAX_dep = pd.read_csv(os.path.join(github_data_dir, 'aggregated_weekday_PAX_dep.csv'))
         self.__monthly_logPAX_arr = pd.read_csv(os.path.join(github_data_dir, 'aggregated_monthly_PAX_arr.csv'))
         self.__weekday_logPAX_arr = pd.read_csv(os.path.join(github_data_dir, 'aggregated_weekday_PAX_arr.csv'))
-
 
     def get_external_data(self):
         return self.__external_data
@@ -53,6 +51,6 @@ class RampExternalDataGenerator:
         """
         if verbose:
             print('saving ext data')
-        self.__external_data.to_csv(self.external_data_path)
+        self.__external_data.to_csv(self.external_data_path, index=False)
         if verbose:
             print('ext data saved')
