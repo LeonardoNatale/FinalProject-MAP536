@@ -75,13 +75,6 @@ class RampDataManager:
         self.__problem = Problem()
         self.categorical_columns = ['type_dep', 'type_arr']
 
-        train_x, self.__train_y = self._read_train_data()
-        train_x['label'] = 'train'
-        test_x, self.__test_y = self._read_test_data()
-        test_x['label'] = 'test'
-        self.__full_X = pd.concat([train_x, test_x])
-        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
-        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
         # Transforming the data to be ready for fit.
         # self.transform()
 
@@ -251,18 +244,6 @@ class RampDataManager:
         print(new_x.shape)
         return new_x
 
-    def get_test_X(self):
-        return self.__test_X
-
-    def get_test_y(self):
-        return self.__test_y
-
-    def get_train_X(self):
-        return self.__train_X
-
-    def get_train_y(self):
-        return self.__train_y
-
     def _read_data(self, path, f_name):
         """
         Reads data from a file and returns the predictors
@@ -296,15 +277,6 @@ class RampDataManager:
         """
         return self._read_data(path, self.__problem.get_test_f_name())
 
-    def transform(self):
-        """
-        Data re-formatter, making the data ready for model fitting.
-        """
-        print("Transforming data...")
-        self.__full_X = self.append_external_data(self.__full_X)
-        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
-        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
-
 
 class RampExternalDataGenerator:
 
@@ -314,7 +286,7 @@ class RampExternalDataGenerator:
             submissions_dir='submissions',
             path='.'
     ):
-        self.external_data_path = os.path.join(path, submissions_dir, submission, 'external_data.csv')
+        self.external_data_path = os.path.join(os.path.dirname(__file__), 'external_data.csv')
         self.__external_data = pd.read_csv(self.external_data_path, header=0)
         github_data_dir = 'https://raw.githubusercontent.com/guillaume-le-fur/MAP536Data/master'
 
@@ -445,12 +417,10 @@ class Regressor(BaseEstimator):
         #     optimizable_parameters={}
         # )
         self.reg = RampModel(
-            sk_model=HistGradientBoostingRegressor,
+            sk_model=AdaBoostRegressor,
             fixed_parameters={
-                "l2_regularization": 1.75,
-                "max_depth": 20,
-                "max_iter": 861,
-                "min_samples_leaf": 30
+                "base_estimator": HistGradientBoostingRegressor(l2_regularization=1.75, max_depth=20, max_iter=861,
+                                                               min_samples_leaf=30)
             },
             optimizable_parameters={}
         )
