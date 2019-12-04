@@ -10,19 +10,8 @@ class RampDataManager:
 
     def __init__(self):
         self.__edg = RampExternalDataGenerator()
-        # TODO put the attributes of problem in DM directly?
         self.__problem = Problem()
         self.categorical_columns = ['type_dep', 'type_arr']
-
-        train_x, self.__train_y = self._read_train_data()
-        train_x['label'] = 'train'
-        test_x, self.__test_y = self._read_test_data()
-        test_x['label'] = 'test'
-        self.__full_X = pd.concat([train_x, test_x])
-        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
-        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
-        # Transforming the data to be ready for fit.
-        # self.transform()
 
     @staticmethod
     def suffix_join(x, additional, suffix, col):
@@ -180,6 +169,7 @@ class RampDataManager:
         new_x['prodPAXWeekday'] = new_x['weekday_avg_logPAX_dep'] * new_x['weekday_avg_logPAX_arr']
         new_x['prodWTD'] = new_x['monthly_wtd_dep'] * new_x['monthly_wtd_arr']
         new_x['prodSTD_WTD'] = new_x['monthly_std_wtd_dep'] * new_x['monthly_std_wtd_arr']
+        new_x['prodGDP'] = new_x['gdp_dep'] * new_x['gdp_arr']
 
         new_x.drop(
             ['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'],
@@ -191,12 +181,6 @@ class RampDataManager:
             'Departure': 'dep',
             'Arrival': 'arr'
         }
-
-        new_x['prodGDP'] = new_x['gdp_dep'] * new_x['gdp_arr']
-
-        # Add events in problemConfig
-        # 'Events_dep': 'e_d',
-        # 'Events_arr': 'e_a'
 
         # For every variable to dummify, we create dummies
         # and then remove the original variable from the data.
@@ -214,68 +198,7 @@ class RampDataManager:
             )
 
         rm_cols = [col for col in new_x.columns if 'Unnamed' in col]
-        # rm_cols += [
-        #     'is_holiday_arr', 'is_beginning_holiday_arr', 'is_end_holiday_arr', 'is_holiday_arr',
-        #     'is_beginning_holiday_arr', 'is_end_holiday_arr', 'gdp_arr', 'fuel_price_arr'
-        # ]
-        # rm_cols += ['day', 'month', 'year', 'weekday', 'week']
-        # rm_cols += [col for col in new_x.columns if 'PAXMean' in col]
         new_x = new_x.drop(rm_cols, axis=1)
 
-        print('Data transformation finished.')
-        print(new_x.shape)
+        print('Merge with external data finished.')
         return new_x
-
-    def get_test_X(self):
-        return self.__test_X
-
-    def get_test_y(self):
-        return self.__test_y
-
-    def get_train_X(self):
-        return self.__train_X
-
-    def get_train_y(self):
-        return self.__train_y
-
-    def _read_data(self, path, f_name):
-        """
-        Reads data from a file and returns the predictors
-        as a data frame and the variable to predict as a
-        Series.
-
-        :param path: the root directory of the file.
-        :param f_name: the name of the file.
-        :return: the X and y.
-        """
-        data = pd.read_csv(os.path.join(path, 'data', f_name))
-        y_array = data[self.__problem.get_target_column_name()].values
-        x_df = data.drop(self.__problem.get_target_column_name(), axis=1)
-        return x_df, y_array
-
-    def _read_train_data(self, path='.'):
-        """
-        Returns the training data for the model.
-
-        :param path: The root directory
-        :return: X_train and y_train
-        """
-        return self._read_data(path, self.__problem.get_train_f_name())
-
-    def _read_test_data(self, path='.'):
-        """
-        Returns the testing data for the model.
-
-        :param path: The root directory
-        :return: X_test and y_test
-        """
-        return self._read_data(path, self.__problem.get_test_f_name())
-
-    def transform(self):
-        """
-        Data re-formatter, making the data ready for model fitting.
-        """
-        print("Transforming data...")
-        self.__full_X = self.append_external_data(self.__full_X)
-        self.__train_X = self.__full_X[self.__full_X['label'] == 'train'].drop('label', axis=1)
-        self.__test_X = self.__full_X[self.__full_X['label'] == 'test'].drop('label', axis=1)
