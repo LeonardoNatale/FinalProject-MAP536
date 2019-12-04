@@ -419,7 +419,7 @@ class Regressor(BaseEstimator):
         self.reg = RampModel(
             sk_model=HistGradientBoostingRegressor,
             fixed_parameters={
-                "l2_regularization": 1.75, "max_depth": 20, "max_iter": 861, "min_samples_leaf": 30
+                "l2_regularization": 0.12, "max_depth": 8, "max_iter": 1000, "min_samples_leaf": 20
             },
             optimizable_parameters={}
         )
