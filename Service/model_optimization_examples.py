@@ -29,20 +29,28 @@ if external_data:
 if model:
 
     model_type = HistGradientBoostingRegressor
-    fixed = {"loss": 'least_squares', "max_depth": 10, "min_samples_leaf": 50}
+    fixed = {}
     opt = {
         "RandomSearch": {
-            "l2_regularization": scipy.stats.uniform(0, 3),
-            "max_iter": scipy.stats.randint(low=1000, high=2000)
+            "l2_regularization": scipy.stats.uniform(0, 1),
+            "max_iter": scipy.stats.randint(low=800, high=1200),
+            "max_depth": [5, 8, 10],
+            "min_samples_leaf": [10, 15, 20, 25, 30]
         }
     }
 
     x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
 
     dm = x.get_data_manager()
-    x.fit(dm.get_train_X(), dm.get_train_y())
-    x.rmse(dm.get_test_X(), dm.get_test_y())
-    x.feature_importance(dm.get_test_X())
+    x.model_quality_testing(
+        train_x=dm.get_train_X(),
+        train_y=dm.get_train_y(),
+        test_x=dm.get_test_X(),
+        test_y=dm.get_test_y()
+    )
+    # x.fit(dm.get_train_X(), dm.get_train_y())
+    # x.rmse(dm.get_test_X(), dm.get_test_y())
+    # x.feature_importance(dm.get_test_X())
     # x.model_quality_testing(
     #     train_x=dm.get_train_X(),
     #     train_y=dm.get_train_y(),
