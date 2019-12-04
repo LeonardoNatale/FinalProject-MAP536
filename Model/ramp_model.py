@@ -179,9 +179,10 @@ class RampModel:
         ordering = np.argsort(self.__pipeline[0].feature_importances_)[::-1][:20]
         importances = self.__pipeline[0].feature_importances_[ordering]
         feature_names = self.__dm.append_external_data(x).columns[ordering]
+        print(feature_names)
         x = np.arange(len(feature_names))
         plt.figure()
         plt.bar(x, importances)
-        plt.xticks(x, feature_names, rotation=90)
+        plt.xticks(x, feature_names, rotation=45)
         plt.show()
 

@@ -3,6 +3,7 @@ from Service.problem_manager import Problem
 import pandas as pd
 import geopy
 import os
+import numpy as np
 
 
 class RampDataManager:
@@ -141,8 +142,44 @@ class RampDataManager:
             on=["Arrival", "weekday"]
         )
 
+        monthly_std_wtd_dep = new_x.groupby(['Departure', 'month']).aggregate({'std_wtd': np.mean})
+        monthly_std_wtd_dep.columns = ['monthly_std_wtd_dep']
+        monthly_std_wtd_arr = new_x.groupby(['Arrival', 'month']).aggregate({'std_wtd': np.mean})
+        monthly_std_wtd_arr.columns = ['monthly_std_wtd_arr']
+
+        monthly_wtd_dep = new_x.groupby(['Departure', 'month']).aggregate({'WeeksToDeparture': np.mean})
+        monthly_wtd_dep.columns = ['monthly_wtd_dep']
+        monthly_wtd_arr = new_x.groupby(['Arrival', 'month']).aggregate({'WeeksToDeparture': np.mean})
+        monthly_wtd_arr.columns = ['monthly_wtd_arr']
+
+        new_x = new_x.merge(
+            monthly_std_wtd_dep,
+            how='left',
+            on=['Departure', 'month']
+        )
+
+        new_x = new_x.merge(
+            monthly_std_wtd_arr,
+            how='left',
+            on=['Arrival', 'month']
+        )
+
+        new_x = new_x.merge(
+            monthly_wtd_dep,
+            how='left',
+            on=['Departure', 'month']
+        )
+
+        new_x = new_x.merge(
+            monthly_wtd_arr,
+            how='left',
+            on=['Arrival', 'month']
+        )
+
         new_x['prodPAXMonthly'] = new_x['monthly_avg_logPAX_dep'] * new_x['monthly_avg_logPAX_arr']
         new_x['prodPAXWeekday'] = new_x['weekday_avg_logPAX_dep'] * new_x['weekday_avg_logPAX_arr']
+        new_x['prodWTD'] = new_x['monthly_wtd_dep'] * new_x['monthly_wtd_arr']
+        new_x['prodSTD_WTD'] = new_x['monthly_std_wtd_dep'] * new_x['monthly_std_wtd_arr']
 
         new_x.drop(
             ['DateOfDeparture', 'coordinates_dep', 'coordinates_arr', 'origin', 'destination'],

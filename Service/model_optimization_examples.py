@@ -25,24 +25,25 @@ if external_data:
 
 # ------------------ MODELS ------------------ #
 
-# if model:
-#
-#     model_type = GradientBoostingRegressor
-#     fixed = {"n_estimators": 8000, "learning_rate": 0.1, "max_features": 'sqrt', "min_samples_leaf": 20,
-#              "max_depth": 10, "min_samples_split": 10
-#              }
-#     opt = {
-#         "RandomSearch": {}
-#     }
-#
-#     x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-#     dm = x.get_data_manager()
-#     x.model_quality_testing(
-#         train_x=dm.get_train_X(),
-#         train_y=dm.get_train_y(),
-#         test_x=dm.get_test_X(),
-#         test_y=dm.get_test_y()
-#     )
+if model:
+
+    model_type = GradientBoostingRegressor
+    fixed = {}
+    opt = {}
+
+    x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+
+    dm = x.get_data_manager()
+    x.fit(dm.get_train_X(), dm.get_train_y())
+    x.rmse(dm.get_test_X(), dm.get_test_y())
+    x.feature_importance(dm.get_test_X())
+    # x.model_quality_testing(
+    #     train_x=dm.get_train_X(),
+    #     train_y=dm.get_train_y(),
+    #     test_x=dm.get_test_X(),
+    #     test_y=dm.get_test_y()
+    # )
+
 # if model:
 #
 #     model_type = HistGradientBoostingRegressor
@@ -73,25 +74,25 @@ if external_data:
 #         test_y=dm.get_test_y()
 #     )
 
-if model:
-    model_type = AdaBoostRegressor
-    fixed = {
-        "base_estimator": HistGradientBoostingRegressor(
-            l2_regularization=1.75,
-            max_depth=20,
-            max_iter=860,
-            min_samples_leaf=25
-        )
-    }
-    opt = {}
-    x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
-    dm = x.get_data_manager()
-    x.model_quality_testing(
-        train_x=dm.get_train_X(),
-        train_y=dm.get_train_y(),
-        test_x=dm.get_test_X(),
-        test_y=dm.get_test_y()
-    )
+# if model:
+#     model_type = AdaBoostRegressor
+#     fixed = {
+#         "base_estimator": HistGradientBoostingRegressor(
+#             l2_regularization=1.75,
+#             max_depth=20,
+#             max_iter=860,
+#             min_samples_leaf=25
+#         )
+#     }
+#     opt = {}
+#     x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+#     dm = x.get_data_manager()
+#     x.model_quality_testing(
+#         train_x=dm.get_train_X(),
+#         train_y=dm.get_train_y(),
+#         test_x=dm.get_test_X(),
+#         test_y=dm.get_test_y()
+#     )
 
     # model_type = GradientBoostingRegressor
     # fixed = {}
