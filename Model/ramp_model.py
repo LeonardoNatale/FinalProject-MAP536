@@ -185,4 +185,3 @@ class RampModel:
         plt.bar(x, importances)
         plt.xticks(x, feature_names, rotation=45)
         plt.show()
-

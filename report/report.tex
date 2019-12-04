@@ -34,8 +34,6 @@ The objective of this project was to predict a quantity related to the number of
 	\label{table:orig_data}
 \end{table}
 
-The main goals were to become familiar with the way a machine learning project works, to apply the machine learning models we have seen in class and to become more proficient in Python.
-
 \section{External Data and Data Preprocessing}
 
 \subsection{External Data}
@@ -51,10 +49,12 @@ We have added the following data:
 	coordinates      & Airport geographical coordinates            \\ \hline
 	gdp              & Departure and Arrival GDP                   \\ \hline
 	passengers       & Monthly flow of passengers between airports \\ \hline
-	holiday          & holiday data is the U.S.                    \\ \hline
+	holiday          & holiday data in the U.S.                    \\ \hline
 	\end{tabular}
 	\label{table:additional}
 \end{table}
+First, we decided to take a step back to really be able to understand the problem, rather than jumping into coding. What is the main driver when purchasing a plane ticket? We would say price. What influences ticket price? Jet fuel costs are an example. On the other hand, people living in cities with a higher GDP per capita are more likely to fly.
+Holidays are also a main factor when deciding whether to leave your home. At the same time, the overall passenger flow is a meaningful indicator when predicting daily flows.
 
 \subsection{Feature Engineering}
 
@@ -76,24 +76,23 @@ We were able to add the following extra features, by using the data described ab
 	\end{tabular}
 	\label{table:feature_engineering}
 \end{table}
+Computing the distance to the closest holiday could help account for seasonality. Kilometer distance between two airports also has a great importance, as we expect airline companies to fill flights that are expensive to operate. LogPAX features are calculated with the target variable from the train data.
 
-\section{Infrastructure}
+\section{Infrastructure} 
 
-In order to test, optimize and integrate our models into the ramp infrastructure, we have come up with our own infrastructure, that enabled us to ease the testing and integration of new models. The structure is the following.
-
+In order to test, optimize and integrate our models into the ramp platform, we have come up with our own infrastructure, that enabled us to ease testing and integration of new models. The structure is the following:
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{UML.png}
 \end{figure}
-
 The \textbf{Data} folder contains all the external data files that we use to create our additional features. The \textbf{DataManager} is some kind of an interface between the model and the external data. It takes data as an input (either the train or test data) and merges it with external data, making it ready for fitting. It uses the \textbf{ExternalDataGenerator} which groups all our external data into the \textit{external\_data.csv} file. It is the class that is responsible for all the feature engineering of our models.\\
-\textbf{Model} is a utility class that stores a sklearn model and two lists : a list of parameters that are to optimize via GridSearchCV and another with parameters that are to be optimized via RandomSearchCV. When used on RAMP, it's role is to contain the model and to fit and predict based on the data passed as an input. \textbf{MultiModel} is a class that goal is to simplify the testing of multiple models at the same time. \textbf{ModelOptimizer} is an interface, called by Model, that takes care of the RandomSearchCV and GridSearchCV and returns the result to Model.\\
+\textbf{Model} is a utility class that stores a sklearn model and two lists : a list of parameters that are to optimize via GridSearchCV and another with parameters that are to be optimized via RandomSearchCV. When used on RAMP, its role is to contain the model and to fit and predict based on the data passed as an input. \textbf{MultiModel} is a class that goal is to simplify the testing of multiple models at the same time. \textbf{ModelOptimizer} is an interface, called by Model, that takes care of the RandomSearchCV and GridSearchCV and returns the result to Model.\\
 \textbf{HolidaysManager} is a utility class used to vectorize operations on dates to determine whether they are holidays or how close they are to a holiday. \textbf{ProblemManager} is a class that contains metadata about the problem we intend to solve (columns that are relevant, external data we use, etc.)
 
 \section{Models and Tuning}
 \subsection{Models}
 
-This table summarizes the train RMSE\footnote{The train and test RMSE values presented here are the one obtained locally as we couldn't submit the best models before the deadline of the project. Note that the score is often better on the RAMP server.} 
+This table summarizes the train RMSE\footnote{The train and test RMSE values presented here are the one obtained locally as we could not submit the best models before the deadline of the project. Note that the score is often better on the RAMP server.} 
 
 \begin{center}
 	\begin{tabular}{| c | c | c | c |} 
@@ -114,13 +113,13 @@ This table summarizes the train RMSE\footnote{The train and test RMSE values pre
 \end{center}
 
 
-The Model we chose in the end is the \textbf{tuned HistGradientBoostingRegressor}, mostly because it's a good compromise between accuracy and training time. It's also the model that gives the best results without overfitting too much. Indeed, after a certain point ($RMSE_{test} \approx 0.35$), making the RMSE better by tuning hyper-parameters resulted in a very low training error ($RMSE_{train} < 0.10$), which we did not consider as acceptable.
+The Model we chose in the end is the \textbf{tuned HistGradientBoostingRegressor}, mostly because it is a good compromise between accuracy and training time. It is also the model that gives the best results without overfitting too much. Indeed, after a certain point ($RMSE_{test} \approx 0.35$), making the RMSE better by tuning hyper-parameters resulted in a very low training error ($RMSE_{train} < 0.10$), which we did not consider as acceptable.
 Furthermore, the training time remains pretty low ($\approx 10 s$), which makes our model scalable. Indeed, even though we could achieve better performances with models that were longer to train, we though that an acceptable training time for a model fitted on 10000 rows would be around 10 seconds.
 
 \subsection{Hyper-parameter Tuning vs Feature Importance}
 
-During the project, we tried several models, made some hyper-parameter tuning and also added features along the way. We thought it would be interesting to keep track of the evolution of the value of our RMSE over time.
-The following graphs displays the evolution of our RMSE over time, along with the reasons of the main changes.
+During the project, we fitted several models, performed hyper-parameter tuning and also added features along the way. We thought it would be interesting to keep track of the evolution of the value of our RMSE over time.
+The following graphs displays the evolution of our RMSE over time, together with reasons for the main changes.
 
 \begin{figure}[H]
 	\centering
@@ -147,12 +146,12 @@ We can extract several relevant information from the above feature importance gr
 
 \subsection{Evaluation of Uncertainty in Predictions}
 
-Because we only have around ten thousand rows of data, we cannot say that our predictions are extremely accurate. It's all the more problematic that the values of log\_PAX are not spread a lot (mostly between 9 and 12). To have a more robust model, we would have needed more data. The lack of data also made it difficult to optimize the hyper-parameters without overfitting.
+Because we only have around ten thousand rows of data, we cannot say that our predictions are extremely accurate. It is all the more problematic that the values of log\_PAX are not spread a lot (mostly between 9 and 12). To have a more robust model, we would have needed more data. The lack of data also made it difficult to optimize the hyper-parameters without overfitting.
 
 
 \subsection{Final Comments and Possible Improvements}
 
-We didn't have time to try the \textit{Time Series} but it would have been interesting to fit a time series on the biggest Departure airports to see how it performed on such data.
+We did not have time to try the \textit{Time Series} but it would have been interesting to fit a time series on the biggest Departure airports to see how it performed on such data.
 Apart from the purely Data Science related improvements we could have done, the infrastructure we have designed could be improved to be made more generic and easier to reuse.
 
 \end{document}
