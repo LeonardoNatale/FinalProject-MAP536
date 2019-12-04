@@ -32,10 +32,10 @@ if model:
     fixed = {}
     opt = {
         "RandomSearch": {
-            "l2_regularization": scipy.stats.uniform(0, 1),
-            "max_iter": scipy.stats.randint(low=800, high=1200),
-            "max_depth": [5, 8, 10],
-            "min_samples_leaf": [10, 15, 20, 25, 30]
+            "l2_regularization": [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 0.9, 1.2, 1.5, 1.7],
+            "max_iter": [600, 800, 1000, 1200],
+            "max_depth": [5, 8, 10, 12],
+            "min_samples_leaf": [25, 30, 35, 40]
         }
     }
 
