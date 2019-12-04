@@ -17,7 +17,7 @@ class RampModel:
         self.is_optimized = False
         self.__optimal_params = {}
         self.__fixed_parameters = dict() if fixed_parameters is None else fixed_parameters
-        self._random_opt_params = {}
+        self.__random_opt_params = {}
         self.__optimizable_parameters = optimizable_parameters
         self.__pipeline = Pipeline(
             [
@@ -29,9 +29,9 @@ class RampModel:
         )
         if optimizable_parameters and 'RandomSearch' in optimizable_parameters.keys():
             self.__random_opt_params = optimizable_parameters['RandomSearch']
-        self._grid_opt_params = {}
+        self.__grid_opt_params = {}
         if optimizable_parameters and 'GridSearch' in optimizable_parameters.keys():
-            self._grid_opt_params = optimizable_parameters['GridSearch']
+            self.__grid_opt_params = optimizable_parameters['GridSearch']
 
     def get_data_manager(self):
         return self.__dm
@@ -100,7 +100,7 @@ class RampModel:
                     # Updating model.
                     self.update_model()
                 # Checking that the dict is not empty
-                if self._grid_opt_params:
+                if self.__grid_opt_params:
                     # Doing the GridSearchCV
                     self.__optimal_params.update(
                         mo.grid_search_optimize(

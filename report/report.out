@@ -4,7 +4,7 @@
 \BOOKMARK [1][-]{section.2}{Structure}{}% 4
 \BOOKMARK [1][-]{section.3}{Models and Tuning}{}% 5
 \BOOKMARK [2][-]{subsection.3.1}{Models}{section.3}% 6
-\BOOKMARK [2][-]{subsection.3.2}{Hyperparameters Tuning}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Hyper-parameter Tuning vs Feature Importance}{section.3}% 7
 \BOOKMARK [1][-]{section.4}{Conclusion}{}% 8
 \BOOKMARK [2][-]{subsection.4.1}{Model Interpretability}{section.4}% 9
 \BOOKMARK [2][-]{subsection.4.2}{Evaluation of Uncertainty in Predictions}{section.4}% 10

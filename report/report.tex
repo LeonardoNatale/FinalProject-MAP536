@@ -19,17 +19,36 @@
 \section{External Data and Data Preprocessing}
 
 \subsection{Getting External Data}
-The original data consists of : The date of departure, the departure and arrival airport, the mean and standard deviation of the number of weeks of the reservations made before the departure date, a field called log\_PAX which is related to the number of passengers (the actual number were changed for privacy reasons).
+
+The original data consists of : 
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|}
+	\hline
+	\textbf{Feature} & \textbf{Description}                          \\ \hline
+	DateOfDeparture  & Date of departure                             \\ \hline
+	Departure/Arrival& Departure and arrival airport                 \\ \hline
+	WeeksToDeparture & Average number of weeks before departure when the ticket is booked \\ \hline
+	log\_PAX          & Variable related to the number of passengers \\ \hline
+	std\_wtd          & Standard deviation of WeeksToDeparture       \\ \hline
+	\end{tabular}
+\end{table}
 
 We have added the following data:
-\begin{itemize}
-	\item Daily Jet Fuel Price
-	\item Airport Location (geographical coordinates)
-	\item Departure and Arrival GDP
-	\item Monthly flow of passengers in the US between airports.
-	\item Daily Weather Data
-	\item US Holiday Calendar
-\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|l|l|}
+	\hline
+	\textbf{Feature} & \textbf{Description}                        \\ \hline
+	jet\_fuel        & Daily jet fuel price                        \\ \hline
+	coordinates      & Airport geographical coordinates            \\ \hline
+	gdp              & Departure and Arrival GDP                   \\ \hline
+	passengers       & Monthly flow of passengers between airports \\ \hline
+	holiday          & holiday data is the U.S.                    \\ \hline
+	\end{tabular}
+\end{table}
 
 \subsection{Feature Engineering}
 
@@ -44,13 +63,15 @@ We were able to add the following extra features, by using the data described ab
 
 \section{Structure}
 (Adjust the size and position, maybe explanation at the right)
+
 \begin{figure}[H]
-	\includegraphics[width=100mm,scale=0.5]{UML.png}
+	\centering
+	\includegraphics[scale=0.5]{UML.png}
 \end{figure}
 
 \begin{itemize}
 	\item \textbf{Data} contains all the external data files that we use to create our additional features.
-	\item \textbf{ExtrnalDataGenerator} merges all our external data into the \textit{external_data.csv} file. It is the class that is responsible for all the feature engineering of our models.
+	\item \textbf{ExtrnalDataGenerator} merges all our external data into the \textit{external\_data.csv} file. It is the class that is responsible for all the feature engineering of our models.
 	\item \textbf{DataManager} is some kind of an interface between the model and the external data. It takes data as an input (either the train or test data) and merges it with external data, making it ready for fitting.
 	\item \textbf{Model} is a utility class that stores a sklearn model and two lists : a list of parameters that are to optimize via GridSearchCV and another with parameters that are to be optimized via RandomSearchCV. The main role of this class, when used locally, is to compare the quality of the fit of a model before and after optimization of the hyper-parameters. When used on RAMP, it's role is to contain the model and to fit and predict based on the data passed as an input.
 	\item \textbf{MultiModel} is a class that goal is to simplify the testing of multiple models at the same time. When creating an instance, one can pass multiple models and hyper-parameters list. Then all the models are going to be optimized. The predict method can be used in two different ways : either returning separate predictions for each model or either making the average of the models, which can allow to test models that are combinations of several models.
@@ -63,32 +84,50 @@ We were able to add the following extra features, by using the data described ab
 \subsection{Models}
 Add a table with comparison between different models.
 \begin{center}
-	\begin{tabular}{||c || c c c||} 
+	\begin{tabular}{| c | c | c | c |} 
 		\hline
 			 & Train RMSE & Test RMSE & Train time (s) \\ [0.5ex] 
-		\hline\hline
-		\textbf{Model1} & 6 & 87837 & 787 \\ 
 		\hline
-		\textbf{Model2} & 7 & 78 & 5415 \\
+		\textbf{RandomForest} & 0.62 & 0.81 & 5.6 \\ 
 		\hline
-		\textbf{Model3} & 545 & 778 & 7507 \\
+		\textbf{GradientBoostingRegressor} & 0.40 & 0.52 & 7.67 \\
+		\hline
+		\textbf{HistGradientBoostingRegressor} & \textbf{0.27} & \textbf{0.37} & \textbf{5.18} \\
+		\hline
+		\textbf{HistGradientBoostingRegressor (Tuned)} & 0.07 & 0.35 & 14.8 \\
+		\hline
+		\textbf{AdaBoostRegressor} & 0.19 & 0.35 & 107 \\
 		\hline
 	\end{tabular}
 \end{center}
-Explain why we have chosen our model.
 
-\subsection{Hyperparameters Tuning}
-Our ModelOptimizer class is in charge of the optimization of the models by Grid Search and Randomized Search. It is composed by two methods:
-\begin{itemize}
-	\item grid\_search\_optimize runs a GridSearchCV with the given params and outputs the optimal value of the parameters for the model.
-	\item random\_search\_optimize runs a a RandomSearchCV with the given params to which we associate the given distribution.
-\end{itemize}
+The Model we chose in the end is \textbf{HistGradientBoostingRegressor}, mostly because it's a good compromise between accuracy and training time. It's also the model that gives the best results without overfitting too much. Indeed, after a certain point ($RMSE_{test} \approx 0.37$), making the RMSE better by tuning hyper-parameters resulted in a very low training error ($RMSE_{train} \approx 0.07$).
+
+
+\subsection{Hyper-parameter Tuning vs Feature Importance}
+
+During the project, we tried several models, made some hyper-parameter tuning and also added features along the way. We thought it would be interesting to keep track of the evolution of the value of our RMSE over time.
+The following graphs displays the evolution of our RMSE over time, along with the reasons of the main changes.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{rmse_evolution.png}
+\end{figure}
+
+What we can see is that the main changes were due to adding new features to our data, rather than optimizing the hyper-parameters, which often led to overfitting.
 
 \section{Conclusion}
+
 \subsection{Model Interpretability}
+
 Feature importance graph and comments.
+
 \subsection{Evaluation of Uncertainty in Predictions}
-Talk about: 
+
+Because we don't have much data, we cannot say that our predictions are extremely accurate. It's all the more problematic that the values of log\_PAX are not spread a lot (mostly between 9 and 12)
+
 \subsection{Final Comments and Possible Improvements}
+
+We didn't have time to try the time series but it would have been interesting to fit a time series on the biggest Departure airports to see how it performed on such data.
 
 \end{document}

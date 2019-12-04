@@ -1,5 +1,6 @@
 import scipy.stats
-from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor, BaggingRegressor, AdaBoostRegressor
+from sklearn.experimental import enable_hist_gradient_boosting
+from sklearn.ensemble import HistGradientBoostingRegressor, GradientBoostingRegressor, BaggingRegressor, AdaBoostRegressor, RandomForestRegressor
 from Service.data_manager import DataManager
 from Service.ramp_external_data_generator import RampExternalDataGenerator
 from Model.ramp_model import RampModel
@@ -42,27 +43,47 @@ if external_data:
 #         test_x=dm.get_test_X(),
 #         test_y=dm.get_test_y()
 #     )
+# if model:
+#
+#     model_type = HistGradientBoostingRegressor
+#     fixed = {"loss": 'least_squares', "max_depth": 15}
+#     opt = {
+#         "RandomSearch": {
+#             "l2_regularization": scipy.stats.uniform(0.001, 2),
+#             "min_samples_leaf": scipy.stats.randint(low=20, high=50),
+#             "max_iter": scipy.stats.randint(low=800, high=1000)
+#         }
+#     }
+#     fixed = {"loss": 'least_squares'}
+#     opt = {
+#         "RandomSearch": {
+#             "max_depth": [5, 10, 15, 20],
+#             "min_samples_leaf": scipy.stats.randint(20, 100),
+#             "l2_regularization": [0.0015, 0.0025, 0.0035, 0.0045, 0.0055, 0.0065, 0.0075, 0.0085, 0.0095],
+#             "max_iter": [200, 500, 800, 1000, 1500, 2000]
+#         }
+#     }
+#
+#     x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
+#     dm = x.get_data_manager()
+#     x.model_quality_testing(
+#         train_x=dm.get_train_X(),
+#         train_y=dm.get_train_y(),
+#         test_x=dm.get_test_X(),
+#         test_y=dm.get_test_y()
+#     )
+
 if model:
-
-    model_type = HistGradientBoostingRegressor
-    fixed = {"loss": 'least_squares', "max_depth": 15}
-    opt = {
-        "RandomSearch": {
-            "l2_regularization": scipy.stats.uniform(0.001, 2),
-            "min_samples_leaf": scipy.stats.randint(low=20, high=50),
-            "max_iter": scipy.stats.randint(low=800, high=1000)
-        }
+    model_type = AdaBoostRegressor
+    fixed = {
+        "base_estimator": HistGradientBoostingRegressor(
+            l2_regularization=1.75,
+            max_depth=20,
+            max_iter=860,
+            min_samples_leaf=25
+        )
     }
-    fixed = {"loss": 'least_squares'}
-    opt = {
-        "RandomSearch": {
-            "max_depth": [5, 10, 15, 20],
-            "min_samples_leaf": scipy.stats.randint(20, 100),
-            "l2_regularization": [0.0015, 0.0025, 0.0035, 0.0045, 0.0055, 0.0065, 0.0075, 0.0085, 0.0095],
-            "max_iter": [200, 500, 800, 1000, 1500, 2000]
-        }
-    }
-
+    opt = {}
     x = RampModel(model_type, fixed_parameters=fixed, optimizable_parameters=opt)
     dm = x.get_data_manager()
     x.model_quality_testing(
