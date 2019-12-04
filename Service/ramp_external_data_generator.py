@@ -4,8 +4,6 @@ import pandas as pd
 
 class RampExternalDataGenerator:
 
-    DataSeparator = '#-#'
-
     def __init__(
             self,
             submission='my_submission',

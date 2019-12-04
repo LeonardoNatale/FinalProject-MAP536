@@ -106,7 +106,7 @@ class RampModel:
                         mo.grid_search_optimize(
                             x,
                             y,
-                            self._grid_opt_params
+                            self.__grid_opt_params
                         )
                     )
                     # Updating model.
