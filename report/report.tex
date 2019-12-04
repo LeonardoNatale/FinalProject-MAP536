@@ -7,8 +7,8 @@
 \usepackage[titlepage,pagenumber]{polytechnique}
 \usepackage{float}
 
-\title{MAP-536 - Python for Data Science}
-\subtitle{Final Project - Air data prediction}
+\subtitle{MAP-536 - Python for Data Science}
+\title{Final Project - Air data prediction}
 \author{Leonardo \textsc{Natale} \& Guillaume \textsc{Le Fur}}
 \logo{scikit_learn.jpeg}
 
@@ -83,10 +83,12 @@ In order to test, optimize and integrate our models into the ramp infrastructure
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.4]{UML.png}
+	\includegraphics[scale=0.5]{UML.png}
 \end{figure}
 
-The \textbf{Data} folder contains all the external data files that we use to create our additional features. The \textbf{DataManager} is some kind of an interface between the model and the external data. It takes data as an input (either the train or test data) and merges it with external data, making it ready for fitting. It uses the \textbf{ExternalDataGenerator} which groups all our external data into the \textit{external\_data.csv} file. It is the class that is responsible for all the feature engineering of our models. \textbf{Model} is a utility class that stores a sklearn model and two lists : a list of parameters that are to optimize via GridSearchCV and another with parameters that are to be optimized via RandomSearchCV. When used on RAMP, it's role is to contain the model and to fit and predict based on the data passed as an input. \textbf{MultiModel} is a class that goal is to simplify the testing of multiple models at the same time. \textbf{ModelOptimizer} is an interface, called by Model, that takes care of the RandomSearchCV and GridSearchCV and returns the result to model. \textbf{HolidaysManager} is a utility class used to vectorize operations on dates to determine whether they are holidays or how close they are to a holiday. \textbf{ProblemManager} is a class that contains metadata about the problem we intend to solve (columns that are relevant, external data we use, etc.)
+The \textbf{Data} folder contains all the external data files that we use to create our additional features. The \textbf{DataManager} is some kind of an interface between the model and the external data. It takes data as an input (either the train or test data) and merges it with external data, making it ready for fitting. It uses the \textbf{ExternalDataGenerator} which groups all our external data into the \textit{external\_data.csv} file. It is the class that is responsible for all the feature engineering of our models.\\
+\textbf{Model} is a utility class that stores a sklearn model and two lists : a list of parameters that are to optimize via GridSearchCV and another with parameters that are to be optimized via RandomSearchCV. When used on RAMP, it's role is to contain the model and to fit and predict based on the data passed as an input. \textbf{MultiModel} is a class that goal is to simplify the testing of multiple models at the same time. \textbf{ModelOptimizer} is an interface, called by Model, that takes care of the RandomSearchCV and GridSearchCV and returns the result to Model.\\
+\textbf{HolidaysManager} is a utility class used to vectorize operations on dates to determine whether they are holidays or how close they are to a holiday. \textbf{ProblemManager} is a class that contains metadata about the problem we intend to solve (columns that are relevant, external data we use, etc.)
 
 \section{Models and Tuning}
 \subsection{Models}
@@ -125,7 +127,7 @@ The following graphs displays the evolution of our RMSE over time, along with th
 	\includegraphics[scale=0.4]{rmse_evolution.png}
 \end{figure}
 
-What we can see is that the main changes were due to adding new features to our data, rather than optimizing the hyper-parameters, which often led to overfitting.
+What we can see is that the main changes were due to adding \textbf{new features} to our data, rather than optimizing the hyper-parameters, which often led to overfitting, because of the small amount of data. The methods that were performing best were \textbf{tree based methods}.
 
 \section{Conclusion}
 
@@ -136,19 +138,21 @@ What we can see is that the main changes were due to adding new features to our 
 	\includegraphics[scale=0.4]{feature_importance.png}
 \end{figure}
 
-We can extract several relevant information from the feature importance graph :
+We can extract several relevant information from the above feature importance graph :
 
 \begin{itemize}
-	\item The columns that are an \textbf{interaction} between information of the Departure and the Arrival airports are the ones that are the more relevant. For instance, the \textbf{distance} between airports is our most relevant predictor.
+	\item The columns that are an \textbf{interaction} between information of the Departure and the Arrival airports are the ones that are the more relevant. For instance, the \textbf{distance} between airports is our most relevant predictor. This makes sense as the quantity we are trying to estimate is the number of passengers going from a place to another, which also integrates the notion of interaction.
 	\item The fact that the date of the flight is a \textbf{Friday} is also a really important feature. This can mean that there are many flights on Friday or that the flight habits of passengers change on Fridays.
 \end{itemize}
 
 \subsection{Evaluation of Uncertainty in Predictions}
 
-Because we don't have much data, we cannot say that our predictions are extremely accurate. It's all the more problematic that the values of log\_PAX are not spread a lot (mostly between 9 and 12)
+Because we only have around ten thousand rows of data, we cannot say that our predictions are extremely accurate. It's all the more problematic that the values of log\_PAX are not spread a lot (mostly between 9 and 12). To have a more robust model, we would have needed more data. The lack of data also made it difficult to optimize the hyper-parameters without overfitting.
+
 
 \subsection{Final Comments and Possible Improvements}
 
 We didn't have time to try the \textit{Time Series} but it would have been interesting to fit a time series on the biggest Departure airports to see how it performed on such data.
+Apart from the purely Data Science related improvements we could have done, the infrastructure we have designed could be improved to be made more generic and easier to reuse.
 
 \end{document}
